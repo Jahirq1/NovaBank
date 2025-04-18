@@ -1,6 +1,0 @@
-@NovaBank_HostAddress = http://localhost:5215
-
-GET {{NovaBank_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
