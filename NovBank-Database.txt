@@ -1,0 +1,93 @@
+-- Create the database
+CREATE DATABASE NovaBank;
+USE NovaBank;
+
+-- General User Table (common information for all roles)
+CREATE TABLE Users (
+    personal_numer NVARCHAR(20) PRIMARY KEY,
+    name NVARCHAR(100) NOT NULL,
+    birth_date DATE NOT NULL,
+    email NVARCHAR(100) UNIQUE NOT NULL,
+    tel_number NVARCHAR(20),
+    password NVARCHAR(255) NOT NULL,
+    role NVARCHAR(20) NOT NULL CHECK (role IN ('Klient', 'Oficer', 'Menaxher')) -- role-based specialization
+);
+
+-- Officer Table (specific attributes for officers)
+CREATE TABLE Officer (
+    personal_numer NVARCHAR(20) PRIMARY KEY,
+    branch NVARCHAR(100),
+    status NVARCHAR(20) DEFAULT 'Active', -- Active or Passive
+    photo_path NVARCHAR(255),
+    FOREIGN KEY (personal_numer) REFERENCES Users(personal_numer)
+);
+
+-- Klient Table (specific attributes for clients)
+CREATE TABLE Klient (
+    personal_numer NVARCHAR(20) PRIMARY KEY,
+    address NVARCHAR(255),
+    photo_path NVARCHAR(255),
+    FOREIGN KEY (personal_numer) REFERENCES Users(personal_numer)
+);
+
+-- Manager Table (specific attributes for managers)
+CREATE TABLE Manager (
+    personal_numer NVARCHAR(20) PRIMARY KEY,
+    branch NVARCHAR(100),
+    department NVARCHAR(100),
+    address NVARCHAR(255),
+    photo_path NVARCHAR(255),
+    FOREIGN KEY (personal_numer) REFERENCES Users(personal_numer)
+);
+
+-- Transactions Table (Many-to-Many with Klient)
+CREATE TABLE Transactions (
+    transaction_id INT PRIMARY KEY IDENTITY(1,1),
+    text NVARCHAR(255),
+    amount DECIMAL(18,2) NOT NULL CHECK (amount > 0),
+    transaction_status NVARCHAR(20) NOT NULL DEFAULT 'Pending',
+    transaction_date DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+-- Junction Table for many-to-many between Klient and Transactions
+CREATE TABLE Klient_Transactions (
+    klient_id NVARCHAR(20) FOREIGN KEY REFERENCES Klient(personal_numer),
+    transaction_id INT FOREIGN KEY REFERENCES Transactions(transaction_id),
+    PRIMARY KEY (klient_id, transaction_id)
+);
+
+-- Officer-Transaction relationship (Many-to-Many)
+CREATE TABLE Officer_Transactions (
+    officer_id NVARCHAR(20) FOREIGN KEY REFERENCES Officer(personal_numer),
+    transaction_id INT FOREIGN KEY REFERENCES Transactions(transaction_id),
+    PRIMARY KEY (officer_id, transaction_id)
+);
+
+-- Loan Table
+CREATE TABLE Loan (
+    loan_id INT PRIMARY KEY IDENTITY(1,1),
+    name_klient NVARCHAR(100) NOT NULL,
+    application_date DATETIME NOT NULL DEFAULT GETDATE(),
+    working_status NVARCHAR(50),
+    monthly_income DECIMAL(18,2),
+    loan_amount DECIMAL(18,2),
+    reason NVARCHAR(255), -- Why you want the loan
+    duration_months INT,  -- How long (in months)
+    collateral NVARCHAR(255),
+    approve_status NVARCHAR(20) DEFAULT 'Pending', -- Pending, Approved, Rejected
+    manager_id NVARCHAR(20) FOREIGN KEY REFERENCES Manager(personal_numer)
+);
+
+-- Junction Table for many-to-many between Officer and Loan
+CREATE TABLE Officer_Loans (
+    officer_id NVARCHAR(20) FOREIGN KEY REFERENCES Officer(personal_numer),
+    loan_id INT FOREIGN KEY REFERENCES Loan(loan_id),
+    PRIMARY KEY (officer_id, loan_id)
+);
+
+-- Junction Table for many-to-many between Klient and Loan
+CREATE TABLE Klient_Loans (
+    klient_id NVARCHAR(20) FOREIGN KEY REFERENCES Klient(personal_numer),
+    loan_id INT FOREIGN KEY REFERENCES Loan(loan_id),
+    PRIMARY KEY (klient_id, loan_id)
+);
