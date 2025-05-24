@@ -1,0 +1,366 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\controllers\\transactionshistoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\controllers\\transactionshistoriescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\models\\transactionshistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\models\\transactionshistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\models\\novabankdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\models\\novabankdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\models\\klienttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\models\\klienttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\controllers\\klientloanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\controllers\\klientloanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\models\\klientloan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\models\\klientloan.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\controllers\\klienttransactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\controllers\\klienttransactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\migrations\\novabankdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\migrations\\novabankdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\migrations\\20250524001821_addtransactiondatetohistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\migrations\\20250524001821_addtransactiondatetohistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\migrations\\20250523232723_initila create.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\migrations\\20250523232723_initila create.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\models\\loans.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\models\\loans.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\controllers\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\controllers\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\novabankfinal\\novabank\\backend00\\nova-api\\nova-api\\nova-api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{6949D555-A7B4-47B6-B3AC-0798D50EB6F1}|Nova-API\\Nova-API.csproj|solutionrelative:nova-api\\nova-api.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Transaction.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\Transaction.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Models\\Transaction.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\Transaction.cs",
+              "RelativeToolTip": "Nova-API\\Models\\Transaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T22:36:49.762Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TransactionsHistory.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\TransactionsHistory.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Models\\TransactionsHistory.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\TransactionsHistory.cs",
+              "RelativeToolTip": "Nova-API\\Models\\TransactionsHistory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:51:55.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TransactionsHistoriesController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\TransactionsHistoriesController.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Controllers\\TransactionsHistoriesController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\TransactionsHistoriesController.cs",
+              "RelativeToolTip": "Nova-API\\Controllers\\TransactionsHistoriesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T00:05:30.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "KlientLoansController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\KlientLoansController.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Controllers\\KlientLoansController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\KlientLoansController.cs",
+              "RelativeToolTip": "Nova-API\\Controllers\\KlientLoansController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:30:19.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "KlientLoan.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\KlientLoan.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Models\\KlientLoan.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\KlientLoan.cs",
+              "RelativeToolTip": "Nova-API\\Models\\KlientLoan.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T22:34:15.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Nova-API\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:29:47.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\appsettings.json",
+              "RelativeDocumentMoniker": "Nova-API\\appsettings.json",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\appsettings.json",
+              "RelativeToolTip": "Nova-API\\appsettings.json",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAkAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-23T22:41:57.606Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\User.cs",
+              "RelativeToolTip": "Nova-API\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T22:31:33.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "NovaBankDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\NovaBankDbContext.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Models\\NovaBankDbContext.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\NovaBankDbContext.cs",
+              "RelativeToolTip": "Nova-API\\Models\\NovaBankDbContext.cs",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAAAFMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T22:36:03.473Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "KlientTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\KlientTransaction.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Models\\KlientTransaction.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\KlientTransaction.cs",
+              "RelativeToolTip": "Nova-API\\Models\\KlientTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T22:34:54.135Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "NovaBankDbContextModelSnapshot.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Migrations\\NovaBankDbContextModelSnapshot.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Migrations\\NovaBankDbContextModelSnapshot.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Migrations\\NovaBankDbContextModelSnapshot.cs",
+              "RelativeToolTip": "Nova-API\\Migrations\\NovaBankDbContextModelSnapshot.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T15:55:35.968Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "KlientTransactionsController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\KlientTransactionsController.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Controllers\\KlientTransactionsController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\KlientTransactionsController.cs",
+              "RelativeToolTip": "Nova-API\\Controllers\\KlientTransactionsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:30:55.786Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "20250524001821_AddTransactionDateToHistory.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Migrations\\20250524001821_AddTransactionDateToHistory.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Migrations\\20250524001821_AddTransactionDateToHistory.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Migrations\\20250524001821_AddTransactionDateToHistory.cs",
+              "RelativeToolTip": "Nova-API\\Migrations\\20250524001821_AddTransactionDateToHistory.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAYwA0AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T00:18:21.228Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Program.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Program.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Program.cs",
+              "RelativeToolTip": "Nova-API\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T22:58:14.564Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Nova-API\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Nova-API\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-23T22:27:03.905Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "20250523232723_initila create.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Migrations\\20250523232723_initila create.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Migrations\\20250523232723_initila create.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Migrations\\20250523232723_initila create.cs",
+              "RelativeToolTip": "Nova-API\\Migrations\\20250523232723_initila create.cs",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:27:24.153Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Loans.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\Loans.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Models\\Loans.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Models\\Loans.cs",
+              "RelativeToolTip": "Nova-API\\Models\\Loans.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwBQAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T22:35:22.029Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "TransactionsController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\TransactionsController.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Controllers\\TransactionsController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\TransactionsController.cs",
+              "RelativeToolTip": "Nova-API\\Controllers\\TransactionsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:32:09.983Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "LoansController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\LoansController.cs",
+              "RelativeDocumentMoniker": "Nova-API\\Controllers\\LoansController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Controllers\\LoansController.cs",
+              "RelativeToolTip": "Nova-API\\Controllers\\LoansController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:31:25.121Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "Nova-API\\WeatherForecast.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\WeatherForecast.cs",
+              "RelativeToolTip": "Nova-API\\WeatherForecast.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-23T23:07:51.088Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Nova-API.http",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Nova-API.http",
+              "RelativeDocumentMoniker": "Nova-API\\Nova-API.http",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Nova-API.http",
+              "RelativeToolTip": "Nova-API\\Nova-API.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-05-23T23:01:50.047Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
