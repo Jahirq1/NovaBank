@@ -5,98 +5,59 @@ import avatar1 from '../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import { FaCheckCircle } from 'react-icons/fa';
+import { getPendingLoans, approveLoan, rejectLoan } from '../../../api/loanApi';
+import { useEffect } from 'react';
 
 const LoanApprovalTables = () => {
   const [sortKey, setSortKey] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
 
-  const [loanApplications, setLoanApplications] = useState([
-    {
-      name: 'Lina Hansen',
-      avatar: avatar1,
-      loanType: 'Home Loan',
-      amount: 250000,
-      term: '30 Years',
-      status: 'Pending',
-      date: '10 MAY 13:45',
-    },
-    {
-      name: 'Sofie Pedersen',
-      avatar: avatar2,
-      loanType: 'Business Loan',
-      amount: 50000,
-      term: '7 Years',
-      status: 'Rejected',
-      date: '11 MAY 10:20',
-    },
-    {
-      name: 'Emma Nielsen',
-      avatar: avatar3,
-      loanType: 'Personal Loan',
-      amount: 10000,
-      term: '3 Years',
-      status: 'Approved',
-      date: '12 MAY 09:00',
-    },
-  ]);
+  const [loanApplications, setLoanApplications] = useState([]);
+  const [approvedLoans, setApprovedLoans] = useState([]);
 
-  const [approvedLoans, setApprovedLoans] = useState([
-    {
-      name: 'Mathilde Andersen',
-      avatar: avatar2,
-      loanType: 'Personal Loan',
-      amount: 15000,
-      term: '5 Years',
-      status: 'Approved',
-      date: '12 MAY 09:00',
-      officer: 'Jane Smith',
-      income: 50000,
-      creditScore: 680,
-    },
-    {
-      name: 'Ida Jorgensen',
-      avatar: avatar1,
-      loanType: 'Student Loan',
-      amount: 20000,
-      term: '10 Years',
-      status: 'Approved',
-      date: '14 MAY 14:30',
-      officer: 'Michael Clark',
-      income: 45000,
-      creditScore: 720,
-    },
-    {
-      name: 'Karla Sorensen',
-      avatar: avatar3,
-      loanType: 'Auto Loan',
-      amount: 30000,
-      term: '5 Years',
-      status: 'Approved',
-      date: '16 MAY 11:15',
-      officer: 'Robert Williams',
-      income: 65000,
-      creditScore: 710,
-    },
-  ]);
+  useEffect(() => {
+  const fetchLoans = async () => {
+    try {
+      const data = await getPendingLoans();
+      setLoanApplications(data);
+    } catch (err) {
+      console.error("Failed to load pending loans:", err);
+    }
+  };
 
-  const handleDecision = (idx, decision) => {
+  fetchLoans();
+  }, []);
+   
+
+  const handleDecision = async (idx, decision) => {
+  const loan = loanApplications[idx];
+
+  try {
+    if (decision === 'Approved') {
+      await approveLoan(loan.loanId);
+    } else {
+      await rejectLoan(loan.loanId);
+    }
+
     const updatedApplications = [...loanApplications];
-    const application = updatedApplications[idx];
-    application.status = decision;
+    updatedApplications.splice(idx, 1);
+    setLoanApplications(updatedApplications);
 
     if (decision === 'Approved') {
       const approvedEntry = {
-        ...application,
-        officer: 'Auto Officer', 
+        ...loan,
+        officer: 'Auto Officer',
         income: Math.floor(Math.random() * 40000 + 30000),
         creditScore: Math.floor(Math.random() * 100 + 650),
       };
       setApprovedLoans(prev => [...prev, approvedEntry]);
     }
 
-    updatedApplications.splice(idx, 1);
-    setLoanApplications(updatedApplications);
-  };
+  } catch (error) {
+    console.error("Error processing loan:", error);
+  }
+};
+
 
   const parseDate = (str) => {
     const [day, month, time] = str.split(' ');

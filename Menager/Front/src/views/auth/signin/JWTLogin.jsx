@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
 import '../../../assets/scss/formstyle.css';
+import { setUserSession } from '../../../session/session';
 
 const JWTLogin = () => {
   const [serverMessage, setServerMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
@@ -18,28 +21,28 @@ const JWTLogin = () => {
       }
   
       const requestData = {
-        personalId,
+        personalId : parseInt(values.personalnumber),
         password: values.password,
       };
   
       console.log(requestData);
   
-      const response = await axios.post('https://localhost:7006/api/auth/login', requestData);
+      const response = await axios.post('http://localhost:5221/api/auth/login', requestData,{ withCredentials: true });
   
       if (response.data.message === "Login successful") {
-        // Përshtatimi në varësi të rolit të përdoruesit
         const userRole = response.data.role;
+        const userId = response.data.userId;
   
-        // Ruaj rolin në localStorage ose Session
-        localStorage.setItem('role', userRole);
+        // Ruaj userId dhe role në localStorage me funksionin session.js
+        setUserSession(userId, userRole);
   
-        // Redirektoni në dashboard në varësi të rolit
+        // Redirect në dashboard bazuar në role
         if (userRole === 'user') {
-          window.location.href = "/user/app/dashboard";
+          navigate("/user/app/dashboard");
         } else if (userRole === 'officer') {
-          window.location.href = "/officer/app/dashboard/default";
+          navigate("/officer/app/dashboard/default");
         } else if (userRole === 'manager') {
-          window.location.href = "/manager/app/dashboard";
+          navigate("/manager/app/dashboard");
         } else {
           setServerMessage('Rol i panjohur');
         }

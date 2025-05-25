@@ -1,3 +1,10 @@
+C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.csproj.AssemblyReference.cache
+C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.AssemblyInfoInputs.cache
+C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.AssemblyInfo.cs
+C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.csproj.CoreCompileInputs.cache
+C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\bin\Debug\net8.0\appsettings.json
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\bin\Debug\net8.0\Back.exe
@@ -146,13 +153,6 @@ C:\Users\klitb\OneDrive\Desktop\Klit\Back\bin\Debug\net8.0\runtimes\win\lib\net6
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.csproj.AssemblyReference.cache
-C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.AssemblyInfoInputs.cache
-C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.AssemblyInfo.cs
-C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.csproj.CoreCompileInputs.cache
-C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\Back.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\klitb\OneDrive\Desktop\Klit\Back\obj\Debug\net8.0\staticwebassets\msbuild.Back.Microsoft.AspNetCore.StaticWebAssets.props

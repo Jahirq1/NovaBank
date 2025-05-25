@@ -20,8 +20,8 @@ namespace Backend.Models
         public Boolean viewStatus { get; set; } = false;
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
-        public User Manager { get; set; }
+        public User? Manager { get; set; }
 
-        public ICollection<KlientLoan> KlientLoans { get; set; }
+        public ICollection<KlientLoan>? KlientLoans { get; set; }
     }
 }

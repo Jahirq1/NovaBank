@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
-import { getProfile, updateProfile } from "../../../api/profileApi" 
+import { getProfile, updateProfile } from "../../../api/profileApi";
+import { getUserId } from '../../../session/session';
 
 const Profile = () => {
-  const userId = 1; // Me ndrru me user id actual
+  const userId = parseInt(getUserId());
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState({});
   const [loading, setLoading] = useState(true);
