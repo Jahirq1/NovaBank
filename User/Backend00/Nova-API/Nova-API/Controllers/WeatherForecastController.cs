@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Nova_API.Controllers
+namespace NOVA_API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

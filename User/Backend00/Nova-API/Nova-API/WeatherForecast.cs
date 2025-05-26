@@ -1,4 +1,4 @@
-namespace Nova_API
+namespace NOVA_API
 {
     public class WeatherForecast
     {

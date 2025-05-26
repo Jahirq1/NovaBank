@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Nova_API.Models;
+using NOVA_API.Models;
 
-namespace Nova_API.Controllers
+namespace NOVA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -97,6 +97,19 @@ namespace Nova_API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+        // Kthen të gjitha transaksionet ku userId është sender ose receiver
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactionsForUser(int userId)
+        {
+            var transactions = await _context.Transactions
+                .Include(t => t.Sender)
+                .Include(t => t.Receiver)
+                .Where(t => t.SenderId == userId || t.ReceiverId == userId)
+                .OrderByDescending(t => t.TransactionDate)
+                .ToListAsync();
+
+            return Ok(transactions);
         }
 
         private bool TransactionExists(int id)

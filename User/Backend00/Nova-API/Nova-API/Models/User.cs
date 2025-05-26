@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-  
-namespace Nova_API.Models
+using System.Transactions;
+
+namespace NOVA_API.Models
 {
     public class User
     {
@@ -12,7 +13,6 @@ namespace Nova_API.Models
 
         [Required]
         public string? name { get; set; }
-
 
         [Required]
         public string? email { get; set; }
@@ -35,9 +35,14 @@ namespace Nova_API.Models
         public string? address { get; set; }
 
         [Required]
+        public DateTime? createdDate { get; set; } = default(DateTime?);
+        [Required]
         public string? city { get; set; }
 
-        public ICollection<KlientTransaction>? KlientTransactions { get; set; }
+        public ICollection<Transaction> SentTransactions { get; set; }
+
+        // Transaksionet që përdoruesi i ka pranuar
+        public ICollection<Transaction> ReceivedTransactions { get; set; }
         public ICollection<KlientLoan> KlientLoans { get; set; }
 
     }

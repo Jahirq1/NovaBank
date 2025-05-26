@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ListGroup } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 
-import navigation from '../../../menu-items';
+import navigation from '../../../menu-roles/officerMenu';
 import { BASE_TITLE } from '../../../config/constant';
 
 const Breadcrumb = () => {

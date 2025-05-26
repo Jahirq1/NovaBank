@@ -1,6 +1,32 @@
 [
   {
-    "ContainingType": "Nova_API.Controllers.KlientLoansController",
+    "ContainingType": "NOVA_API.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NOVA_API.Models.LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NOVA_API.Controllers.AuthController",
+    "Method": "TestSession",
+    "RelativePath": "api/auth/test-session",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "NOVA_API.Controllers.KlientLoansController",
     "Method": "GetKlientLoans",
     "RelativePath": "api/KlientLoans",
     "HttpMethod": "GET",
@@ -9,7 +35,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.Models.KlientLoan, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NOVA_API.Models.KlientLoan, NOVA-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -20,7 +46,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.KlientLoansController",
+    "ContainingType": "NOVA_API.Controllers.KlientLoansController",
     "Method": "PostKlientLoan",
     "RelativePath": "api/KlientLoans",
     "HttpMethod": "POST",
@@ -29,13 +55,13 @@
     "Parameters": [
       {
         "Name": "klientLoan",
-        "Type": "Nova_API.Models.KlientLoan",
+        "Type": "NOVA_API.Models.KlientLoan",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.KlientLoan",
+        "Type": "NOVA_API.Models.KlientLoan",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -46,7 +72,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.KlientLoansController",
+    "ContainingType": "NOVA_API.Controllers.KlientLoansController",
     "Method": "GetKlientLoan",
     "RelativePath": "api/KlientLoans/{id}",
     "HttpMethod": "GET",
@@ -61,7 +87,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.KlientLoan",
+        "Type": "NOVA_API.Models.KlientLoan",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -72,7 +98,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.KlientLoansController",
+    "ContainingType": "NOVA_API.Controllers.KlientLoansController",
     "Method": "PutKlientLoan",
     "RelativePath": "api/KlientLoans/{id}",
     "HttpMethod": "PUT",
@@ -86,14 +112,14 @@
       },
       {
         "Name": "klientLoan",
-        "Type": "Nova_API.Models.KlientLoan",
+        "Type": "NOVA_API.Models.KlientLoan",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.KlientLoansController",
+    "ContainingType": "NOVA_API.Controllers.KlientLoansController",
     "Method": "DeleteKlientLoan",
     "RelativePath": "api/KlientLoans/{id}",
     "HttpMethod": "DELETE",
@@ -109,116 +135,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.KlientTransactionsController",
-    "Method": "GetKlientTransactions",
-    "RelativePath": "api/KlientTransactions",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.Models.KlientTransaction, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.KlientTransactionsController",
-    "Method": "PostKlientTransaction",
-    "RelativePath": "api/KlientTransactions",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "klientTransaction",
-        "Type": "Nova_API.Models.KlientTransaction",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Nova_API.Models.KlientTransaction",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.KlientTransactionsController",
-    "Method": "GetKlientTransaction",
-    "RelativePath": "api/KlientTransactions/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Nova_API.Models.KlientTransaction",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.KlientTransactionsController",
-    "Method": "PutKlientTransaction",
-    "RelativePath": "api/KlientTransactions/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "klientTransaction",
-        "Type": "Nova_API.Models.KlientTransaction",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.KlientTransactionsController",
-    "Method": "DeleteKlientTransaction",
-    "RelativePath": "api/KlientTransactions/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.LoansController",
+    "ContainingType": "NOVA_API.Controllers.LoansController",
     "Method": "GetLoans",
     "RelativePath": "api/Loans",
     "HttpMethod": "GET",
@@ -227,7 +144,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.Models.Loans, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NOVA_API.Models.Loans, NOVA-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -238,7 +155,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.LoansController",
+    "ContainingType": "NOVA_API.Controllers.LoansController",
     "Method": "PostLoans",
     "RelativePath": "api/Loans",
     "HttpMethod": "POST",
@@ -247,13 +164,13 @@
     "Parameters": [
       {
         "Name": "loans",
-        "Type": "Nova_API.Models.Loans",
+        "Type": "NOVA_API.Models.Loans",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.Loans",
+        "Type": "NOVA_API.Models.Loans",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -264,7 +181,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.LoansController",
+    "ContainingType": "NOVA_API.Controllers.LoansController",
     "Method": "GetLoans",
     "RelativePath": "api/Loans/{id}",
     "HttpMethod": "GET",
@@ -279,7 +196,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.Loans",
+        "Type": "NOVA_API.Models.Loans",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -290,7 +207,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.LoansController",
+    "ContainingType": "NOVA_API.Controllers.LoansController",
     "Method": "PutLoans",
     "RelativePath": "api/Loans/{id}",
     "HttpMethod": "PUT",
@@ -304,14 +221,14 @@
       },
       {
         "Name": "loans",
-        "Type": "Nova_API.Models.Loans",
+        "Type": "NOVA_API.Models.Loans",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.LoansController",
+    "ContainingType": "NOVA_API.Controllers.LoansController",
     "Method": "DeleteLoans",
     "RelativePath": "api/Loans/{id}",
     "HttpMethod": "DELETE",
@@ -327,7 +244,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.TransactionsController",
+    "ContainingType": "NOVA_API.Controllers.TransactionsController",
     "Method": "GetTransactions",
     "RelativePath": "api/Transactions",
     "HttpMethod": "GET",
@@ -336,7 +253,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.Models.Transaction, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NOVA_API.Models.Transaction, NOVA-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -347,7 +264,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.TransactionsController",
+    "ContainingType": "NOVA_API.Controllers.TransactionsController",
     "Method": "PostTransaction",
     "RelativePath": "api/Transactions",
     "HttpMethod": "POST",
@@ -356,13 +273,13 @@
     "Parameters": [
       {
         "Name": "transaction",
-        "Type": "Nova_API.Models.Transaction",
+        "Type": "NOVA_API.Models.Transaction",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.Transaction",
+        "Type": "NOVA_API.Models.Transaction",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -373,27 +290,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.TransactionsHistoriesController",
-    "Method": "GetTransactionHistory",
-    "RelativePath": "api/Transactions",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.Controllers.TransactionHistoryItem, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.TransactionsController",
+    "ContainingType": "NOVA_API.Controllers.TransactionsController",
     "Method": "GetTransaction",
     "RelativePath": "api/Transactions/{id}",
     "HttpMethod": "GET",
@@ -408,7 +305,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.Transaction",
+        "Type": "NOVA_API.Models.Transaction",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -419,7 +316,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.TransactionsController",
+    "ContainingType": "NOVA_API.Controllers.TransactionsController",
     "Method": "PutTransaction",
     "RelativePath": "api/Transactions/{id}",
     "HttpMethod": "PUT",
@@ -433,14 +330,14 @@
       },
       {
         "Name": "transaction",
-        "Type": "Nova_API.Models.Transaction",
+        "Type": "NOVA_API.Models.Transaction",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.TransactionsController",
+    "ContainingType": "NOVA_API.Controllers.TransactionsController",
     "Method": "DeleteTransaction",
     "RelativePath": "api/Transactions/{id}",
     "HttpMethod": "DELETE",
@@ -456,22 +353,22 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.TransactionsHistoriesController",
-    "Method": "GetTransactionDetail",
-    "RelativePath": "api/Transactions/{id}",
+    "ContainingType": "NOVA_API.Controllers.TransactionsController",
+    "Method": "GetTransactionsForUser",
+    "RelativePath": "api/Transactions/user/{userId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Controllers.TransactionDetail",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NOVA_API.Models.Transaction, NOVA-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -482,47 +379,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.TransactionsHistoriesController",
-    "Method": "GetDashboardSummary",
-    "RelativePath": "api/Transactions/dashboard",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "Nova_API.Controllers.DashboardSummary",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.TransactionsHistoriesController",
-    "Method": "GetRecentTransactionHistory",
-    "RelativePath": "api/Transactions/recent",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.Controllers.TransactionHistoryItem, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Nova_API.Controllers.UsersController",
+    "ContainingType": "NOVA_API.Controllers.UsersController",
     "Method": "GetUsers",
     "RelativePath": "api/Users",
     "HttpMethod": "GET",
@@ -531,7 +388,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.Models.User, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NOVA_API.Models.User, NOVA-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -542,7 +399,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.UsersController",
+    "ContainingType": "NOVA_API.Controllers.UsersController",
     "Method": "PostUser",
     "RelativePath": "api/Users",
     "HttpMethod": "POST",
@@ -551,13 +408,13 @@
     "Parameters": [
       {
         "Name": "user",
-        "Type": "Nova_API.Models.User",
+        "Type": "NOVA_API.Models.User",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.User",
+        "Type": "NOVA_API.Models.User",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -568,7 +425,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.UsersController",
+    "ContainingType": "NOVA_API.Controllers.UsersController",
     "Method": "GetUser",
     "RelativePath": "api/Users/{id}",
     "HttpMethod": "GET",
@@ -583,7 +440,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "Nova_API.Models.User",
+        "Type": "NOVA_API.Models.User",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -594,7 +451,7 @@
     ]
   },
   {
-    "ContainingType": "Nova_API.Controllers.UsersController",
+    "ContainingType": "NOVA_API.Controllers.UsersController",
     "Method": "PutUser",
     "RelativePath": "api/Users/{id}",
     "HttpMethod": "PUT",
@@ -608,14 +465,14 @@
       },
       {
         "Name": "user",
-        "Type": "Nova_API.Models.User",
+        "Type": "NOVA_API.Models.User",
         "IsRequired": true
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.UsersController",
+    "ContainingType": "NOVA_API.Controllers.UsersController",
     "Method": "DeleteUser",
     "RelativePath": "api/Users/{id}",
     "HttpMethod": "DELETE",
@@ -631,7 +488,33 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Nova_API.Controllers.WeatherForecastController",
+    "ContainingType": "NOVA_API.Controllers.UsersController",
+    "Method": "GetUserBalance",
+    "RelativePath": "api/Users/balance/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Decimal",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "NOVA_API.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",
     "HttpMethod": "GET",
@@ -640,7 +523,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Nova_API.WeatherForecast, Nova-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[NOVA_API.WeatherForecast, NOVA-API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

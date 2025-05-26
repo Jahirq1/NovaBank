@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Nova_API.Models;
+using NOVA_API.Models;
 
 #nullable disable
 
-namespace Nova_API.Migrations
+namespace NOVA_API.Migrations
 {
     [DbContext(typeof(NovaBankDbContext))]
     partial class NovaBankDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace Nova_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Nova_API.Models.KlientLoan", b =>
+            modelBuilder.Entity("NOVA_API.Models.KlientLoan", b =>
                 {
                     b.Property<int>("KlientId")
                         .HasColumnType("int");
@@ -37,22 +37,7 @@ namespace Nova_API.Migrations
                     b.ToTable("KlientLoans");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.KlientTransaction", b =>
-                {
-                    b.Property<int>("KlientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("KlientId", "TransactionId");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("KlientTransactions");
-                });
-
-            modelBuilder.Entity("Nova_API.Models.Loans", b =>
+            modelBuilder.Entity("NOVA_API.Models.Loans", b =>
                 {
                     b.Property<int>("LoanId")
                         .ValueGeneratedOnAdd()
@@ -89,6 +74,9 @@ namespace Nova_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("WorkingStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,7 +91,7 @@ namespace Nova_API.Migrations
                     b.ToTable("Loans");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.Transaction", b =>
+            modelBuilder.Entity("NOVA_API.Models.Transaction", b =>
                 {
                     b.Property<int>("TransactionId")
                         .ValueGeneratedOnAdd()
@@ -114,6 +102,12 @@ namespace Nova_API.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("ReceiverId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
@@ -123,44 +117,14 @@ namespace Nova_API.Migrations
 
                     b.HasKey("TransactionId");
 
+                    b.HasIndex("ReceiverId");
+
+                    b.HasIndex("SenderId");
+
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.TransactionsHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TransactionDate");
-
-                    b.HasIndex("TransactionId");
-
-                    b.ToTable("TransactionsHistory");
-                });
-
-            modelBuilder.Entity("Nova_API.Models.User", b =>
+            modelBuilder.Entity("NOVA_API.Models.User", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -181,6 +145,9 @@ namespace Nova_API.Migrations
                     b.Property<string>("city")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("createdDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateOnly>("dateOfBirth")
                         .HasColumnType("date");
@@ -213,15 +180,15 @@ namespace Nova_API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.KlientLoan", b =>
+            modelBuilder.Entity("NOVA_API.Models.KlientLoan", b =>
                 {
-                    b.HasOne("Nova_API.Models.User", "Klient")
+                    b.HasOne("NOVA_API.Models.User", "Klient")
                         .WithMany("KlientLoans")
                         .HasForeignKey("KlientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Nova_API.Models.Loans", "Loan")
+                    b.HasOne("NOVA_API.Models.Loans", "Loan")
                         .WithMany("KlientLoans")
                         .HasForeignKey("LoanId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -232,28 +199,9 @@ namespace Nova_API.Migrations
                     b.Navigation("Loan");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.KlientTransaction", b =>
+            modelBuilder.Entity("NOVA_API.Models.Loans", b =>
                 {
-                    b.HasOne("Nova_API.Models.User", "Klient")
-                        .WithMany("KlientTransactions")
-                        .HasForeignKey("KlientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Nova_API.Models.Transaction", "Transaction")
-                        .WithMany("KlientTransactions")
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Klient");
-
-                    b.Navigation("Transaction");
-                });
-
-            modelBuilder.Entity("Nova_API.Models.Loans", b =>
-                {
-                    b.HasOne("Nova_API.Models.User", "Manager")
+                    b.HasOne("NOVA_API.Models.User", "Manager")
                         .WithMany()
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -262,32 +210,37 @@ namespace Nova_API.Migrations
                     b.Navigation("Manager");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.TransactionsHistory", b =>
+            modelBuilder.Entity("NOVA_API.Models.Transaction", b =>
                 {
-                    b.HasOne("Nova_API.Models.Transaction", "SourceTransaction")
-                        .WithMany()
-                        .HasForeignKey("TransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("NOVA_API.Models.User", "Receiver")
+                        .WithMany("ReceivedTransactions")
+                        .HasForeignKey("ReceiverId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("SourceTransaction");
+                    b.HasOne("NOVA_API.Models.User", "Sender")
+                        .WithMany("SentTransactions")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.Loans", b =>
+            modelBuilder.Entity("NOVA_API.Models.Loans", b =>
                 {
                     b.Navigation("KlientLoans");
                 });
 
-            modelBuilder.Entity("Nova_API.Models.Transaction", b =>
-                {
-                    b.Navigation("KlientTransactions");
-                });
-
-            modelBuilder.Entity("Nova_API.Models.User", b =>
+            modelBuilder.Entity("NOVA_API.Models.User", b =>
                 {
                     b.Navigation("KlientLoans");
 
-                    b.Navigation("KlientTransactions");
+                    b.Navigation("ReceivedTransactions");
+
+                    b.Navigation("SentTransactions");
                 });
 #pragma warning restore 612, 618
         }

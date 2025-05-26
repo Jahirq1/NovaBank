@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Nova-API.csproj": {}
+    "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\NOVA-API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Nova-API.csproj": {
+    "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\NOVA-API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Nova-API.csproj",
-        "projectName": "Nova-API",
-        "projectPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\Nova-API.csproj",
+        "projectUniqueName": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\NOVA-API.csproj",
+        "projectName": "NOVA-API",
+        "projectPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\NOVA-API.csproj",
         "packagesPath": "C:\\Users\\lendr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\NOVABANKFINAL\\NovaBank\\Backend00\\Nova-API\\Nova-API\\obj\\",
+        "outputPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,10 +50,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[9.0.5, )"
-            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -65,18 +61,13 @@
               "version": "[9.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.5, )"
             },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[8.0.7, )"
-            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.6.2, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [

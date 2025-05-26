@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Nova_API.Models;
+using NOVA_API.Models;
 
-namespace Nova_API.Controllers
+namespace NOVA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -99,6 +99,18 @@ namespace Nova_API.Controllers
             return NoContent();
         }
 
+        // GET: api/Users/balance/{id}
+        [HttpGet("balance/{id}")]
+        public async Task<ActionResult<decimal>> GetUserBalance(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user.Balance;
+        }
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.id == id);

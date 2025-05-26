@@ -16,6 +16,9 @@ const ConfigProvider = ({ children }) => {
   let open = [];
 
   const [state, dispatch] = useReducer((state, action) => {
+    let open = [...state.isOpen];
+    let trigger = [...state.isTrigger];
+  
     switch (action.type) {
       case actionType.CHANGE_LAYOUT:
         return {
@@ -29,22 +32,16 @@ const ConfigProvider = ({ children }) => {
         };
       case actionType.COLLAPSE_TOGGLE:
         if (action.menu.type === 'sub') {
-          open = state.isOpen;
-          trigger = state.isTrigger;
-
           const triggerIndex = trigger.indexOf(action.menu.id);
           if (triggerIndex > -1) {
             open = open.filter((item) => item !== action.menu.id);
             trigger = trigger.filter((item) => item !== action.menu.id);
-          }
-
-          if (triggerIndex === -1) {
-            open = [...open, action.menu.id];
-            trigger = [...trigger, action.menu.id];
+          } else {
+            open.push(action.menu.id);
+            trigger.push(action.menu.id);
           }
         } else {
-          open = state.isOpen;
-          const triggerIndex = state.isTrigger.indexOf(action.menu.id);
+          const triggerIndex = trigger.indexOf(action.menu.id);
           trigger = triggerIndex === -1 ? [action.menu.id] : [];
           open = triggerIndex === -1 ? [action.menu.id] : [];
         }
@@ -55,9 +52,6 @@ const ConfigProvider = ({ children }) => {
         };
       case actionType.NAV_COLLAPSE_LEAVE:
         if (action.menu.type === 'sub') {
-          open = state.isOpen;
-          trigger = state.isTrigger;
-
           const triggerIndex = trigger.indexOf(action.menu.id);
           if (triggerIndex > -1) {
             open = open.filter((item) => item !== action.menu.id);
@@ -69,7 +63,7 @@ const ConfigProvider = ({ children }) => {
             isTrigger: trigger
           };
         }
-        return { ...state };
+        return state;
       case actionType.NAV_CONTENT_LEAVE:
         return {
           ...state,
@@ -83,15 +77,17 @@ const ConfigProvider = ({ children }) => {
           collapseMenu: initialState.collapseMenu
         };
       default:
-        throw new Error();
+        throw new Error(`Action type ${action.type} nuk ekziston.`);
     }
   }, initialState);
+  
 
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
 
 ConfigProvider.propTypes = {
-  children: PropTypes.object
+  children: PropTypes.node.isRequired
 };
+
 
 export { ConfigContext, ConfigProvider };

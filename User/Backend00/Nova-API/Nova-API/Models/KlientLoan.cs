@@ -1,6 +1,4 @@
-﻿
-
-namespace Nova_API.Models
+﻿namespace NOVA_API.Models
 {
     public class KlientLoan
     {

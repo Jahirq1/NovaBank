@@ -24,8 +24,5 @@ export const RESET = 'RESET';
 export const RTL_LAYOUT = 'RTL_LAYOUT';
 export const THEME_LOCALE = 'THEME_LOCALE';
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
-export const REGISTER = 'REGISTER';
 export const ACCOUNT_INITIALISE = 'ACCOUNT_INITIALISE';
 export const FIREBASE_STATE_CHANGED = 'FIREBASE_STATE_CHANGED';

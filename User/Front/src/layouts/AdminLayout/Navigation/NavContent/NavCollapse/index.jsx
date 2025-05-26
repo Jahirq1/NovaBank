@@ -78,7 +78,6 @@ const NavCollapse = ({ collapse, type }) => {
         className={navLinkClass.join(' ')}
         onClick={() => dispatch({ type: actionType.COLLAPSE_TOGGLE, menu: { id: collapse.id, type: type } })}
       >
-        <NavIcon items={collapse} />
         {itemTitle}
         <NavBadge items={collapse} />
       </Link>

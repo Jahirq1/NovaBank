@@ -1,22 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Nova_API.Models;
-
-namespace Nova_API.Models
+using Microsoft.EntityFrameworkCore.Design;
+using NOVA_API.Models;
+namespace NOVA_API.Models
 {
-    public class NovaBankDbContext : DbContext  // Critical: Added inheritance
+    public class NovaBankDbContext : DbContext
     {
-        // Initialize DbSets with null! to handle nullable warnings
-        public DbSet<User> Users { get; set; } = null!;
-        public DbSet<Transaction> Transactions { get; set; } = null!;
-        public DbSet<KlientTransaction> KlientTransactions { get; set; } = null!;
-        public DbSet<KlientLoan> KlientLoans { get; set; } = null!;
-        public DbSet<TransactionsHistory> TransactionsHistories { get; set; } = null;
-        public DbSet<Loans> Loans { get; set; } = null!;  // Changed from Loans to Loan for consistency
+        public NovaBankDbContext(DbContextOptions<NovaBankDbContext> options) : base(options) { }
 
-        public NovaBankDbContext(DbContextOptions<NovaBankDbContext> options)
-            : base(options)
-        {
-        }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Loans> Loans { get; set; }
+        public DbSet<KlientLoan> KlientLoans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +20,6 @@ namespace Nova_API.Models
                 .HasIndex(u => u.PersonalID)
                 .IsUnique();
 
-            // Configure decimal precision
             modelBuilder.Entity<Loans>()
                 .Property(l => l.LoanAmount)
                 .HasColumnType("decimal(18,2)");
@@ -43,27 +36,21 @@ namespace Nova_API.Models
                 .Property(t => t.Amount)
                 .HasColumnType("decimal(18,2)");
 
-            modelBuilder.Entity<TransactionsHistory>()
-                .Property(th => th.Amount)
-                .HasColumnType("decimal(18,2)"); // Consistent decimal format
+            // 🔁 Lidhja për Sender
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Sender)
+                .WithMany(u => u.SentTransactions)
+                .HasForeignKey(t => t.SenderId)
+                .OnDelete(DeleteBehavior.Restrict); // Për të shmangur fshirjen kaskadë
 
-            modelBuilder.Entity<TransactionsHistory>()
-                .HasIndex(th => th.TransactionDate);
-            // Many-to-many: Klient-Transaction
-            modelBuilder.Entity<KlientTransaction>()
-                .HasKey(kt => new { kt.KlientId, kt.TransactionId });
+            // 🔁 Lidhja për Receiver
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Receiver)
+                .WithMany(u => u.ReceivedTransactions)
+                .HasForeignKey(t => t.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<KlientTransaction>()
-                .HasOne(kt => kt.Klient)
-                .WithMany(k => k.KlientTransactions)
-                .HasForeignKey(kt => kt.KlientId);
-
-            modelBuilder.Entity<KlientTransaction>()
-                .HasOne(kt => kt.Transaction)
-                .WithMany(t => t.KlientTransactions)
-                .HasForeignKey(kt => kt.TransactionId);
-
-            // Many-to-many: Klient-Loan
+            // 🔁 Lidhja many-to-many ndërmjet Klient dhe Loan
             modelBuilder.Entity<KlientLoan>()
                 .HasKey(kl => new { kl.KlientId, kl.LoanId });
 
@@ -78,7 +65,7 @@ namespace Nova_API.Models
                 .WithMany(l => l.KlientLoans)
                 .HasForeignKey(kl => kl.LoanId)
                 .OnDelete(DeleteBehavior.Restrict);
+
         }
-        public DbSet<Nova_API.Models.TransactionsHistory> TransactionsHistory { get; set; } = default!;
     }
 }

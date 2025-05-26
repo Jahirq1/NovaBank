@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Nova_API.Models
+namespace NOVA_API.Models
 {
     public class Loans
     {
@@ -17,12 +17,13 @@ namespace Nova_API.Models
         public int DurationMonths { get; set; }
         public string Collateral { get; set; }
         public Boolean ApproveStatus { get; set; } = false;
+        public string? RejectionReason { get; set; }
+
         public Boolean viewStatus { get; set; } = false;
         [ForeignKey("Manager")]
         public int ManagerId { get; set; }
         public User Manager { get; set; }
 
         public ICollection<KlientLoan> KlientLoans { get; set; }
-
     }
 }

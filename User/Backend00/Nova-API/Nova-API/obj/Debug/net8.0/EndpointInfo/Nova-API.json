@@ -1,10 +1,53 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Nova-API",
+    "title": "NOVA-API",
     "version": "1.0"
   },
   "paths": {
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/auth/test-session": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/KlientLoans": {
       "get": {
         "tags": [
@@ -12,7 +55,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -67,7 +110,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -107,7 +150,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -164,7 +207,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success"
           }
         }
       },
@@ -185,192 +228,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/KlientTransactions": {
-      "get": {
-        "tags": [
-          "KlientTransactions"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/KlientTransaction"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/KlientTransaction"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/KlientTransaction"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "KlientTransactions"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/KlientTransaction"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/KlientTransaction"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/KlientTransaction"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/KlientTransaction"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/KlientTransaction"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/KlientTransaction"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/KlientTransactions/{id}": {
-      "get": {
-        "tags": [
-          "KlientTransactions"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/KlientTransaction"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/KlientTransaction"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/KlientTransaction"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "KlientTransactions"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/KlientTransaction"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/KlientTransaction"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/KlientTransaction"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "KlientTransactions"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+            "description": "Success"
           }
         }
       }
@@ -382,7 +240,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -437,7 +295,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -477,7 +335,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -534,7 +392,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success"
           }
         }
       },
@@ -555,7 +413,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success"
           }
         }
       }
@@ -567,7 +425,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -622,7 +480,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -662,7 +520,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -719,7 +577,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success"
           }
         }
       },
@@ -740,124 +598,19 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success"
           }
         }
       }
     },
-    "/api/TransactionsHistories/recent": {
+    "/api/Transactions/user/{userId}": {
       "get": {
         "tags": [
-          "TransactionsHistories"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TransactionHistoryItem"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TransactionHistoryItem"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TransactionHistoryItem"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/TransactionsHistories/dashboard": {
-      "get": {
-        "tags": [
-          "TransactionsHistories"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/DashboardSummary"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DashboardSummary"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DashboardSummary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/TransactionsHistories": {
-      "get": {
-        "tags": [
-          "TransactionsHistories"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TransactionHistoryItem"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TransactionHistoryItem"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TransactionHistoryItem"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/TransactionsHistories/{id}": {
-      "get": {
-        "tags": [
-          "TransactionsHistories"
+          "Transactions"
         ],
         "parameters": [
           {
-            "name": "id",
+            "name": "userId",
             "in": "path",
             "required": true,
             "schema": {
@@ -868,21 +621,30 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionDetail"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionDetail"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionDetail"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
                 }
               }
             }
@@ -897,7 +659,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -952,7 +714,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -992,7 +754,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1049,7 +811,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success"
           }
         }
       },
@@ -1070,7 +832,50 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Users/balance/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
           }
         }
       }
@@ -1083,7 +888,7 @@
         "operationId": "GetWeatherForecast",
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1117,67 +922,22 @@
   },
   "components": {
     "schemas": {
-      "DashboardSummary": {
-        "type": "object",
-        "properties": {
-          "totalBalance": {
-            "type": "number",
-            "format": "double"
-          },
-          "totalIncome": {
-            "type": "number",
-            "format": "double"
-          },
-          "totalExpense": {
-            "type": "number",
-            "format": "double"
-          },
-          "recentTransactions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TransactionHistoryItem"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "KlientLoan": {
         "type": "object",
         "properties": {
-          "klientId": {
+          "KlientId": {
             "type": "integer",
             "format": "int32"
           },
-          "klient": {
+          "Klient": {
             "$ref": "#/components/schemas/User"
           },
-          "loanId": {
+          "LoanId": {
             "type": "integer",
             "format": "int32"
           },
-          "loan": {
+          "Loan": {
             "$ref": "#/components/schemas/Loans"
-          }
-        },
-        "additionalProperties": false
-      },
-      "KlientTransaction": {
-        "type": "object",
-        "properties": {
-          "klientId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "klient": {
-            "$ref": "#/components/schemas/User"
-          },
-          "transactionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "transaction": {
-            "$ref": "#/components/schemas/Transaction"
           }
         },
         "additionalProperties": false
@@ -1185,56 +945,60 @@
       "Loans": {
         "type": "object",
         "properties": {
-          "loanId": {
+          "LoanId": {
             "type": "integer",
             "format": "int32"
           },
-          "personalID": {
+          "PersonalID": {
             "type": "integer",
             "format": "int32"
           },
-          "applicationDate": {
+          "ApplicationDate": {
             "type": "string",
             "format": "date-time"
           },
-          "workingStatus": {
+          "WorkingStatus": {
             "type": "string",
             "nullable": true
           },
-          "monthlyIncome": {
+          "MonthlyIncome": {
             "type": "number",
             "format": "double"
           },
-          "loanAmount": {
+          "LoanAmount": {
             "type": "number",
             "format": "double"
           },
-          "reason": {
+          "Reason": {
             "type": "string",
             "nullable": true
           },
-          "durationMonths": {
+          "DurationMonths": {
             "type": "integer",
             "format": "int32"
           },
-          "collateral": {
+          "Collateral": {
             "type": "string",
             "nullable": true
           },
-          "approveStatus": {
+          "ApproveStatus": {
             "type": "boolean"
+          },
+          "RejectionReason": {
+            "type": "string",
+            "nullable": true
           },
           "viewStatus": {
             "type": "boolean"
           },
-          "managerId": {
+          "ManagerId": {
             "type": "integer",
             "format": "int32"
           },
-          "manager": {
+          "Manager": {
             "$ref": "#/components/schemas/User"
           },
-          "klientLoans": {
+          "KlientLoans": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/KlientLoan"
@@ -1244,80 +1008,59 @@
         },
         "additionalProperties": false
       },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "personalId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Transaction": {
         "required": [
-          "amount",
-          "transactionDate",
-          "transactionType"
+          "Amount",
+          "ReceiverId",
+          "SenderId",
+          "TransactionDate",
+          "TransactionType"
         ],
         "type": "object",
         "properties": {
-          "transactionId": {
+          "TransactionId": {
             "type": "integer",
             "format": "int32"
           },
-          "transactionType": {
+          "TransactionType": {
             "minLength": 1,
             "type": "string"
           },
-          "amount": {
+          "Amount": {
             "type": "number",
             "format": "double"
           },
-          "transactionDate": {
+          "TransactionDate": {
             "type": "string",
             "format": "date-time"
           },
-          "klientTransactions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/KlientTransaction"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TransactionDetail": {
-        "type": "object",
-        "properties": {
-          "id": {
+          "SenderId": {
             "type": "integer",
             "format": "int32"
           },
-          "type": {
-            "type": "string",
-            "nullable": true
+          "Sender": {
+            "$ref": "#/components/schemas/User"
           },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TransactionHistoryItem": {
-        "type": "object",
-        "properties": {
-          "id": {
+          "ReceiverId": {
             "type": "integer",
             "format": "int32"
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "date": {
-            "type": "string",
-            "nullable": true
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
+          "Receiver": {
+            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -1326,11 +1069,12 @@
         "required": [
           "address",
           "city",
+          "createdDate",
           "dateOfBirth",
           "email",
           "name",
           "password",
-          "personalID",
+          "PersonalID",
           "phone",
           "role"
         ],
@@ -1340,7 +1084,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "personalID": {
+          "PersonalID": {
             "type": "integer",
             "format": "int32"
           },
@@ -1360,7 +1104,7 @@
             "type": "string",
             "format": "date"
           },
-          "balance": {
+          "Balance": {
             "type": "number",
             "format": "double"
           },
@@ -1376,18 +1120,29 @@
             "minLength": 1,
             "type": "string"
           },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "city": {
             "minLength": 1,
             "type": "string"
           },
-          "klientTransactions": {
+          "SentTransactions": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/KlientTransaction"
+              "$ref": "#/components/schemas/Transaction"
             },
             "nullable": true
           },
-          "klientLoans": {
+          "ReceivedTransactions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            },
+            "nullable": true
+          },
+          "KlientLoans": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/KlientLoan"
@@ -1400,20 +1155,20 @@
       "WeatherForecast": {
         "type": "object",
         "properties": {
-          "date": {
+          "Date": {
             "type": "string",
             "format": "date"
           },
-          "temperatureC": {
+          "TemperatureC": {
             "type": "integer",
             "format": "int32"
           },
-          "temperatureF": {
+          "TemperatureF": {
             "type": "integer",
             "format": "int32",
             "readOnly": true
           },
-          "summary": {
+          "Summary": {
             "type": "string",
             "nullable": true
           }

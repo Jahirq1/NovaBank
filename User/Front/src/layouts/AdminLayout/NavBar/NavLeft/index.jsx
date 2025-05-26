@@ -1,6 +1,5 @@
 import React from 'react';
-import { ListGroup, Dropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { ListGroup } from 'react-bootstrap';
 
 import useWindowSize from '../../../../hooks/useWindowSize';
 import NavSearch from './NavSearch';
@@ -16,10 +15,7 @@ const NavLeft = () => {
   return (
     <React.Fragment>
       <ListGroup as="ul" bsPrefix=" " className="navbar-nav mr-auto">
-        <ListGroup.Item as="li" bsPrefix=" " className={navItemClass.join(' ')}>
-         
-         
-        </ListGroup.Item>
+
         <ListGroup.Item as="li" bsPrefix=" " className="nav-item">
           <NavSearch windowWidth={windowSize.width} />
         </ListGroup.Item>

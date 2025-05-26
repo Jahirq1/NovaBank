@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Nova_API.Models;
+using NOVA_API.Models;
 
-namespace Nova_API.Controllers
+namespace NOVA_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
