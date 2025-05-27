@@ -67,11 +67,7 @@ const routes = [
     layout: AdminLayout,
     element: lazy(() => import('./views/officer/profile'))
   },
-  {
-    path: '/officer/app/settings/default',
-    layout: AdminLayout,
-    element: lazy(() => import('./views/officer/settings'))
-  },
+
   //===================================manager=======================================
   {
     path: '/manager/app/dashboard',

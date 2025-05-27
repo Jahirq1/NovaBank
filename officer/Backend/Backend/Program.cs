@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddTransient<Backend.Pdf.PdfGenerator>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllers()

@@ -43,46 +43,15 @@
   },
   {
     "ContainingType": "Backend.Controllers.LoansController",
-    "Method": "PostLoans",
-    "RelativePath": "api/loans",
+    "Method": "CreateLoan",
+    "RelativePath": "api/loans/create",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "loans",
-        "Type": "Backend.Models.Loans",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Backend.Models.Loans",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Backend.Controllers.LoansController",
-    "Method": "PutLoans",
-    "RelativePath": "api/loans/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "loans",
-        "Type": "Backend.Models.Loans",
+        "Name": "loanDto",
+        "Type": "Backend.Models.TabelaLoans",
         "IsRequired": true
       }
     ],
@@ -90,28 +59,18 @@
   },
   {
     "ContainingType": "Backend.Controllers.LoansController",
-    "Method": "DeleteLoans",
-    "RelativePath": "api/loans/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Backend.Controllers.LoansController",
-    "Method": "GetMyLoans",
-    "RelativePath": "api/loans/my-loans",
+    "Method": "GetLoanById",
+    "RelativePath": "api/loans/find/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -128,6 +87,32 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.LoansController",
+    "Method": "GetLoanPdf",
+    "RelativePath": "api/loans/pdf/{loanId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loanId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.LoansController",
+    "Method": "GetLoansStatus",
+    "RelativePath": "api/loans/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -279,6 +264,53 @@
         "Name": "userId",
         "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.UserController",
+    "Method": "GetUser",
+    "RelativePath": "api/user/take/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Backend.Models.User",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Backend.Controllers.UserController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/user/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedUser",
+        "Type": "Backend.Models.User",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

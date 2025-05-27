@@ -79,18 +79,6 @@
         }
       }
     },
-    "/api/loans/my-loans": {
-      "get": {
-        "tags": [
-          "Loans"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/loans/my-loans-count": {
       "get": {
         "tags": [
@@ -113,37 +101,26 @@
         }
       }
     },
-    "/api/loans/{id}": {
-      "put": {
+    "/api/loans/create": {
+      "post": {
         "tags": [
           "Loans"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Loans"
+                "$ref": "#/components/schemas/TabelaLoans"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Loans"
+                "$ref": "#/components/schemas/TabelaLoans"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Loans"
+                "$ref": "#/components/schemas/TabelaLoans"
               }
             }
           }
@@ -153,8 +130,10 @@
             "description": "OK"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/loans/find/{id}": {
+      "get": {
         "tags": [
           "Loans"
         ],
@@ -176,50 +155,37 @@
         }
       }
     },
-    "/api/loans": {
-      "post": {
+    "/api/loans/status": {
+      "get": {
         "tags": [
           "Loans"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Loans"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Loans"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Loans"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Loans"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Loans"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Loans"
-                }
-              }
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/loans/pdf/{loanId}": {
+      "get": {
+        "tags": [
+          "Loans"
+        ],
+        "parameters": [
+          {
+            "name": "loanId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -464,6 +430,88 @@
         }
       }
     },
+    "/api/user/take/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/update/{id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
@@ -602,6 +650,48 @@
           "password": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TabelaLoans": {
+        "type": "object",
+        "properties": {
+          "personalID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "applicationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "workingStatus": {
+            "type": "string",
+            "nullable": true
+          },
+          "monthlyIncome": {
+            "type": "number",
+            "format": "double"
+          },
+          "loanAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "durationMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "collateral": {
+            "type": "string",
+            "nullable": true
+          },
+          "managerId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

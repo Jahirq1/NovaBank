@@ -59,7 +59,6 @@ const NavRight = () => {
                       className="d-flex align-items-center shadow-none mb-0 p-0"
                       style={{ flexDirection: 'row', backgroundColor: 'unset' }}
                     >
-                      <img className="img-radius" src={avatar1} alt="Generic placeholder" />
                       <Card.Body className="p-0">
                         <p>
                           <strong>John Doe</strong>
@@ -112,17 +111,12 @@ const NavRight = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu align="end" className="profile-notification">
               <div className="pro-head">
-                <img src={avatar1} className="img-radius" alt="User Profile" />
-                <span>John Doe</span>
+                <span>Officer's name</span>
               </div>
               <ListGroup as="ul" bsPrefix=" " variant="flush" className="pro-body">
+
                 <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="/app/settings/default" className="dropdown-item">
-                    <i className="feather icon-settings" /> Settings
-                  </Link>
-                </ListGroup.Item>
-                <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="/app/profile/default" className="dropdown-item">
+                  <Link to="/officer/app/profile/default" className="dropdown-item">
                     <i className="feather icon-user" /> Profile
                   </Link>
                 </ListGroup.Item>
