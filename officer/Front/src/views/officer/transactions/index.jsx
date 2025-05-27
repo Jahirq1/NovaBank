@@ -32,10 +32,10 @@ const DashDefault = () => {
         receiverPersonalID: parseInt(formData.receiverPersonalID),
         amount: parseFloat(formData.amount),
         transactionType: formData.transactionType,
-        transactionDate: new Date(formData.transactionDate).toISOString()
+        transactionDate: new Date().toISOString() 
       };
 
-      await axios.post('http://localhost:5000/api/transactions', payload);
+      await axios.post('http://localhost:5231/api/transactions/pay', payload);
       alert('Transaksioni u dërgua me sukses!');
     } catch (error) {
       console.error(error);
@@ -95,6 +95,7 @@ const DashDefault = () => {
                     name="transactionDate"
                     value={formData.transactionDate}
                     onChange={handleChange}
+                    disabled
                   />
                 </Form.Group>
               </Col>

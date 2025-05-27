@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Row, Col, Card, Table } from 'react-bootstrap';
-import { getUserId, getUserRole, clearUserSession } from '../../../session/session'; // rregullo path sipas strukturës tënde
-
+import { getUserId, getUserRole } from '../../../session/session';
 
 const DashDefault = () => {
   const [transactions, setTransactions] = useState([]);
@@ -12,86 +11,99 @@ const DashDefault = () => {
     completedTransactions: 0,
     totalLoans: 0,
   });
-  const navigate = useNavigate();
-  useEffect(() => {
-    const userId = getUserId();
-    const role = getUserRole();
 
+  const navigate = useNavigate();
+  const userId = getUserId();
+
+  // Verifikimi i sesionit
+  useEffect(() => {
+    const role = getUserRole();
     if (!userId || !role) {
       navigate('/login/signin');
     }
-  }, [navigate]);
-  
+  }, [navigate, userId]);
 
-  // Merr të dhënat për transaksionet
+  // Merr të dhënat për dashboard
   useEffect(() => {
-    const fetchTransactions = async () => {
-      const userId = localStorage.getItem('userId');
+    const fetchAllData = async () => {
+      if (!userId || isNaN(parseInt(userId))) {
+        console.error("UserId mungon ose është i pavlefshëm.");
+        return;
+      }
+
       try {
-        const response = await axios.get(`http://localhost:5231/api/transactions/my-transactions?userId=${userId}`);
-        setTransactions(response.data);
-    
-        const totalAmount = response.data.reduce((acc, tx) => acc + parseFloat(tx.Amount), 0);
-        const completedTransactions = response.data.filter(tx => tx.Status === 'Completed').length;
-    
+        // Merr transaksionet
+        const transactionsRes = await axios.get(`http://localhost:5231/api/transactions/my-transactions?userId=${userId}`);
+        const transactions = transactionsRes.data;
+
+        setTransactions(transactions);
+
+        // Merr total amount të dërguar brenda vitit
+        const totalSentRes = await axios.get(`http://localhost:5231/api/transactions/total-sent-amount?userId=${userId}`);
+        const totalSentAmount = totalSentRes.data.totalAmount;
+
+        // Merr numrin e transaksioneve të dërguara
+        const countRes = await axios.get(`http://localhost:5231/api/transactions/transaction-count?userId=${userId}`);
+        const totalSentTransactions = countRes.data.totalSentTransactions;
+
+        // Përditëso të dhënat
         setSummaryData(prev => ({
           ...prev,
-          totalAmount: totalAmount.toFixed(2),
-          completedTransactions
+          totalAmount: totalSentAmount.toFixed(2),
+          completedTransactions: totalSentTransactions
         }));
       } catch (error) {
         console.error("Gabim gjatë marrjes së të dhënave:", error);
       }
     };
-    
 
-    fetchTransactions();
-  }, []);
+    fetchAllData();
+  }, [userId]);
 
   // Merr numrin e kredive
   useEffect(() => {
     const fetchLoansCount = async () => {
-      const userId = localStorage.getItem('userId');
+      if (!userId || isNaN(parseInt(userId))) return;
+
       try {
         const response = await axios.get(`http://localhost:5231/api/loans/my-loans-count?userId=${userId}`);
-        console.log('Total Loans:', response.data.totalLoans);
+        setSummaryData(prev => ({
+          ...prev,
+          totalLoans: response.data.totalLoans
+        }));
       } catch (error) {
-        console.error("Gabim gjatë marrjes së të dhënave:", error);
+        console.error("Gabim gjatë marrjes së të dhënave për kredi:", error);
       }
     };
-    
 
     fetchLoansCount();
-  }, []);
+  }, [userId]);
 
   return (
     <React.Fragment>
       <Row>
-        {/* Shuma e Transaksioneve */}
+        {/* Shuma e Transaksioneve të Dërguara */}
         <Col xs={12} md={6} xl={4}>
           <Card>
             <Card.Body>
-              <h6 className="mb-4">Shuma e Transaksioneve të Total</h6>
+              <h6 className="mb-4">Shuma e Transaksioneve të Dërguara (1 vit)</h6>
               <div className="row d-flex align-items-center">
                 <div className="col-9">
                   <h3 className="f-w-300 d-flex align-items-center m-b-0">
                     <i className="feather icon-arrow-up text-c-green f-30 m-r-5" />
-                    ${summaryData.totalAmount}
+                    {summaryData.totalAmount}€
                   </h3>
-                </div>
-                <div className="col-3 text-end">
-                  <p className="m-b-0">{summaryData.completedTransactions}%</p>
                 </div>
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        {/* Numri i Transaksioneve të Kompletuara */}
+        {/* Numri i Transaksioneve të Dërguara */}
         <Col xs={12} md={6} xl={4}>
           <Card>
             <Card.Body>
-              <h6 className="mb-4">Numri i Transaksioneve të Kompletuara</h6>
+              <h6 className="mb-4">Numri i Transaksioneve të Dërguara</h6>
               <div className="row d-flex align-items-center">
                 <div className="col-9">
                   <h3 className="f-w-300 d-flex align-items-center m-b-0">
@@ -129,36 +141,30 @@ const DashDefault = () => {
             </Card.Header>
             <Card.Body className="px-0 py-2">
               <Table responsive hover className="recent-users">
-                <tbody>
-                  {transactions.length === 0 ? (
-                    <tr>
-                      <td colSpan="4" className="text-center">Nuk ka transaksione.</td>
-                    </tr>
-                  ) : (
-                    transactions.map((tx, idx) => (
-                      <tr key={tx.TransactionId} className="unread">
-                        <td>
-                          <img className="rounded-circle" style={{ width: '40px' }} src={avatar1} alt="user" />
-                        </td>
-                        <td>
-                          <h6 className="mb-1">{tx.Description || 'Transaksion'}</h6>
-                          <p className="m-0">{tx.Amount} €</p>
-                        </td>
-                        <td>
-                          <h6 className="text-muted">
-                            <i className={`fa fa-circle ${tx.Status === 'Completed' ? 'text-c-green' : 'text-c-red'} f-10 m-r-15`} />
-                            {new Date(tx.Date).toLocaleString()}
-                          </h6>
-                        </td>
-                        <td>
-                          <span className="label theme-bg2 text-white f-12">
-                            {tx.Status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
+              <tbody>
+  {transactions.length === 0 ? (
+    <tr>
+      <td colSpan="4" className="text-center">Nuk ka transaksione.</td>
+    </tr>
+  ) : (
+    transactions.map((tx, idx) => (
+      <tr key={tx.transactionId || idx} className="unread">
+        <td>
+          <h6 className="mb-1">Nga: <strong>{tx.senderName || 'N/A'}</strong></h6>
+          <p className="m-0">Për: <strong>{tx.receiverName || 'N/A'}</strong></p>
+        </td>
+        <td>{tx.amount} €</td>
+        <td>
+          <h6 className="text-muted">
+            <i className="fa fa-circle text-c-blue f-10 m-r-15" />
+            {new Date(tx.date).toLocaleString()}
+          </h6>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
               </Table>
             </Card.Body>
           </Card>

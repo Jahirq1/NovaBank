@@ -3,6 +3,8 @@ using Backend.Models;
 using System.Linq;
 using Backend.Services;
 using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Controllers
 {
@@ -47,5 +49,48 @@ namespace Backend.Controllers
 
             return Ok($"UserId in session: {userId}");
         }
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateUser(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .ToList();
+                return BadRequest(new { errors });
+            }
+
+            // Kontrollo nëse PersonalID ekziston
+            bool personalIdExists = await _context.Users.AnyAsync(u => u.PersonalID == user.PersonalID);
+            if (personalIdExists)
+            {
+                return Conflict(new { message = "PersonalID është përdorur tashmë." });
+            }
+
+            // Vendos data e krijimit nëse nuk është dhënë
+            if (user.createdDate == null || user.createdDate == default(DateTime))
+            {
+                user.createdDate = DateTime.UtcNow;
+            }
+
+            // Hash password - kontrollo që user.password nuk është null ose bosh
+            if (string.IsNullOrEmpty(user.password))
+            {
+                return BadRequest(new { message = "Fjalëkalimi nuk mund të jetë i zbrazët." });
+            }
+
+            var passwordHasher = new PasswordHasher<User>();
+            user.password = passwordHasher.HashPassword(user, user.password);
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            // Për siguri, mund të mos kthejmë password-in e hash-uar
+            user.password = null;
+
+            return Ok(user);
+        }
+
+
     }
 }

@@ -1,6 +1,22 @@
 [
   {
     "ContainingType": "Backend.Controllers.AuthController",
+    "Method": "CreateUser",
+    "RelativePath": "api/auth/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "Backend.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/auth/login",
     "HttpMethod": "POST",
@@ -115,76 +131,9 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.TransactionsController",
-    "Method": "GetTransactions",
-    "RelativePath": "api/transactions",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Backend.Models.Transaction, Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Backend.Controllers.TransactionsController",
-    "Method": "PostTransaction",
-    "RelativePath": "api/transactions",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "transaction",
-        "Type": "Backend.Models.Transaction",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "Backend.Models.Transaction",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "Backend.Controllers.TransactionsController",
-    "Method": "PutTransaction",
-    "RelativePath": "api/transactions/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "transaction",
-        "Type": "Backend.Models.Transaction",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "Backend.Controllers.TransactionsController",
-    "Method": "DeleteTransaction",
-    "RelativePath": "api/transactions/{id}",
+    "ContainingType": "Backend.Controllers.SearchController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/search/delete/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -198,9 +147,130 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Backend.Controllers.SearchController",
+    "Method": "SearchUsers",
+    "RelativePath": "api/search/look",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchTerm",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.SearchController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/search/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedUser",
+        "Type": "Backend.Models.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TransactionsController",
+    "Method": "GetTransaction",
+    "RelativePath": "api/transactions/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Backend.Models.Transaction",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Backend.Controllers.TransactionsController",
     "Method": "GetMyTransactions",
     "RelativePath": "api/transactions/my-transactions",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TransactionsController",
+    "Method": "PostTransaction",
+    "RelativePath": "api/transactions/pay",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "Backend.Models.Transactiontabel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Backend.Models.Transaction",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Backend.Controllers.TransactionsController",
+    "Method": "GetTotalSentAmount",
+    "RelativePath": "api/transactions/total-sent-amount",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.TransactionsController",
+    "Method": "GetTransactionCount",
+    "RelativePath": "api/transactions/transaction-count",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

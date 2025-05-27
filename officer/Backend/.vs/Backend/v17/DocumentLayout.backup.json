@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\models\\transactiontabel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\models\\transactiontabel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\controllers\\search.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\search.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\models\\transactiontabel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\models\\transactiontabel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +30,69 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Transactiontabel.cs",
               "DocumentMoniker": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Models\\Transactiontabel.cs",
               "RelativeDocumentMoniker": "Backend\\Models\\Transactiontabel.cs",
               "ToolTip": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Models\\Transactiontabel.cs",
               "RelativeToolTip": "Backend\\Models\\Transactiontabel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-24T17:43:55.988Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-26T16:58:33.44Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TransactionsController.cs",
-              "DocumentMoniker": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\TransactionsController.cs",
-              "RelativeDocumentMoniker": "Backend\\Controllers\\TransactionsController.cs",
-              "ToolTip": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\TransactionsController.cs",
-              "RelativeToolTip": "Backend\\Controllers\\TransactionsController.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAYwC0AAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-24T17:42:06.687Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Transaction.cs",
               "DocumentMoniker": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Models\\Transaction.cs",
               "RelativeDocumentMoniker": "Backend\\Models\\Transaction.cs",
               "ToolTip": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Models\\Transaction.cs",
               "RelativeToolTip": "Backend\\Models\\Transaction.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-24T17:38:58.92Z",
+              "WhenOpened": "2025-05-26T14:53:42.502Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Search.cs",
+              "DocumentMoniker": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\Search.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\Search.cs",
+              "ToolTip": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\Search.cs",
+              "RelativeToolTip": "Backend\\Controllers\\Search.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAkwFEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T14:17:23.228Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Backend\\Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Backend\\Controllers\\AuthController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAAwE8AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-24T10:22:28.352Z",
+              "WhenOpened": "2025-05-26T12:49:18.122Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Models\\User.cs",
+              "RelativeToolTip": "Backend\\Models\\User.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAmwBIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T12:46:45.76Z",
               "EditorCaption": ""
             }
           ]

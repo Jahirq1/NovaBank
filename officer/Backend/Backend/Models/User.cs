@@ -16,7 +16,7 @@ namespace Backend.Models
         [Required]
         public string? email { get; set; }
 
-        [Required]
+        
         public string? password { get; set; }
 
         [Required]
@@ -33,15 +33,14 @@ namespace Backend.Models
         [Required]
         public string? address { get; set; }
 
-        [Required]
+        
          public DateTime? createdDate { get; set; } = default(DateTime?);
         [Required]
         public string? city { get; set; }
 
-        public ICollection<Transaction> SentTransactions { get; set; }
+        public ICollection<Transaction> SentTransactions { get; set; } = new List<Transaction>();
+        public ICollection<Transaction> ReceivedTransactions { get; set; } = new List<Transaction>();
+        public ICollection<KlientLoan> KlientLoans { get; set; } = new List<KlientLoan>();
 
-        // Transaksionet që përdoruesi i ka pranuar
-        public ICollection<Transaction> ReceivedTransactions { get; set; }
-        public ICollection<KlientLoan> KlientLoans { get; set; }
     }
 }

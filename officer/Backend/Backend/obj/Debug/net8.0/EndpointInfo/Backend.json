@@ -48,6 +48,37 @@
         }
       }
     },
+    "/api/auth/create": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/loans/my-loans": {
       "get": {
         "tags": [
@@ -193,43 +224,93 @@
         }
       }
     },
-    "/api/transactions": {
+    "/api/search/look": {
       "get": {
         "tags": [
-          "Transactions"
+          "Search"
+        ],
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Transaction"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Transaction"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Transaction"
-                  }
-                }
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/search/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/search/update/{id}": {
+      "put": {
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
         }
-      },
+      }
+    },
+    "/api/transactions/pay": {
       "post": {
         "tags": [
           "Transactions"
@@ -238,21 +319,61 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/Transactiontabel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/Transactiontabel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Transaction"
+                "$ref": "#/components/schemas/Transactiontabel"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions/{id}": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -299,56 +420,37 @@
         }
       }
     },
-    "/api/transactions/{id}": {
-      "put": {
+    "/api/transactions/total-sent-amount": {
+      "get": {
         "tags": [
           "Transactions"
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "userId",
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Transaction"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Transaction"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Transaction"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "OK"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/transactions/transaction-count": {
+      "get": {
         "tags": [
           "Transactions"
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "userId",
+            "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -547,15 +649,39 @@
         },
         "additionalProperties": false
       },
+      "Transactiontabel": {
+        "type": "object",
+        "properties": {
+          "transactionType": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "transactionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "senderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "receiverPersonalID": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "User": {
         "required": [
           "address",
           "city",
-          "createdDate",
           "dateOfBirth",
           "email",
           "name",
-          "password",
           "personalID",
           "phone",
           "role"
@@ -579,8 +705,8 @@
             "type": "string"
           },
           "password": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "dateOfBirth": {
             "type": "string",
@@ -604,7 +730,8 @@
           },
           "createdDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "city": {
             "minLength": 1,

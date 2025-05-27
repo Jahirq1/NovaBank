@@ -23,10 +23,10 @@ namespace Backend.Controllers
             _sessionService = sessionService;
         }
 
-        [HttpPost]
+        [HttpPost("pay")]
         public async Task<ActionResult<Transaction>> PostTransaction(Transactiontabel dto)
         {
-            // Gjej Sender-in me id direkt
+            // Gjej Sender-in me id
             var sender = await _context.Users.FindAsync(dto.SenderId);
 
             // Gjej Receiver-in përmes PersonalID
@@ -43,6 +43,7 @@ namespace Backend.Controllers
                 return BadRequest("Nuk mund t’i dërgoni transaksion vetes.");
             }
 
+            // Krijo transaksionin
             var transaction = new Transaction
             {
                 TransactionType = dto.TransactionType,
@@ -52,11 +53,17 @@ namespace Backend.Controllers
                 ReceiverId = receiver.id
             };
 
+            // Shto shumën tek balanca e pranuesit
+            receiver.Balance += dto.Amount;
+
+            // Ruaj transaksionin dhe përditësimin e pranuesit
             _context.Transactions.Add(transaction);
+            _context.Users.Update(receiver);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetTransaction), new { id = transaction.TransactionId }, transaction);
         }
+
 
 
         // Optional: GET për të marrë një transaksion të veçantë
@@ -75,7 +82,7 @@ namespace Backend.Controllers
 
             return transaction;
         }
-}
+
 
         [HttpGet("my-transactions")]
         public IActionResult GetMyTransactions([FromQuery] int userId)
@@ -92,6 +99,8 @@ namespace Backend.Controllers
                     Type = t.TransactionType,
                     Amount = t.Amount,
                     Date = t.TransactionDate,
+                    SenderName = _context.Users.Where(u => u.id == t.SenderId).Select(u => u.name).FirstOrDefault(),
+                    ReceiverName = _context.Users.Where(u => u.id == t.ReceiverId).Select(u => u.name).FirstOrDefault()
                 })
                 .OrderByDescending(t => t.Date)
                 .ToList();
@@ -99,9 +108,36 @@ namespace Backend.Controllers
             return Ok(transactions);
         }
 
+        [HttpGet("total-sent-amount")]
+        public IActionResult GetTotalSentAmount([FromQuery] int userId)
+        {
+            var exists = _context.Users.Any(u => u.id == userId);
+            if (!exists)
+                return NotFound(new { message = "User not found" });
+
+            var oneYearAgo = DateTime.UtcNow.AddYears(-1);
+
+            var totalAmount = _context.Transactions
+                .Where(t => t.SenderId == userId && t.TransactionDate >= oneYearAgo)
+                .Sum(t => (decimal?)t.Amount) ?? 0;
+
+            return Ok(new { userId, totalAmount });
+        }
 
 
 
+
+        [HttpGet("transaction-count")]
+        public IActionResult GetTransactionCount([FromQuery] int userId)
+        {
+            var exists = _context.Users.Any(u => u.id == userId);
+            if (!exists)
+                return NotFound(new { message = "User not found" });
+
+            var count = _context.Transactions.Count(t => t.SenderId == userId);
+
+            return Ok(new { userId, totalSentTransactions = count });
+        }
 
 
 

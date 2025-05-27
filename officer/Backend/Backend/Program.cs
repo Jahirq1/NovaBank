@@ -4,10 +4,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Backend.Controllers;
 using Backend.Services;
+using Backend.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddSession(options =>
 {
