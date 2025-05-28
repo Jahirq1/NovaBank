@@ -25,6 +25,8 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> RegisterUser(User user)
         {
+            user.createdDate = DateTime.UtcNow;
+           
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetUsers), new { id = user.id }, user);

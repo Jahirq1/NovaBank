@@ -22,6 +22,8 @@ namespace Backend.Models
         [Required]
         public DateOnly? dateOfBirth { get; set; }
 
+        public DateTime? createdDate { get; set; } = default(DateTime?);
+
         public decimal Balance { get; set; }
 
         [Required]

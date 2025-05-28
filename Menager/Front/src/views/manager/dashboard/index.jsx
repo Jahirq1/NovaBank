@@ -1,71 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { Line, Bar } from 'react-chartjs-2';
-import avatar1 from '../../../assets/images/user/avatar-1.jpg';
-import avatar2 from '../../../assets/images/user/avatar-2.jpg';
-import avatar3 from '../../../assets/images/user/avatar-3.jpg';
+import { Row, Col, Card } from 'react-bootstrap';
+import axios from 'axios';
+import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
-
-const dashBankData = [
-  { title: 'Bank Balance', amount: '$500,000.00', icon: 'icon-dollar-sign text-c-green', value: 80, class: 'progress-c-theme' },
-  { title: 'Users Registered', amount: '1,250', icon: 'icon-users text-c-blue', value: 65, class: 'progress-c-theme2' },
-  { title: 'Officers Registered', amount: '150', icon: 'icon-shield text-c-orange', value: 50, color: 'progress-c-theme' },
-  { title: 'Monthly Transactions', amount: '$120,000.00', icon: 'icon-arrow-up text-c-green', value: 60, class: 'progress-c-theme' },
-  { title: 'Yearly Transactions', amount: '$1,500,000.00', icon: 'icon-arrow-down text-c-red', value: 75, class: 'progress-c-theme2' }
-];
-
 const DashDefault = () => {
-  const [transactions, setTransactions] = useState([]);
-  const [loanData, setLoanData] = useState([]);
+  const [summary, setSummary] = useState({ totalBalance: 0, totalUsers: 0, totalOfficers: 0 });
+  const [monthlyUserData, setMonthlyUserData] = useState([]);
 
   useEffect(() => {
-    setTransactions([
-      { date: '2025-04-01', deposit: 5000, withdrawal: 3000 },
-      { date: '2025-04-02', deposit: 6000, withdrawal: 1000 },
-      { date: '2025-04-03', deposit: 7000, withdrawal: 2000 }
-    ]);
-    setLoanData([
-      { customer: 'Customer 1', loanGiven: 10000, amountRepaid: 3000 },
-      { customer: 'Customer 2', loanGiven: 5000, amountRepaid: 5000 }
-    ]);
+    const fetchDashboardData = async () => {
+      try {
+        const summaryRes = await axios.get('http://localhost:5221/api/dashboard/summary');
+        setSummary(summaryRes.data);
+
+        const monthlyRes = await axios.get('http://localhost:5221/api/dashboard/user-registrations/monthly');
+        setMonthlyUserData(monthlyRes.data);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+    fetchDashboardData();
   }, []);
 
-  const transactionChartData = {
-    labels: transactions.map(t => t.date),
-    datasets: [
-      {
-        label: 'Deposits',
-        data: transactions.map(t => t.deposit),
-        borderColor: 'rgba(75,192,192,1)',
-        fill: false,
-      },
-      {
-        label: 'Withdrawals',
-        data: transactions.map(t => t.withdrawal),
-        borderColor: 'rgba(255,99,132,1)',
-        fill: false,
-      }
-    ]
-  };
+  const dashBankData = [
+    {
+      title: 'Bank Balance',
+      amount: typeof summary.totalBalance === 'number' ? `$${summary.totalBalance.toLocaleString()}` : '$0',
+      icon: 'icon-dollar-sign text-c-green',
+      value: summary.totalBalance > 0 ? 100 : 0,
+      class: 'progress-c-theme'
+    },
+    {
+      title: 'Users Registered',
+      amount: summary.totalUsers?.toString() ?? '0',
+      icon: 'icon-users text-c-blue',
+      value: summary.totalUsers > 0 ? Math.min(100, summary.totalUsers / 10) : 0,
+      class: 'progress-c-theme2'
+    },
+    {
+      title: 'Officers Registered',
+      amount: summary.totalOfficers?.toString() ?? '0',
+      icon: 'icon-shield text-c-orange',
+      value: summary.totalOfficers > 0 ? Math.min(100, summary.totalOfficers / 2) : 0,
+      class: 'progress-c-theme'
+    },
+  ];
 
-  const loanChartData = {
-    labels: loanData.map(l => l.customer),
+  const monthlyChartConfig = {
+    labels: monthlyUserData.map(entry => entry.month), // e.g. "2025-05"
     datasets: [
       {
-        label: 'Loan Given',
-        data: loanData.map(l => l.loanGiven),
-        backgroundColor: 'rgba(75,192,192,0.2)',
-        borderColor: 'rgba(75,192,192,1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Amount Repaid',
-        data: loanData.map(l => l.amountRepaid),
-        backgroundColor: 'rgba(255,99,132,0.2)',
-        borderColor: 'rgba(255,99,132,1)',
-        borderWidth: 1,
+        label: 'Users Registered Per Month',
+        data: monthlyUserData.map(entry => entry.count),
+        fill: false,
+        borderColor: 'rgba(153, 102, 255, 1)',
+        tension: 0.2
       }
     ]
   };
@@ -103,28 +93,18 @@ const DashDefault = () => {
           </Col>
         ))}
 
-        {/* Daily Transactions Chart */}
-        <Col md={6} xl={8}>
+        {/* Monthly Users Chart */}
+        <Col md={12}>
           <Card>
             <Card.Body>
-              <h5 className="mb-4">Daily Transactions</h5>
-              <Line data={transactionChartData} options={{ responsive: true, scales: { x: { beginAtZero: true } } }} />
-            </Card.Body>
-          </Card>
-        </Col>
-
-        {/* Loan Chart */}
-        <Col md={6} xl={4}>
-          <Card>
-            <Card.Body>
-              <h5 className="mb-4">Loans Given vs. Repaid</h5>
-              <Bar data={loanChartData} options={{ responsive: true, scales: { x: { beginAtZero: true } } }} />
+              <h5 className="mb-4">Monthly User Registrations</h5>
+              <Line data={monthlyChartConfig} options={{ responsive: true, plugins: { legend: { display: true } } }} />
             </Card.Body>
           </Card>
         </Col>
       </Row>
     </React.Fragment>
   );
-}
+};
 
 export default DashDefault;

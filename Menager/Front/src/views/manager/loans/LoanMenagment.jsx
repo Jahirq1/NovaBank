@@ -1,81 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Col, Table, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import avatar1 from '../../../assets/images/user/avatar-1.jpg';
-import avatar2 from '../../../assets/images/user/avatar-2.jpg';
-import avatar3 from '../../../assets/images/user/avatar-3.jpg';
 import { FaCheckCircle } from 'react-icons/fa';
-import { getPendingLoans, approveLoan, rejectLoan } from '../../../api/loanApi';
-import { useEffect } from 'react';
+import { getPendingLoans, getApprovedLoans, approveLoan, rejectLoan } from '../../../api/loanApi';
 
 const LoanApprovalTables = () => {
   const [sortKey, setSortKey] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
-
   const [loanApplications, setLoanApplications] = useState([]);
   const [approvedLoans, setApprovedLoans] = useState([]);
 
   useEffect(() => {
+    fetchLoans();
+  }, []);
+
   const fetchLoans = async () => {
     try {
-      const data = await getPendingLoans();
-      setLoanApplications(data);
+      const pending = await getPendingLoans();
+      const approved = await getApprovedLoans();
+      setLoanApplications(pending);
+      setApprovedLoans(approved);
     } catch (err) {
-      console.error("Failed to load pending loans:", err);
+      console.error("Failed to load loans:", err);
     }
   };
 
-  fetchLoans();
-  }, []);
-   
-
   const handleDecision = async (idx, decision) => {
-  const loan = loanApplications[idx];
+    const loan = loanApplications[idx];
+    try {
+      if (decision === 'Approved') {
+        await approveLoan(loan.loanId);
+      } else {
+        await rejectLoan(loan.loanId);
+      }
 
-  try {
-    if (decision === 'Approved') {
-      await approveLoan(loan.loanId);
-    } else {
-      await rejectLoan(loan.loanId);
+      // Remove from pending loans
+      const updatedApplications = [...loanApplications];
+      updatedApplications.splice(idx, 1);
+      setLoanApplications(updatedApplications);
+
+      // Refresh approved list from backend
+      if (decision === 'Approved') {
+        const approved = await getApprovedLoans();
+        setApprovedLoans(approved);
+      }
+
+    } catch (error) {
+      console.error("Error processing loan:", error);
     }
-
-    const updatedApplications = [...loanApplications];
-    updatedApplications.splice(idx, 1);
-    setLoanApplications(updatedApplications);
-
-    if (decision === 'Approved') {
-      const approvedEntry = {
-        ...loan,
-        officer: 'Auto Officer',
-        income: Math.floor(Math.random() * 40000 + 30000),
-        creditScore: Math.floor(Math.random() * 100 + 650),
-      };
-      setApprovedLoans(prev => [...prev, approvedEntry]);
-    }
-
-  } catch (error) {
-    console.error("Error processing loan:", error);
-  }
-};
-
-
-  const parseDate = (str) => {
-    const [day, month, time] = str.split(' ');
-    const months = {
-      JAN: 0, FEB: 1, MAR: 2, APR: 3, MAY: 4, JUN: 5,
-      JUL: 6, AUG: 7, SEP: 8, OCT: 9, NOV: 10, DEC: 11
-    };
-    const [hour, minute] = time.split(':');
-    return new Date(2024, months[month], parseInt(day), hour, minute);
   };
 
   const sortedLoans = [...approvedLoans].sort((a, b) => {
     let aVal = a[sortKey];
     let bVal = b[sortKey];
 
-    if (sortKey === 'date') {
-      aVal = parseDate(aVal);
-      bVal = parseDate(bVal);
+    if (sortKey === 'date' || sortKey === 'applicationDate') {
+      aVal = new Date(aVal);
+      bVal = new Date(bVal);
     }
 
     if (typeof aVal === 'string') {
@@ -111,18 +93,16 @@ const LoanApprovalTables = () => {
               {loanApplications.map((applicant, idx) => (
                 <tr className="unread" key={idx}>
                   <td>
-                    <img className="rounded-circle" style={{ width: '40px' }} src={applicant.avatar} alt="applicant" />
-                    {' '}{applicant.name}
+                    <img className="rounded-circle" style={{ width: '40px' }} src={applicant.avatar ?? avatar1} alt="applicant" />
+                    {' '}{applicant.name ?? 'Client'}
                   </td>
-                  <td>{applicant.loanType}</td>
-                  <td>${applicant.amount.toLocaleString()}</td>
-                  <td>{applicant.term}</td>
+                  <td>{applicant.reason ?? '—'}</td>
+                  <td>${(applicant.loanAmount ?? 0).toLocaleString()}</td>
+                  <td>{applicant.durationMonths ? `${applicant.durationMonths} months` : '—'}</td>
                   <td>
-                    <span className={`badge badge-${applicant.status === 'Approved' ? 'success' : applicant.status === 'Rejected' ? 'danger' : 'warning'}`}>
-                      {applicant.status}
-                    </span>
+                    <span className="badge badge-warning">Pending</span>
                   </td>
-                  <td>{applicant.date}</td>
+                  <td>{applicant.applicationDate ? new Date(applicant.applicationDate).toLocaleDateString() : '—'}</td>
                   <td>
                     <Link to="#" onClick={() => handleDecision(idx, 'Rejected')} className="label theme-bg2 text-white f-12 mr-2">Reject</Link>
                     <Link to="#" onClick={() => handleDecision(idx, 'Approved')} className="label theme-bg text-white f-12">Approve</Link>
@@ -147,9 +127,8 @@ const LoanApprovalTables = () => {
                   onChange={(e) => setSortKey(e.target.value)}
                 >
                   <option value="name">Applicant Name</option>
-                  <option value="amount">Amount</option>
-                  <option value="creditScore">Credit Score</option>
-                  <option value="date">Approved Date</option>
+                  <option value="loanAmount">Amount</option>
+                  <option value="applicationDate">Approved Date</option>
                 </Form.Control>
               </Form.Group>
             </Col>
@@ -178,33 +157,27 @@ const LoanApprovalTables = () => {
                 <th>Term</th>
                 <th>Status</th>
                 <th>Approved Date</th>
-                <th>Officer</th>
-                <th>Income</th>
-                <th>Credit Score</th>
               </tr>
             </thead>
             <tbody>
               {sortedLoans.map((loan, idx) => (
                 <tr className="unread" key={idx}>
                   <td>
-                    <img className="rounded-circle" style={{ width: '40px' }} src={loan.avatar} alt="loan-user" />
-                    {' '}{loan.name}
+                    <img className="rounded-circle" style={{ width: '40px' }} src={loan.avatar ?? avatar1} alt="loan-user" />
+                    {' '}{loan.name ?? 'Client'}
                   </td>
-                  <td>{loan.loanType}</td>
-                  <td>${loan.amount.toLocaleString()}</td>
-                  <td>{loan.term}</td>
+                  <td>{loan.reason ?? '—'}</td>
+                  <td>${(loan.loanAmount ?? 0).toLocaleString()}</td>
+                  <td>{loan.durationMonths ? `${loan.durationMonths} months` : '—'}</td>
                   <td>
                     <FaCheckCircle className="text-success" /> <span className="text-success">Approved</span>
                   </td>
-                  <td>{loan.date}</td>
-                  <td>{loan.officer}</td>
-                  <td>${loan.income.toLocaleString()}</td>
-                  <td>{loan.creditScore}</td>
+                  <td>{loan.applicationDate ? new Date(loan.applicationDate).toLocaleDateString() : '—'}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
-        </Card.Body>  
+        </Card.Body>
       </Card>
     </Col>
   );

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +36,15 @@ namespace Backend.Controllers
         {
             return await _context.Loans
                 .Where(l => l.ApproveStatus == false)
+                .ToListAsync();
+        }
+
+        // GET: api/loans/approved
+        [HttpGet("approved")]
+        public async Task<ActionResult<IEnumerable<Loans>>> GetApprovedLoans()
+        {
+            return await _context.Loans
+                .Where(l => l.ApproveStatus == true)
                 .ToListAsync();
         }
 

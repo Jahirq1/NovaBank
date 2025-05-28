@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Data;
-using Backend.Models;
 
 namespace Backend.Controllers
 {
@@ -22,7 +21,7 @@ namespace Backend.Controllers
         {
             var totalBalance = await _context.Users.SumAsync(u => u.Balance);
             var totalUsers = await _context.Users.CountAsync();
-            var totalOfficers = await _context.Users.CountAsync(u => u.role == "officer");
+            var totalOfficers = await _context.Users.CountAsync(u => u.role.ToLower() == "officer");
 
             return Ok(new
             {
@@ -32,39 +31,21 @@ namespace Backend.Controllers
             });
         }
 
-        // GET: api/dashboard/transactions
-        [HttpGet("transactions")]
-        public async Task<IActionResult> GetDailyTransactions()
+        [HttpGet("user-registrations/monthly")]
+        public async Task<IActionResult> GetMonthlyUserRegistrations()
         {
-            var result = await _context.Transactions
-                .GroupBy(t => t.TransactionDate)
+            var registrations = await _context.Users
+                .Where(u => u.createdDate != null)
+                .GroupBy(u => new { u.createdDate.Value.Year, u.createdDate.Value.Month })
+                .OrderBy(g => g.Key.Year).ThenBy(g => g.Key.Month)
                 .Select(g => new
                 {
-                    TransactionDate = g.Key,
-                    deposit = g.Where(t => t.TransactionType == "deposit").Sum(t => t.Amount),
-                    withdrawal = g.Where(t => t.TransactionType == "withdrawal").Sum(t => t.Amount)
+                    month = $"{g.Key.Year}-{g.Key.Month:D2}", // format: "2025-05"
+                    count = g.Count()
                 })
                 .ToListAsync();
 
-            return Ok(result);
-        }
-
-        // GET: api/dashboard/loans
-        [HttpGet("loans")]
-        public async Task<IActionResult> GetLoanData()
-        {
-            var result = await _context.KlientLoans
-                .Include(kl => kl.Klient)
-                .Include(kl => kl.Loan)
-                .GroupBy(kl => kl.Klient.name)
-                .Select(g => new
-                {
-                    customer = g.Key,
-                    loanGiven = g.Sum(kl => kl.Loan.LoanAmount)
-                })
-                .ToListAsync();
-
-            return Ok(result);
+            return Ok(registrations);
         }
     }
 }

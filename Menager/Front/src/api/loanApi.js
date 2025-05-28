@@ -11,6 +11,12 @@ export const approveLoan = async (id) => {
   if (!res.ok) throw new Error("Failed to approve loan");
 };
 
+export const getApprovedLoans = async () => {
+  const res = await fetch(`${API_BASE}/approved`);
+  if (!res.ok) throw new Error("Failed to fetch approved loans");
+  return res.json();
+};
+
 export const rejectLoan = async (id) => {
   const res = await fetch(`${API_BASE}/${id}/reject`, { method: "PUT" });
   if (!res.ok) throw new Error("Failed to reject loan");
