@@ -3,16 +3,60 @@
   "WorkspaceRootPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\models\\userprofileupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\models\\userprofileupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\models\\transactiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\models\\transactiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\models\\transaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\models\\transferrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\models\\transferrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\migrations\\20250528003155_addnotecolumntotransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\migrations\\20250528003155_addnotecolumntotransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\migrations\\20250528000527_addnotetotransactionv2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\migrations\\20250528000527_addnotetotransactionv2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\migrations\\20250527233627_removenotefromtransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\migrations\\20250527233627_removenotefromtransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\migrations\\20250526110426_initial create.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\migrations\\20250526110426_initial create.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\migrations\\20250527230154_addnotetotransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\migrations\\20250527230154_addnotetotransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\controllers\\klientloanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\controllers\\klientloanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\controllers\\sessionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,8 +67,12 @@
       "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\controllers\\authcontroller .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\controllers\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\models\\novabankdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\models\\novabankdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbacknova\\nova-api\\nova-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{CF9189D1-046F-4BD7-88D3-A6094A606A0C}|NOVA-API\\NOVA-API.csproj|solutionrelative:nova-api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,63 +82,62 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "UserProfileUpdateDto.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\UserProfileUpdateDto.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Models\\UserProfileUpdateDto.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\UserProfileUpdateDto.cs",
+              "RelativeToolTip": "NOVA-API\\Models\\UserProfileUpdateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T13:05:35.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\User.cs",
               "RelativeDocumentMoniker": "NOVA-API\\Models\\User.cs",
               "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\User.cs",
               "RelativeToolTip": "NOVA-API\\Models\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAUwDAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T14:58:12.622Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SessionService.cs",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\SessionService.cs",
-              "RelativeDocumentMoniker": "NOVA-API\\Controllers\\SessionService.cs",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\SessionService.cs",
-              "RelativeToolTip": "NOVA-API\\Controllers\\SessionService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T14:55:28.987Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "UsersController.cs",
               "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "NOVA-API\\Controllers\\UsersController.cs",
               "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\UsersController.cs",
               "RelativeToolTip": "NOVA-API\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAowGMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAowGgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-26T14:38:38.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Transaction.cs",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\Transaction.cs",
-              "RelativeDocumentMoniker": "NOVA-API\\Models\\Transaction.cs",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\Transaction.cs",
-              "RelativeToolTip": "NOVA-API\\Models\\Transaction.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAANAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "20250527233627_RemoveNoteFromTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250527233627_RemoveNoteFromTransaction.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Migrations\\20250527233627_RemoveNoteFromTransaction.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250527233627_RemoveNoteFromTransaction.cs",
+              "RelativeToolTip": "NOVA-API\\Migrations\\20250527233627_RemoveNoteFromTransaction.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwBIAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T14:16:52.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-27T23:36:27.765Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "TransactionsController.cs",
               "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\TransactionsController.cs",
               "RelativeDocumentMoniker": "NOVA-API\\Controllers\\TransactionsController.cs",
@@ -104,6 +151,129 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "TransactionDto.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\TransactionDto.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Models\\TransactionDto.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\TransactionDto.cs",
+              "RelativeToolTip": "NOVA-API\\Models\\TransactionDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T00:00:26.245Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TransferRequest.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\TransferRequest.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Models\\TransferRequest.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\TransferRequest.cs",
+              "RelativeToolTip": "NOVA-API\\Models\\TransferRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:30:00.772Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Transaction.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\Transaction.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Models\\Transaction.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\Transaction.cs",
+              "RelativeToolTip": "NOVA-API\\Models\\Transaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T14:16:52.977Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "20250528003155_AddNoteColumnToTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250528003155_AddNoteColumnToTransaction.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Migrations\\20250528003155_AddNoteColumnToTransaction.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250528003155_AddNoteColumnToTransaction.cs",
+              "RelativeToolTip": "NOVA-API\\Migrations\\20250528003155_AddNoteColumnToTransaction.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBgAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T00:31:56.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20250528000527_AddNoteToTransactionV2.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250528000527_AddNoteToTransactionV2.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Migrations\\20250528000527_AddNoteToTransactionV2.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250528000527_AddNoteToTransactionV2.cs",
+              "RelativeToolTip": "NOVA-API\\Migrations\\20250528000527_AddNoteToTransactionV2.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T00:05:28.109Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "20250526110426_initial create.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250526110426_initial create.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Migrations\\20250526110426_initial create.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250526110426_initial create.cs",
+              "RelativeToolTip": "NOVA-API\\Migrations\\20250526110426_initial create.cs",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T23:31:00.271Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "20250527230154_AddNoteToTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250527230154_AddNoteToTransaction.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Migrations\\20250527230154_AddNoteToTransaction.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Migrations\\20250527230154_AddNoteToTransaction.cs",
+              "RelativeToolTip": "NOVA-API\\Migrations\\20250527230154_AddNoteToTransaction.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T23:01:55.074Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Program.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Program.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Program.cs",
+              "RelativeToolTip": "NOVA-API\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:07:07.978Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "KlientLoansController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\KlientLoansController.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Controllers\\KlientLoansController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\KlientLoansController.cs",
+              "RelativeToolTip": "NOVA-API\\Controllers\\KlientLoansController.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T19:06:19.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SessionService.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\SessionService.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Controllers\\SessionService.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\SessionService.cs",
+              "RelativeToolTip": "NOVA-API\\Controllers\\SessionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T14:55:28.987Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "AuthController .cs",
               "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Controllers\\AuthController .cs",
               "RelativeDocumentMoniker": "NOVA-API\\Controllers\\AuthController .cs",
@@ -111,8 +281,31 @@
               "RelativeToolTip": "NOVA-API\\Controllers\\AuthController .cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-26T14:05:45.665Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-26T14:05:45.665Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "NovaBankDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\NovaBankDbContext.cs",
+              "RelativeDocumentMoniker": "NOVA-API\\Models\\NovaBankDbContext.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\Models\\NovaBankDbContext.cs",
+              "RelativeToolTip": "NOVA-API\\Models\\NovaBankDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T16:58:12.274Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\appsettings.json",
+              "RelativeDocumentMoniker": "NOVA-API\\appsettings.json",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedbackNova\\NOVA-API\\NOVA-API\\appsettings.json",
+              "RelativeToolTip": "NOVA-API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-26T17:17:59.748Z"
             }
           ]
         }

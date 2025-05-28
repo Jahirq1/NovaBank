@@ -17,7 +17,7 @@ namespace NOVA_API.Models
         [Required]
         public string? email { get; set; }
 
-        [Required]
+       
         public string? password { get; set; }
 
         [Required]

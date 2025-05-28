@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NOVA_API.Models;
 
@@ -11,9 +12,11 @@ using NOVA_API.Models;
 namespace NOVA_API.Migrations
 {
     [DbContext(typeof(NovaBankDbContext))]
-    partial class NovaBankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250527230154_AddNoteToTransaction")]
+    partial class AddNoteToTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

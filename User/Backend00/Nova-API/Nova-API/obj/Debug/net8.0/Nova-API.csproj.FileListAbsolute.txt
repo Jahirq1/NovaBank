@@ -3,6 +3,7 @@ C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.AssemblyInfoInputs.cache
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.AssemblyInfo.cs
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.csproj.CoreCompileInputs.cache
+C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\bin\Debug\net8.0\appsettings.json
@@ -152,7 +153,6 @@ C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\bin\Debug\net8.0\
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\scopedcss\bundle\NOVA-API.styles.css
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\staticwebassets.development.json
@@ -163,10 +163,10 @@ C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.NOVA-API.props
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.NOVA-API.props
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.csproj.Up2Date
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.dll
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\refint\NOVA-API.dll
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.pdb
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\NOVA-API.genruntimeconfig.cache
 C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\ref\NOVA-API.dll
-C:\Users\lendr\OneDrive\Desktop\FeedbackNova\NOVA-API\NOVA-API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

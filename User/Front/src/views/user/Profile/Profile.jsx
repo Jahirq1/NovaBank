@@ -1,208 +1,115 @@
-import React, { useState } from 'react';
-import { Card, Form, Button, Row, Col, InputGroup, Image } from 'react-bootstrap';
-import { FiUser, FiMail, FiPhone, FiMapPin, FiLock, FiEdit, FiSave } from 'react-icons/fi';
+import React, { useEffect, useState } from 'react';
+import { Card, Button, Form, Row, Col } from 'react-bootstrap';
+
+const API_PROFILE = "https://localhost:5001/api/Users/profile";
+
+export const getUserId = () => localStorage.getItem("userId");
+
+export const getProfile = async (id) => {
+  const res = await fetch(`${API_PROFILE}/${id}`);
+  if (!res.ok) throw new Error("Failed to fetch profile");
+  return res.json();
+};
+
+export const updateProfile = async (id, data) => {
+  const formData = new FormData();
+  for (const key in data) {
+    if (data[key] !== undefined && data[key] !== null) {
+      formData.append(key, data[key]);
+    }
+  }
+
+  const res = await fetch(`${API_PROFILE}/${id}`, {
+  method: 'PUT',
+  body: formData           // ⇠ multipart/form-data
+});
+
+  if (!res.ok) throw new Error("Failed to update profile");
+  return res.json();
+};
 
 const Profile = () => {
-  const [userData, setUserData] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+355 68 123 4567',
-    address: 'Rr. Myslym Shyri, Tirana, Albania',
-    bio: 'Financial analyst with 5 years of experience',
-    password: '********'
-  });
+  const userId = parseInt(getUserId());
+  const [profile, setProfile] = useState(null);
+  const [editMode, setEditMode] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  const [editMode, setEditMode] = useState(false);
-  const [profileImage, setProfileImage] = useState('https://via.placeholder.com/150');
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const data = await getProfile(userId);
+        if (!data.id) data.id = userId;
+        setProfile(data);
+        setEditMode(
+          Object.fromEntries(Object.keys(data).map((key) => [key, false]))
+        );
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch profile:", error);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData(prev => ({ ...prev, [name]: value }));
+    setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+  const toggleEdit = async (field) => {
+    if (editMode[field]) {
+      try {
+        await updateProfile(userId, { ...profile, id: userId });
+        console.log('Profile updated');
+      } catch (err) {
+        console.error('Update failed:', err);
+      }
     }
+    setEditMode((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setEditMode(false);
-    console.log('Profile updated:', userData);
-  };
+  if (loading || !profile) return <p>Loading profile...</p>;
+
+  const fieldsToShow = ['name', 'email', 'phone', 'address', 'city', 'dateOfBirth'];
 
   return (
-    <div className="profile-page">
-      <h2 className="page-title"><FiUser /> Profili Im</h2>
-
-      {/* Profile Header */}
-      <Card className="mb-4">
-        <Card.Body className="text-center">
-          <div className="position-relative d-inline-block">
-            <Image 
-              src={profileImage} 
-              roundedCircle 
-              width={150}
-              height={150}
-              className="border border-3 border-primary"
-              alt="Profile"
-            />
-            {editMode && (
-              <div className="position-absolute bottom-0 end-0">
-                <label htmlFor="profileImageUpload" className="btn btn-primary btn-sm rounded-circle">
-                  <FiEdit />
-                  <input 
-                    type="file" 
-                    id="profileImageUpload" 
-                    className="d-none" 
-                    onChange={handleImageChange}
-                    accept="image/*"
-                  />
-                </label>
-              </div>
-            )}
-          </div>
-          <h3 className="mt-3">{userData.name}</h3>
-          <p className="text-muted">{userData.bio}</p>
-          <Button 
-            variant={editMode ? 'success' : 'primary'} 
-            onClick={editMode ? handleSubmit : () => setEditMode(true)}
-          >
-            {editMode ? <><FiSave /> Ruaj Ndryshimet</> : <><FiEdit /> Ndrysho Profilin</>}
-          </Button>
-        </Card.Body>
-      </Card>
-
-      {/* Personal Information */}
-      <Card className="mb-4">
-        <Card.Body>
-          <Card.Title>Informacion Personal</Card.Title>
-          <Form onSubmit={handleSubmit}>
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label><FiUser /> Emri i Plotë</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    value={userData.name}
-                    onChange={handleChange}
-                    disabled={!editMode}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label><FiMail /> Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    value={userData.email}
-                    onChange={handleChange}
-                    disabled={!editMode}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label><FiPhone /> Telefoni</Form.Label>
-                  <Form.Control
-                    type="tel"
-                    name="phone"
-                    value={userData.phone}
-                    onChange={handleChange}
-                    disabled={!editMode}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label><FiMapPin /> Adresa</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="address"
-                    value={userData.address}
-                    onChange={handleChange}
-                    disabled={!editMode}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Bio</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="bio"
-                value={userData.bio}
-                onChange={handleChange}
-                disabled={!editMode}
-              />
-            </Form.Group>
-          </Form>
-        </Card.Body>
-      </Card>
-
-      {/* Security Settings */}
-      <Card className="mb-4">
-        <Card.Body>
-          <Card.Title>Siguria</Card.Title>
+    <Row className="justify-content-center mt-4">
+      <Col md={8}>
+        <Card className="shadow p-4 rounded-4">
+          <Card.Title className="mb-4 text-center fs-3">Manager Profile</Card.Title>
           <Form>
-            <Form.Group className="mb-3">
-              <Form.Label><FiLock /> Fjalëkalimi Aktual</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  type="password"
-                  value={userData.password}
-                  disabled
-                />
-                {editMode && (
-                  <Button variant="outline-secondary">
-                    Ndrysho Fjalëkalimin
+            {fieldsToShow.map((field) => (
+              <Form.Group as={Row} className="mb-3" key={field}>
+                <Form.Label column sm={3} className="text-capitalize">
+                  {field.replace(/([A-Z])/g, ' $1')}
+                </Form.Label>
+                <Col sm={7}>
+                  <Form.Control
+                    type={field === 'dateOfBirth' ? 'date' : 'text'}
+                    name={field}
+                    value={profile[field] || ''}
+                    onChange={handleChange}
+                    readOnly={!editMode[field]}
+                    className={editMode[field] ? '' : 'bg-light'}
+                  />
+                </Col>
+                <Col sm={2}>
+                  <Button
+                    variant={editMode[field] ? 'success' : 'secondary'}
+                    onClick={() => toggleEdit(field)}
+                    size="sm"
+                  >
+                    {editMode[field] ? 'Save' : 'Edit'}
                   </Button>
-                )}
-              </InputGroup>
-            </Form.Group>
-
-            {editMode && (
-              <>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Fjalëkalimi i Ri</Form.Label>
-                      <Form.Control
-                        type="password"
-                        placeholder="Fjalëkalimi i ri"
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Konfirmo Fjalëkalimin</Form.Label>
-                      <Form.Control
-                        type="password"
-                        placeholder="Konfirmo fjalëkalimin"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-              </>
-            )}
+                </Col>
+              </Form.Group>
+            ))}
           </Form>
-        </Card.Body>
-      </Card>
-    </div>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
 export default Profile;
+
