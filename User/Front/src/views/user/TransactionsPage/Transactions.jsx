@@ -60,21 +60,6 @@ function TransactionsPage() {
     XLSX.writeFile(wb, 'transaksionet.xlsx');
   };
 
-  const exportToPDF = () => {
-    const doc = new jsPDF();
-    doc.text('Lista e Transaksioneve', 14, 16);
-    doc.autoTable({
-      head: [['Data', 'Përshkrimi', 'Shuma (ALL)', 'Llogaria']],
-      body: filteredTransactions.map(t => [
-        new Date(t.date).toLocaleDateString(),
-        t.description,
-        Math.abs(t.amount).toFixed(2),
-        t.account
-      ]),
-      startY: 20,
-    });
-    doc.save('transaksionet.pdf');
-  };
 
   const fetchTransactions = async () => {
   try {
@@ -152,7 +137,6 @@ function TransactionsPage() {
         <Button variant="primary" onClick={() => setShowSendModal(true)}><FiSend /> Dërgo Para</Button>
         <div>
           <Button variant="outline-secondary" onClick={exportToExcel} className="me-2"><FiDownload /> Excel</Button>
-          <Button variant="outline-secondary" onClick={exportToPDF}><FiDownload /> PDF</Button>
         </div>
       </div>
 

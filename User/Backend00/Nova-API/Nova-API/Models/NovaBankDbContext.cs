@@ -65,6 +65,9 @@ namespace NOVA_API.Models
                 .WithMany(l => l.KlientLoans)
                 .HasForeignKey(kl => kl.LoanId)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<User>()
+               .Property(u => u.SpendingLimit)
+               .HasDefaultValue(5000m);
 
         }
     }

@@ -1,46 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Row, Col, ProgressBar, Table } from 'react-bootstrap';
-import { FiDollarSign, FiPieChart, FiBarChart2 } from 'react-icons/fi';
-import axios from 'axios';
-import '../../../assets/scss/dashboard.scss';
+import React, { useEffect, useState } from "react";
+import { Card, Row, Col, Badge, Table } from "react-bootstrap";
+import {
+  FiDollarSign,
+  FiPieChart,
+  FiBarChart2,
+} from "react-icons/fi";
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import axios from "axios";
+import "../../../assets/scss/dashboard.scss";
 
-/* helper për userId-në e ruajtur në localStorage */
-const getUserId = () => Number(localStorage.getItem('userId') ?? 0);
+/* helper */
+const getUserId = () => Number(localStorage.getItem("userId") ?? 0);
 
-const BalancePage = () => {
-  /* ───────────── state ───────────── */
+export default function BalancePage() {
   const [totalBalance, setTotalBalance] = useState(0);
-  const [expenses,     setExpenses]     = useState([]);   // aggre­guar në backend
-  const [limit,        setLimit]        = useState(5000); // shembull - merre nga API nëse ke
+  const [expenses, setExpenses]       = useState([]);  // [{month, ushqim, blerje, fatura}]
+  const [limit,    setLimit]          = useState(5000);   // default 5 000 €
+  const [spent,    setSpent]          = useState(0);
 
-  /* ───────────── efekt: lexon të dhënat ───────────── */
+  /* ───────── leximi i të dhënave ───────── */
   useEffect(() => {
     const id = getUserId();
     if (!id) return;
 
-    /* 1️⃣ balanca totale */
-    axios.get(`https://localhost:5001/api/Users/balance/${id}`)
-         .then(r => setTotalBalance(Number(r.data)))
-         .catch(err => console.error('Balanca:', err));
+    /* 1️⃣ balanca */
+    axios
+      .get(`https://localhost:5001/api/Users/balance/${id}`)
+      .then(r => setTotalBalance(Number(r.data)))
+      .catch(err => console.error("Balanca:", err));
 
-    /* 2️⃣ shpenzimet e fundit (backend kthen array me muaj + kategori) */
-    axios.get(`https://localhost:5001/api/Transactions/last-expenses/${id}`)
-         .then(r => setExpenses(r.data))    // pritet [{month:'Jan', ushqim:400, blerje:240, fatura:100}, …]
-         .catch(err => console.error('Shpenzimet:', err));
+    /* 2️⃣ shpenzimet e muajit */
+    axios
+  .get(`https://localhost:5001/api/Transactions/monthly-expense/${id}`)
+  .then(r => setSpent(Number(r.data)))
+  .catch(err => console.error("Shpenzimet:", err));
 
-    /* 3️⃣ kufiri mujor (opsionale) */
-    axios.get(`https://localhost:5001/api/Users/spending-limit/${id}`)
-         .then(r => setLimit(Number(r.data)))
-         .catch(() => {/* nëse s’ka endpoint, leje default */});
+    /* 3️⃣ kufiri mujor (nëse ke endpoint-in) */
+    axios
+      .get(`https://localhost:5001/api/Users/spending-limit/${id}`)
+      .then(r => setLimit(Number(r.data)))   // p.sh. 5000
+      .catch(() => {/* le default */});
   }, []);
 
-  /* llogarit të shpenzuarën & përqindjen */
-  const spent =
-    expenses.reduce((s, m) =>
-      s + (m.ushqim ?? 0) + (m.blerje ?? 0) + (m.fatura ?? 0), 0);
-  const percent = limit ? Math.min(100, (spent / limit) * 100) : 0;
+  /* llogarisim totalin e shpenzuar sapo vjen lista */
+  useEffect(() => {
+    const total = expenses.reduce(
+      (s, m) => s + m.ushqim + m.blerje + m.fatura,
+      0
+    );
+    setSpent(total);
+  }, [expenses]);
 
-  /* ───────────── UI ───────────── */
+  /* përqindja ndaj kufirit */
+  const percent    = limit ? Math.min(100, (spent / limit) * 100) : 0;
+  const gaugeColor =
+    percent < 50 ? "#1eac52" : percent < 80 ? "#f0b518" : "#dc3545";
+
+  /* ───────── UI ───────── */
   return (
     <div className="balance-page">
       <h2 className="page-title">
@@ -57,59 +77,63 @@ const BalancePage = () => {
         </Card.Body>
       </Card>
 
-      {/* Shpenzimet e Fundit – tabelë e thjeshtë */}
-      <h4 className="section-title mt-4">
-        <FiBarChart2 /> Shpenzimet e Fundit
-      </h4>
-      <Card className="mb-4">
-        <Card.Body>
-          {expenses.length === 0 ? (
-            <p>Nuk ka të dhëna.</p>
-          ) : (
-            <Table bordered responsive>
-              <thead>
-                <tr>
-                  <th>Muaji</th>
-                  <th>Ushqim (€)</th>
-                  <th>Blerje (€)</th>
-                  <th>Fatura (€)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {expenses.map((m, i) => (
-                  <tr key={i}>
-                    <td>{m.month}</td>
-                    <td>{(m.ushqim  ?? 0).toFixed(2)}</td>
-                    <td>{(m.blerje  ?? 0).toFixed(2)}</td>
-                    <td>{(m.fatura  ?? 0).toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          )}
-        </Card.Body>
-      </Card>
-
       {/* Kufiri i Shpenzimeve */}
       <h4 className="section-title">
         <FiPieChart /> Kufiri i Shpenzimeve
       </h4>
-      <Card>
+      <Card className="mb-4">
         <Card.Body>
-          <div className="d-flex justify-content-between mb-2">
-            <span>Shpenzuar: {spent.toFixed(2)} €</span>
-            <span>Kufiri: {limit.toFixed(2)} €</span>
-          </div>
+          <Row className="align-items-center">
+            {/* Gauge */}
+            <Col md={4} className="text-center mb-3 mb-md-0">
+              <div style={{ width: 180, margin: "0 auto" }}>
+                <CircularProgressbarWithChildren
+                  value={percent}
+                  strokeWidth={12}
+                  styles={buildStyles({
+                    pathColor: gaugeColor,
+                    trailColor: "#e9ecef",
+                  })}
+                >
+                  <div style={{ fontSize: 22 }}>
+                    <strong>{percent.toFixed(0)}%</strong>
+                  </div>
+                </CircularProgressbarWithChildren>
+              </div>
+              {percent >= 100 && (
+                <Badge bg="danger" className="mt-2">
+                  Tejkaluar
+                </Badge>
+              )}
+            </Col>
 
-          <ProgressBar
-            now={percent}
-            label={`${percent.toFixed(0)}%`}
-            variant={percent > 80 ? 'danger' : 'primary'}
-          />
+            {/* Detaje */}
+            <Col md={8}>
+              <p className="mb-1">
+                Shpenzuar këtë dite:&nbsp;
+                <strong>{spent.toFixed(2)} €</strong>
+              </p>
+              <p className="mb-3">
+                Kufiri Ditor:&nbsp;
+                <strong>{limit.toFixed(2)} €</strong>
+              </p>
+              {percent >= 100 ? (
+                <p className="text-danger">
+                  Kufiri u tejkalua — transferet bllokohen për 24 h
+             
+                </p>
+              ) : (
+                <p className="text-muted">
+                  Mund të shpenzosh edhe&nbsp;
+                  <strong>{(limit - spent).toFixed(2)} €</strong>.
+                </p>
+              )}
+            </Col>
+          </Row>
         </Card.Body>
       </Card>
+
+    
     </div>
   );
-};
-
-export default BalancePage;
+}

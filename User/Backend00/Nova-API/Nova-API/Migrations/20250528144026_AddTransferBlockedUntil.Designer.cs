@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NOVA_API.Models;
 
@@ -11,9 +12,11 @@ using NOVA_API.Models;
 namespace NOVA_API.Migrations
 {
     [DbContext(typeof(NovaBankDbContext))]
-    partial class NovaBankDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250528144026_AddTransferBlockedUntil")]
+    partial class AddTransferBlockedUntil
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,10 +145,8 @@ namespace NOVA_API.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("SpendingLimit")
-                        .ValueGeneratedOnAdd()
                         .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)")
-                        .HasDefaultValue(5000m);
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("TransferBlockedUntil")
                         .HasColumnType("datetime2");

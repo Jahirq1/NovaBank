@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NOVA_API.Models;
-
-
 
 namespace NOVA_API.Controllers
 {
@@ -24,16 +23,12 @@ namespace NOVA_API.Controllers
             _sessionService = sessionService;
         }
 
-
-   
-        // GET: api/Transactions
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions()
         {
             return await _context.Transactions.ToListAsync();
         }
 
-        // GET: api/Transactions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Transaction>> GetTransaction(int id)
         {
@@ -44,7 +39,6 @@ namespace NOVA_API.Controllers
             return transaction;
         }
 
-        // PUT: api/Transactions/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTransaction(int id, Transaction transaction)
         {
@@ -68,7 +62,6 @@ namespace NOVA_API.Controllers
             return NoContent();
         }
 
-        // POST: api/Transactions
         [HttpPost]
         public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
         {
@@ -78,7 +71,6 @@ namespace NOVA_API.Controllers
             return CreatedAtAction("GetTransaction", new { id = transaction.TransactionId }, transaction);
         }
 
-        // DELETE: api/Transactions/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
@@ -92,7 +84,6 @@ namespace NOVA_API.Controllers
             return NoContent();
         }
 
-        // GET: api/Transactions/user/4
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetUserTransactions(int userId)
         {
@@ -111,59 +102,120 @@ namespace NOVA_API.Controllers
                 Note = t.Note,
                 SenderName = t.Sender.name + " " + t.Sender.name,
                 ReceiverName = t.Receiver.name + " " + t.Receiver.name,
-                SenderPersonalId = t.Sender.PersonalID, // ➕
-                ReceiverPersonalId = t.Receiver.PersonalID // ➕
+                SenderPersonalId = t.Sender.PersonalID,
+                ReceiverPersonalId = t.Receiver.PersonalID
             });
             return Ok(result);
         }
 
-
         [HttpPost("transfer")]
-        public async Task<IActionResult> Transfer([FromBody] TransferRequest request)
+        public async Task<IActionResult> Transfer([FromBody] TransferRequest req)
         {
-            // Merr id e dërguesit nga sesioni
+            if (req.Amount <= 0)
+                return BadRequest("Shuma duhet të jetë më e madhe se 0 €.");
 
+            if (req.Amount > 5000)
+                return BadRequest("Shuma nuk mund të jetë më e madhe se 5000 €.");
 
-            if (request.Amount <= 0)
-                return BadRequest(new { message = "Shuma duhet të jetë më e madhe se zero." });
+            var sender = await _context.Users.FindAsync(req.SenderId);
+            if (sender is null)
+                return NotFound("Dërguesi nuk u gjet.");
 
-            // Merr userin dërgues
-            var sender = await _context.Users.FirstOrDefaultAsync(u => u.id == request.SenderId);
-            if (sender == null)
-                return NotFound(new { message = "Dërguesi nuk u gjet." });
+            var receiver = await _context.Users
+                .FirstOrDefaultAsync(u => u.PersonalID == req.RecipientPersonalID);
+            if (receiver is null)
+                return NotFound("Përfituesi nuk u gjet.");
 
+            if (sender.role == "user")
+            {
+                var now = DateTime.UtcNow;
 
-            // Merr userin marrës sipas PersonalID
-            var receiver = await _context.Users.FirstOrDefaultAsync(u => u.PersonalID == request.RecipientPersonalID);
-            if (receiver == null)
-                return NotFound(new { message = "Përfituesi nuk u gjet." });
+                // Bllokimi në fuqi?
+                if (sender.TransferBlockedUntil is not null && sender.TransferBlockedUntil > now)
+                {
+                    return BadRequest(new
+                    {
+                        message = $"Transfers are blocked until {sender.TransferBlockedUntil:yyyy-MM-dd HH:mm} UTC"
+                    });
+                }
 
-            if (sender.Balance < request.Amount)
-                return BadRequest(new { message = "Saldoja nuk mjafton për këtë transfer." });
+                // Nëse bllokimi ka përfunduar => reset shpenzimet
+                DateTime limitStart = sender.TransferBlockedUntil is not null && sender.TransferBlockedUntil <= now
+                    ? now
+                    : new DateTime(now.Year, now.Month, 1);
 
-            // Gjenero transaksionin dhe përditëso bilancet
-            sender.Balance -= request.Amount;
-            receiver.Balance += request.Amount;
+                // Shuma e shpenzuar prej reset-it
+                var spent = await _context.Transactions
+                    .Where(t => t.SenderId == sender.id &&
+                                t.TransactionType == "Transfer" &&
+                                t.TransactionDate >= limitStart)
+                    .SumAsync(t => t.Amount);
 
-            var transaction = new Transaction
+                if (sender.SpendingLimit is not null && spent + req.Amount > sender.SpendingLimit)
+                {
+                    sender.TransferBlockedUntil = now.AddHours(24); // ose .AddHours(24)
+                    await _context.SaveChangesAsync();
+
+                    return BadRequest(new
+                    {
+                        message = $"Spending limit exceeded ({spent + req.Amount} € > {sender.SpendingLimit} €). Transfers blocked temporarily."
+                    });
+                }
+            }
+
+            if (sender.Balance < req.Amount)
+                return BadRequest("Saldoja e dërguesit nuk mjafton.");
+
+            sender.Balance -= req.Amount;
+            receiver.Balance += req.Amount;
+
+            var tx = new Transaction
             {
                 TransactionType = "Transfer",
-                Amount = request.Amount,
+                Amount = req.Amount,
                 TransactionDate = DateTime.UtcNow,
                 SenderId = sender.id,
                 ReceiverId = receiver.id,
-                Note = request.Note
+                Note = req.Note
             };
 
-            _context.Transactions.Add(transaction);
-
-
-            // Ruaj ndryshimet në DB
+            _context.Transactions.Add(tx);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Transferimi u krye me sukses." });
-
+            return Ok(new
+            {
+                message = "Transferi u krye me sukses.",
+                newBalance = sender.Balance,
+                transactionId = tx.TransactionId
+            });
         }
+
+
+      [HttpGet("monthly-expense/{userId}")]
+public async Task<ActionResult<decimal>> GetMonthlyExpense(int userId)
+{
+    var now = DateTime.UtcNow;
+
+    // Gjej përdoruesin
+    var user = await _context.Users.FindAsync(userId);
+    if (user == null)
+        return NotFound("Përdoruesi nuk u gjet.");
+
+    // Përcakto datën e fillimit të llogaritjes
+    DateTime fromDate = user.TransferBlockedUntil ?? new DateTime(now.Year, now.Month, 1);
+
+    // Llogarit shpenzimet nga fromDate
+    var totalExpense = await _context.Transactions
+        .Where(t => t.SenderId == userId &&
+                    t.TransactionType == "Transfer" &&
+                    t.TransactionDate >= fromDate)
+        .SumAsync(t => t.Amount);
+
+    return Ok(totalExpense);
+}
+
+
+
 
         private bool TransactionExists(int id)
         {

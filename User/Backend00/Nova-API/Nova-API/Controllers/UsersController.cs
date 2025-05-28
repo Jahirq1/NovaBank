@@ -112,5 +112,17 @@ namespace NOVA_API.Controllers
 
             return Ok(user.Balance);
         }
+
+        [HttpGet("spending-limit/{id}")]
+        public async Task<IActionResult> GetSpendingLimit(int id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user is null) return NotFound();
+
+            // për shembull ruhet në kolonën BalanceLimit;
+            // nëse s’ke fushë shto Nullable<decimal> SpendingLimit në model
+            var limit = user.SpendingLimit ?? 5000m;   // fallback
+            return Ok(limit);
+        }
     }
 }

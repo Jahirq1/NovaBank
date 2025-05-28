@@ -657,6 +657,49 @@
         }
       }
     },
+    "/api/Transactions/monthly-expense/{userId}": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Users": {
       "get": {
         "tags": [
@@ -945,6 +988,29 @@
         }
       }
     },
+    "/api/Users/spending-limit/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
@@ -1160,7 +1226,6 @@
         "required": [
           "address",
           "city",
-          "createdDate",
           "dateOfBirth",
           "email",
           "name",
@@ -1198,6 +1263,16 @@
             "type": "number",
             "format": "double"
           },
+          "SpendingLimit": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "TransferBlockedUntil": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "role": {
             "minLength": 1,
             "type": "string"
@@ -1210,13 +1285,14 @@
             "minLength": 1,
             "type": "string"
           },
-          "createdDate": {
-            "type": "string",
-            "format": "date-time"
-          },
           "city": {
             "minLength": 1,
             "type": "string"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "SentTransactions": {
             "type": "array",
