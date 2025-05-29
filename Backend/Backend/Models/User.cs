@@ -12,6 +12,7 @@ namespace Backend.Models
         public string? password { get; set; }
         [Required] public DateOnly? dateOfBirth { get; set; }
 
+
         public decimal Balance { get; set; }
 
         [Precision(18, 2)]

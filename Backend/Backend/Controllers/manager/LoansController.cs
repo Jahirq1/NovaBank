@@ -1,76 +1,122 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Backend.Models;
 using Microsoft.EntityFrameworkCore;
+using Backend.Models;
+using Backend.Pdf;
 
 namespace Backend.Controllers
 {
-    [Route("api/manager/loans/")]
+    // DTO to project only the fields your UI needs
+    public class LoanDto
+    {
+        public int LoanId { get; set; }
+        public int PersonalID { get; set; }
+        public string Name { get; set; } = "";     // client’s name
+        public string? Avatar { get; set; }        // optional user avatar URL
+        public decimal LoanAmount { get; set; }
+        public int DurationMonths { get; set; }
+        public DateTime ApplicationDate { get; set; }
+        public string Reason { get; set; } = "";
+        public bool ApproveStatus { get; set; }
+    }
+
+    [Route("api/manager/loans")]
     [ApiController]
     public class LoansController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
+        private readonly PdfGenerator _pdfGenerator;
 
-        public LoansController(NovaBankDbContext context)
+        public LoansController(NovaBankDbContext context, PdfGenerator pdfGenerator)
         {
             _context = context;
+            _pdfGenerator = pdfGenerator;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Loans>>> GetLoans()
-        {
-            return await _context.Loans.ToListAsync();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Loans>> ApplyLoan(Loans loan)
-        {
-            _context.Loans.Add(loan);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetLoans), new { id = loan.LoanId }, loan);
-        }
-
-        // GET: api/loans/pending
+        // GET: api/manager/loans/pending
         [HttpGet("pending")]
-        public async Task<ActionResult<IEnumerable<Loans>>> GetPendingLoans()
+        public async Task<ActionResult<IEnumerable<LoanDto>>> GetPendingLoans()
         {
             return await _context.Loans
-                .Where(l => l.ApproveStatus == false)
+                .Where(l => !l.ApproveStatus)
+                .Join(_context.Users,
+                      loan => loan.PersonalID,
+                      user => user.PersonalID,
+                      (loan, user) => new LoanDto
+                      {
+                          LoanId = loan.LoanId,
+                          PersonalID = loan.PersonalID,
+                          Name = user.name,
+                          Avatar = null,             // or user.avatarUrl if you have one
+                          LoanAmount = loan.LoanAmount,
+                          DurationMonths = loan.DurationMonths,
+                          ApplicationDate = loan.ApplicationDate,
+                          Reason = loan.Reason,
+                          ApproveStatus = loan.ApproveStatus
+                      })
                 .ToListAsync();
         }
 
-        // GET: api/loans/approved
+        // GET: api/manager/loans/approved
         [HttpGet("approved")]
-        public async Task<ActionResult<IEnumerable<Loans>>> GetApprovedLoans()
+        public async Task<ActionResult<IEnumerable<LoanDto>>> GetApprovedLoans()
         {
             return await _context.Loans
-                .Where(l => l.ApproveStatus == true)
+                .Where(l => l.ApproveStatus)
+                .Join(_context.Users,
+                      loan => loan.PersonalID,
+                      user => user.PersonalID,
+                      (loan, user) => new LoanDto
+                      {
+                          LoanId = loan.LoanId,
+                          PersonalID = loan.PersonalID,
+                          Name = user.name,
+                          Avatar = null,
+                          LoanAmount = loan.LoanAmount,
+                          DurationMonths = loan.DurationMonths,
+                          ApplicationDate = loan.ApplicationDate,
+                          Reason = loan.Reason,
+                          ApproveStatus = loan.ApproveStatus
+                      })
                 .ToListAsync();
         }
 
-        // PUT: api/loans/{id}/approve
+        // PUT: api/manager/loans/{id}/approve
         [HttpPut("{id}/approve")]
         public async Task<IActionResult> ApproveLoan(int id)
         {
             var loan = await _context.Loans.FindAsync(id);
-            if (loan == null)
-                return NotFound();
-
+            if (loan == null) return NotFound();
             loan.ApproveStatus = true;
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
-        // PUT: api/loans/{id}/reject
+        // PUT: api/manager/loans/{id}/reject
         [HttpPut("{id}/reject")]
         public async Task<IActionResult> RejectLoan(int id)
         {
             var loan = await _context.Loans.FindAsync(id);
-            if (loan == null)
-                return NotFound();
-
+            if (loan == null) return NotFound();
             _context.Loans.Remove(loan);
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        // GET: api/manager/loans/pdf/{loanId}
+        [HttpGet("pdf/{loanId}")]
+        public async Task<IActionResult> GetLoanPdf(int loanId)
+        {
+            var loan = await _context.Loans
+                .Include(l => l.Manager)
+                .FirstOrDefaultAsync(l => l.LoanId == loanId);
+            if (loan == null) return NotFound("Loan not found.");
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.PersonalID == loan.PersonalID);
+            if (user == null) return NotFound("Client not found.");
+
+            var pdfBytes = _pdfGenerator.GenerateLoanPdf(loan, user);
+            return File(pdfBytes, "application/pdf", $"Loan_{loanId}.pdf");
         }
     }
 }

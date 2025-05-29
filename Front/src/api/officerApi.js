@@ -1,34 +1,40 @@
-const API_BASE = "http://localhost:5231/api/manager/users";
+import axios from "axios";
 
-export const getOfficers = async () => {
-  const res = await fetch(API_BASE);
-  if (!res.ok) throw new Error("Failed to fetch officers");
-  return res.json();
+const API_BASE = "http://localhost:5231/api/manager"; // correct endpoint
+
+export const getOfficers = async (search = "") => {
+  const params = {
+    role: "officer",
+    name: search,
+  };
+
+  const url = `${API_BASE}`;
+  console.log("📡 GET request to:", url, "with params", params);
+
+  const res = await axios.get(url, { params });
+  return res.data;
 };
 
 export const addOfficer = async (data) => {
-  const res = await fetch(API_BASE, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-  if (!res.ok) throw new Error("Failed to add officer");
-  return res.json();
+  console.log("📡 POST request to:", API_BASE);
+  console.log("Payload:", data);
+
+  const res = await axios.post(API_BASE, data);
+  return res.data;
 };
 
 export const updateOfficer = async (id, data) => {
-  const res = await fetch(`${API_BASE}/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
-  if (!res.ok) throw new Error("Failed to update officer");
-  return res.json();
+  const url = `${API_BASE}/${id}`;
+  console.log("📡 PUT request to:", url);
+  console.log("Payload:", data);
+
+  const res = await axios.put(url, data);
+  return res.data;
 };
 
 export const deleteOfficer = async (id) => {
-  const res = await fetch(`${API_BASE}/${id}`, {
-    method: "DELETE"
-  });
-  if (!res.ok) throw new Error("Failed to delete officer");
+  const url = `${API_BASE}/${id}`;
+  console.log("📡 DELETE request to:", url);
+
+  await axios.delete(url);
 };

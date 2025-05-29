@@ -35,8 +35,16 @@ const Profile = () => {
   const toggleEdit = async (field) => {
     if (editMode[field]) {
       try {
-        await updateProfile(userId, profile);
+        // Shto këto nëse mungojnë
+        const profileToUpdate = {
+          ...profile,
+          sentTransactions: profile.sentTransactions || [],
+          receivedTransactions: profile.receivedTransactions || [],
+          klientLoans: profile.klientLoans || [],
+        };
+        await updateProfile(userId, profileToUpdate);
         console.log('Profile updated');
+        setProfile(profileToUpdate); // Update local state in case new fields added
       } catch (err) {
         console.error('Update failed:', err);
       }
@@ -46,6 +54,7 @@ const Profile = () => {
       [field]: !prev[field],
     }));
   };
+  
 
   if (loading || !profile) return <p>Loading profile...</p>;
 
@@ -56,6 +65,7 @@ const Profile = () => {
     'address',
     'city',
     'dateOfBirth'
+    
   ];
 
   return (

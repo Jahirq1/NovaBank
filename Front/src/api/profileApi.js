@@ -1,4 +1,4 @@
-const API_PROFILE = "http://localhost:5231/api/manager/users/profile";
+const API_PROFILE = "http://localhost:5231/api/manager/profile";
 
 export const getProfile = async (id) => {
   const res = await fetch(`${API_PROFILE}/${id}`);

@@ -1,10 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\",
+  "WorkspaceRootPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\jahir\\onedrive\\desktop\\novabank\\backend\\backend\\controllers\\user\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\user\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\controllers\\manager\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\manager\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\controllers\\officer\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\officer\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\pdf\\pdfgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\pdf\\pdfgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\controllers\\manager\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\manager\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,20 +34,84 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TransactionsController.cs",
-              "DocumentMoniker": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\user\\TransactionsController.cs",
-              "RelativeDocumentMoniker": "Backend\\Controllers\\user\\TransactionsController.cs",
-              "ToolTip": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Controllers\\user\\TransactionsController.cs",
-              "RelativeToolTip": "Backend\\Controllers\\user\\TransactionsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-28T20:35:39.819Z",
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "Backend\\appsettings.json",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\appsettings.json",
+              "RelativeToolTip": "Backend\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-29T17:39:15.474Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Backend.csproj",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Backend.csproj",
+              "RelativeDocumentMoniker": "Backend\\Backend.csproj",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Backend.csproj",
+              "RelativeToolTip": "Backend\\Backend.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-05-29T17:37:04.943Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoansController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\LoansController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\manager\\LoansController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\LoansController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\manager\\LoansController.cs",
+              "ViewState": "AgIAAEQAAAAAAAAAAADwv1UAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T16:04:57.338Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoansController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\Officer\\LoansController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\Officer\\LoansController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\Officer\\LoansController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\Officer\\LoansController.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAgwJsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T15:38:26.315Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PdfGenerator.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Pdf\\PdfGenerator.cs",
+              "RelativeDocumentMoniker": "Backend\\Pdf\\PdfGenerator.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Pdf\\PdfGenerator.cs",
+              "RelativeToolTip": "Backend\\Pdf\\PdfGenerator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T15:38:21.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\UsersController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\manager\\UsersController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\UsersController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\manager\\UsersController.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwCwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T15:16:58.431Z"
             }
           ]
         }

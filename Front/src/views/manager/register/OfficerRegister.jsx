@@ -1,35 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Card, Form, Button, Table, InputGroup } from 'react-bootstrap';
-import { addOfficer, updateOfficer, deleteOfficer, getOfficers } from "../../../api/officerApi";
+import React, { useState, useCallback } from "react";
+import { Row, Col, Card, Form, Button, Table, InputGroup } from "react-bootstrap";
+import {
+  addOfficer,
+  updateOfficer,
+  deleteOfficer,
+  getOfficers,
+} from "../../../api/officerApi";
+import { debounce } from "lodash";
 
 const OfficerRegistrationForm = () => {
+  // -------------------------------------------------
+  // Local state
+  // -------------------------------------------------
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    password: '',
-    dateOfBirth: ''
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    password: "",
+    dateOfBirth: "",
+    sentTransactions: [],
+    receivedTransactions: [],
+    klientLoans: [],
   });
 
-  const [officers, setOfficers] = useState([]);
+  const [officers, setOfficers] = useState([]); // populated only after search
   const [editingOfficer, setEditingOfficer] = useState(null);
-  const [filter, setFilter] = useState('');
-  const [sortField, setSortField] = useState('');
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [search, setSearch] = useState(""); // current text in input
+  const [sortField, setSortField] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  useEffect(() => {
-    const fetchOfficers = async () => {
+  // -------------------------------------------------
+  // Debounced backend query
+  // -------------------------------------------------
+  const loadOfficers = useCallback(
+    debounce(async (text) => {
+      if (!text) {
+        setOfficers([]); // clear list if search emptied
+        return;
+      }
       try {
-        const data = await getOfficers();
+        const data = await getOfficers(text); // GET /api/users?role=officer&name=text
         setOfficers(data);
       } catch (err) {
         console.error("Failed to load officers:", err);
       }
-    };
-    fetchOfficers();
-  }, []);
+    }, 400),
+    []
+  );
 
+  // -------------------------------------------------
+  // Handlers
+  // -------------------------------------------------
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -38,10 +60,25 @@ const OfficerRegistrationForm = () => {
     }));
   };
 
+  const handleFilterChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearch(value);
+    loadOfficers(value);
+  };
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const generatedID = Math.floor(100000000 + Math.random() * 900000000);
+    const generatedID = Math.floor(100 + Math.random() * 9000);
     const currentDateTime = new Date().toISOString();
 
     const officerPayload = {
@@ -50,31 +87,58 @@ const OfficerRegistrationForm = () => {
       email: formData.email,
       password: formData.password,
       dateOfBirth: formData.dateOfBirth,
-      createdDate: currentDateTime,
-      balance: 0,
-      role: 'officer',
+      role: "officer",
       phone: formData.phone,
       address: formData.address,
-      city: 'Prishtina'
+      city: "Prishtina",
+      balance: 0,
+    
+      // add empty arrays as required by the backend
+      sentTransactions: [],
+      receivedTransactions: [],
+      klientLoans: []
     };
+    
 
     try {
       const res = editingOfficer
-        ? await updateOfficer(editingOfficer.id, { ...officerPayload, id: editingOfficer.id })
+        ? await updateOfficer(editingOfficer.id, {
+            ...officerPayload,
+            id: editingOfficer.id,
+          })
         : await addOfficer(officerPayload);
-
+         
       const result = await res;
       if (editingOfficer) {
-        setOfficers(officers.map((o) => (o.id === result.id ? result : o)));
+        setOfficers(
+          officers.map((o) => (o.id === result.id ? result : o))
+        );
       } else {
-        setOfficers([...officers, result]);
+        // Only append to list if it matches current search text
+        if (
+          search &&
+          result.name.toLowerCase().includes(search.toLowerCase())
+        ) {
+          setOfficers([...officers, result]);
+        }
       }
 
-      setFormData({ name: '', email: '', phone: '', address: '', password: '', dateOfBirth: '' });
+      // reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        address: "",
+        password: "",
+        dateOfBirth: "",
+        sentTransactions: [],
+        receivedTransactions: [],
+        klientLoans: [],
+      });
       setEditingOfficer(null);
     } catch (error) {
-      console.error('Error:', error);
-      alert('❌ Failed to register or update officer.');
+      console.error("Error:", error);
+      alert("❌ Failed to register or update officer.");
     }
   };
 
@@ -84,60 +148,56 @@ const OfficerRegistrationForm = () => {
       email: officer.email,
       phone: officer.phone,
       address: officer.address,
-      password: '',
-      dateOfBirth: officer.dateOfBirth
+      password: "", // never pre‑fill password
+      dateOfBirth: officer.dateOfBirth,
+      sentTransactions: [],
+      receivedTransactions: [],
+      klientLoans: [],
     });
     setEditingOfficer(officer);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this officer?')) return;
+    if (!window.confirm("Are you sure you want to delete this officer?")) return;
     try {
       await deleteOfficer(id);
       setOfficers(officers.filter((off) => off.id !== id));
     } catch (err) {
-      console.error('Error:', err);
-      alert('❌ Failed to delete officer.');
+      console.error("Error:", err);
+      alert("❌ Failed to delete officer.");
     }
   };
 
-  const handleFilterChange = (e) => {
-    setFilter(e.target.value.toLowerCase());
-  };
+  // -------------------------------------------------
+  // Client‑side sorting
+  // -------------------------------------------------
+  const sortedOfficers = [...officers].sort((a, b) => {
+    if (!sortField) return 0;
+    const valA = a[sortField];
+    const valB = b[sortField];
+    if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+    if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+    return 0;
+  });
 
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortOrder('asc');
-    }
-  };
-
-  const filteredAndSortedOfficers = officers
-    .filter((officer) =>
-      officer.name.toLowerCase().includes(filter)
-    )
-    .sort((a, b) => {
-      if (!sortField) return 0;
-      const valA = a[sortField];
-      const valB = b[sortField];
-      if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
-      if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
-      return 0;
-    });
-
+  // -------------------------------------------------
+  // UI
+  // -------------------------------------------------
   return (
     <React.Fragment>
+      {/* ------------------ Registration form ------------------ */}
       <Row>
         <Col sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h5">Officer Registration</Card.Title>
+              <Card.Title as="h5">
+                {editingOfficer ? "Update Officer" : "Officer Registration"}
+              </Card.Title>
             </Card.Header>
             <Card.Body>
-              <Form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit} autoComplete="off">
                 <Row>
+                  {/* Left column */}
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Name</Form.Label>
@@ -188,6 +248,7 @@ const OfficerRegistrationForm = () => {
                     </Form.Group>
                   </Col>
 
+                  {/* Right column */}
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Password</Form.Label>
@@ -214,7 +275,7 @@ const OfficerRegistrationForm = () => {
                   </Col>
                 </Row>
                 <Button variant="primary" type="submit">
-                  {editingOfficer ? 'Update Officer' : 'Register Officer'}
+                  {editingOfficer ? "Update Officer" : "Register Officer"}
                 </Button>
               </Form>
             </Card.Body>
@@ -222,6 +283,7 @@ const OfficerRegistrationForm = () => {
         </Col>
       </Row>
 
+      {/* ------------------ Search & Table ------------------ */}
       <Row className="mt-4">
         <Col sm={12}>
           <Card>
@@ -230,41 +292,64 @@ const OfficerRegistrationForm = () => {
               <InputGroup className="mt-2">
                 <Form.Control
                   type="text"
-                  placeholder="Filter by name..."
+                  placeholder="Search by name…"
+                  value={search}
                   onChange={handleFilterChange}
                 />
               </InputGroup>
             </Card.Header>
             <Card.Body>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th onClick={() => handleSort('id')}>ID</th>
-                    <th onClick={() => handleSort('name')}>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Date of Birth</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredAndSortedOfficers.map((officer, index) => (
-                    <tr key={index}>
-                      <td>{officer.id}</td>
-                      <td>{officer.name}</td>
-                      <td>{officer.email}</td>
-                      <td>{officer.phone}</td>
-                      <td>{officer.address}</td>
-                      <td>{officer.dateOfBirth}</td>
-                      <td>
-                        <Button variant="warning" size="sm" onClick={() => handleEdit(officer)}>Edit</Button>{' '}
-                        <Button variant="danger" size="sm" onClick={() => handleDelete(officer.id)}>Delete</Button>
-                      </td>
+              {search && sortedOfficers.length === 0 && (
+                <p className="m-0">No officers found.</p>
+              )}
+              {!search && (
+                <p className="m-0 text-muted">Type in the search box to load officers.</p>
+              )}
+              {sortedOfficers.length > 0 && (
+                <Table striped bordered hover responsive className="mt-2">
+                  <thead>
+                    <tr>
+                      <th onClick={() => handleSort("id")}>ID</th>
+                      <th onClick={() => handleSort("name")}>Name</th>
+                      <th>personalID</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Address</th>
+                      <th>Date of Birth</th>
+                      <th>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
+                    {sortedOfficers.map((officer) => (
+                      <tr key={officer.id}>
+                     <td>{officer.id}</td>           {/* ID sipas backend */}
+  <td>{officer.name}</td>
+  <td>{officer.personalID}</td>   {/* me ID të madhe */}
+  <td>{officer.email}</td>
+  <td>{officer.phone}</td>
+  <td>{officer.address}</td>
+  <td>{officer.dateOfBirth}</td>
+                        <td>
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            onClick={() => handleEdit(officer)}
+                          >
+                            Edit
+                          </Button>{" "}
+                          <Button
+                            variant="danger"
+                            size="sm"
+                            onClick={() => handleDelete(officer.id)}
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )}
             </Card.Body>
           </Card>
         </Col>

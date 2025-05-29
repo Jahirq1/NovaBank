@@ -37,17 +37,26 @@ namespace Backend.Controllers.Officer
 
 
         // DELETE: /api/search/delete/5
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.SentTransactions)
+                .Include(u => u.ReceivedTransactions)
+                .Include(u => u.KlientLoans)
+                .FirstOrDefaultAsync(u => u.id == id);
+
             if (user == null)
-                return NotFound("Përdoruesi nuk u gjet.");
+                return NotFound();
+
+            // Fshi manualisht të dhënat e lidhura
+            _context.Transactions.RemoveRange(user.SentTransactions);
+            _context.Transactions.RemoveRange(user.ReceivedTransactions);
+            _context.KlientLoans.RemoveRange(user.KlientLoans);
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-
-            return Ok("Përdoruesi u fshi me sukses.");
+            return Ok("perdoruesi u shly me sukses");
         }
 
         // PUT: /api/search/update/5

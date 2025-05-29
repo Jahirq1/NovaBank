@@ -25,6 +25,8 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromDays(30); // 30 ditë
 });
 
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",

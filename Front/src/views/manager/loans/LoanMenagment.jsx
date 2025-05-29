@@ -1,15 +1,22 @@
+// src/components/loans/LoanApprovalTables.jsx
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Table, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import avatar1 from '../../../assets/images/user/avatar-1.jpg';
+import { Card, Col, Table, Form, Row, Button, InputGroup } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
-import { getPendingLoans, getApprovedLoans, approveLoan, rejectLoan } from '../../../api/loanApi';
+import axios from 'axios';
+import avatar1 from '../../../assets/images/user/avatar-1.jpg';
+import {
+  getPendingLoans,
+  getApprovedLoans,
+  approveLoan,
+  rejectLoan,
+} from '../../../api/loanApi';
 
 const LoanApprovalTables = () => {
   const [sortKey, setSortKey] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const [loanApplications, setLoanApplications] = useState([]);
   const [approvedLoans, setApprovedLoans] = useState([]);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetchLoans();
@@ -17,12 +24,14 @@ const LoanApprovalTables = () => {
 
   const fetchLoans = async () => {
     try {
-      const pending = await getPendingLoans();
-      const approved = await getApprovedLoans();
+      const [pending, approved] = await Promise.all([
+        getPendingLoans(),
+        getApprovedLoans(),
+      ]);
       setLoanApplications(pending);
       setApprovedLoans(approved);
     } catch (err) {
-      console.error("Failed to load loans:", err);
+      console.error('Failed to load loans:', err);
     }
   };
 
@@ -34,50 +43,60 @@ const LoanApprovalTables = () => {
       } else {
         await rejectLoan(loan.loanId);
       }
-
-      // Remove from pending loans
-      const updatedApplications = [...loanApplications];
-      updatedApplications.splice(idx, 1);
-      setLoanApplications(updatedApplications);
-
-      // Refresh approved list from backend
+      // remove from pending and refresh approved if needed
+      setLoanApplications((apps) =>
+        apps.filter((_, i) => i !== idx)
+      );
       if (decision === 'Approved') {
-        const approved = await getApprovedLoans();
-        setApprovedLoans(approved);
+        setApprovedLoans(await getApprovedLoans());
       }
-
     } catch (error) {
-      console.error("Error processing loan:", error);
+      console.error('Error processing loan:', error);
     }
   };
 
-  const sortedLoans = [...approvedLoans].sort((a, b) => {
-    let aVal = a[sortKey];
-    let bVal = b[sortKey];
-
-    if (sortKey === 'date' || sortKey === 'applicationDate') {
-      aVal = new Date(aVal);
-      bVal = new Date(bVal);
+  const handleViewPdf = async (loanId) => {
+    try {
+      const res = await axios.get(
+       `http://localhost:5231/api/manager/loans/pdf/${loanId}`,
+        { responseType: 'blob' }
+      );
+      const url = URL.createObjectURL(
+        new Blob([res.data], { type: 'application/pdf' })
+      );
+      window.open(url, '_blank');
+    } catch (err) {
+      console.error('Error loading PDF:', err);
+      alert('Could not load loan PDF.');
     }
+  };
 
-    if (typeof aVal === 'string') {
-      aVal = aVal.toLowerCase();
-      bVal = bVal.toLowerCase();
+  // Sort approved loans
+  const sortedApproved = [...approvedLoans].sort((a, b) => {
+    let va = a[sortKey];
+    let vb = b[sortKey];
+    if (sortKey === 'applicationDate') {
+      va = new Date(va);
+      vb = new Date(vb);
     }
-
-    if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1;
-    if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1;
+    if (typeof va === 'string') {
+      va = va.toLowerCase();
+      vb = vb.toLowerCase();
+    }
+    if (va < vb) return sortOrder === 'asc' ? -1 : 1;
+    if (va > vb) return sortOrder === 'asc' ? 1 : -1;
     return 0;
   });
 
   return (
     <Col md={12} xl={12}>
-      <Card className="Recent-Users widget-focus-lg">
+      {/* Pending Loans */}
+      <Card className="mb-4">
         <Card.Header>
-          <Card.Title as="h5">Loan Applications</Card.Title>
+          <Card.Title>Loan Applications</Card.Title>
         </Card.Header>
         <Card.Body className="px-0 py-2">
-          <Table responsive hover className="recent-users">
+          <Table responsive hover>
             <thead>
               <tr>
                 <th>Applicant Name</th>
@@ -87,25 +106,50 @@ const LoanApprovalTables = () => {
                 <th>Status</th>
                 <th>Requested Date</th>
                 <th>Action</th>
+                <th>PDF</th>
               </tr>
             </thead>
             <tbody>
-              {loanApplications.map((applicant, idx) => (
-                <tr className="unread" key={idx}>
+              {loanApplications.map((app, idx) => (
+                <tr key={app.loanId}>
                   <td>
-                    <img className="rounded-circle" style={{ width: '40px' }} src={applicant.avatar ?? avatar1} alt="applicant" />
-                    {' '}{applicant.name ?? 'Client'}
+                    <img
+                      src={app.avatar ?? avatar1}
+                      alt="applicant"
+                      className="rounded-circle"
+                      style={{ width: '40px' }}
+                    />{' '}
+                    {app.name}
                   </td>
-                  <td>{applicant.reason ?? '—'}</td>
-                  <td>${(applicant.loanAmount ?? 0).toLocaleString()}</td>
-                  <td>{applicant.durationMonths ? `${applicant.durationMonths} months` : '—'}</td>
+                  <td>{app.reason}</td>
+                  <td>${app.loanAmount.toLocaleString()}</td>
+                  <td>{app.durationMonths} months</td>
+                  <td><span className="badge badge-warning">Pending</span></td>
+                  <td>{new Date(app.applicationDate).toLocaleDateString()}</td>
                   <td>
-                    <span className="badge badge-warning">Pending</span>
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      onClick={() => handleDecision(idx, 'Rejected')}
+                    >
+                      Reject
+                    </Button>{' '}
+                    <Button
+                      size="sm"
+                      variant="success"
+                      onClick={() => handleDecision(idx, 'Approved')}
+                    >
+                      Approve
+                    </Button>
                   </td>
-                  <td>{applicant.applicationDate ? new Date(applicant.applicationDate).toLocaleDateString() : '—'}</td>
                   <td>
-                    <Link to="#" onClick={() => handleDecision(idx, 'Rejected')} className="label theme-bg2 text-white f-12 mr-2">Reject</Link>
-                    <Link to="#" onClick={() => handleDecision(idx, 'Approved')} className="label theme-bg text-white f-12">Approve</Link>
+                    <Button
+                      size="sm"
+                      variant="info"
+                      onClick={() => handleViewPdf(app.loanId)}
+                    >
+                      View PDF
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -114,9 +158,10 @@ const LoanApprovalTables = () => {
         </Card.Body>
       </Card>
 
-      <Card className="Recent-Users widget-focus-lg mt-4">
+      {/* Approved Loans */}
+      <Card className="mt-4">
         <Card.Header>
-          <Card.Title as="h5">Approved Loans</Card.Title>
+          <Card.Title>Approved Loans</Card.Title>
           <Row className="mt-3">
             <Col md={6}>
               <Form.Group controlId="sortKey">
@@ -124,7 +169,10 @@ const LoanApprovalTables = () => {
                 <Form.Control
                   as="select"
                   value={sortKey}
-                  onChange={(e) => setSortKey(e.target.value)}
+                  onChange={(e) => {
+                    setSortKey(e.target.value);
+                    setSortOrder('asc');
+                  }}
                 >
                   <option value="name">Applicant Name</option>
                   <option value="loanAmount">Amount</option>
@@ -148,33 +196,54 @@ const LoanApprovalTables = () => {
           </Row>
         </Card.Header>
         <Card.Body className="px-0 py-2">
-          <Table responsive hover className="recent-users">
+          <InputGroup className="mb-3">
+            <Form.Control
+              placeholder="Filter by name…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            />
+          </InputGroup>
+          <Table responsive hover>
             <thead>
               <tr>
-                <th>Applicant Name</th>
-                <th>Loan Type</th>
-                <th>Amount</th>
+                <th onClick={() => setSortKey('name')}>Name</th>
+                <th>Type</th>
+                <th onClick={() => setSortKey('loanAmount')}>Amount</th>
                 <th>Term</th>
                 <th>Status</th>
-                <th>Approved Date</th>
+                <th onClick={() => setSortKey('applicationDate')}>Approved Date</th>
+                <th>PDF</th>
               </tr>
             </thead>
             <tbody>
-              {sortedLoans.map((loan, idx) => (
-                <tr className="unread" key={idx}>
-                  <td>
-                    <img className="rounded-circle" style={{ width: '40px' }} src={loan.avatar ?? avatar1} alt="loan-user" />
-                    {' '}{loan.name ?? 'Client'}
-                  </td>
-                  <td>{loan.reason ?? '—'}</td>
-                  <td>${(loan.loanAmount ?? 0).toLocaleString()}</td>
-                  <td>{loan.durationMonths ? `${loan.durationMonths} months` : '—'}</td>
-                  <td>
-                    <FaCheckCircle className="text-success" /> <span className="text-success">Approved</span>
-                  </td>
-                  <td>{loan.applicationDate ? new Date(loan.applicationDate).toLocaleDateString() : '—'}</td>
-                </tr>
-              ))}
+              {sortedApproved
+                .filter((l) =>
+                  (l.name ?? '')
+                    .toLowerCase()
+                    .includes(search)
+                )
+                .map((loan) => (
+                  <tr key={loan.loanId}>
+                    <td>{loan.name}</td>
+                    <td>{loan.reason}</td>
+                    <td>${loan.loanAmount.toLocaleString()}</td>
+                    <td>{loan.durationMonths} months</td>
+                    <td>
+                      <FaCheckCircle className="text-success" />{' '}
+                      <span className="text-success">Approved</span>
+                    </td>
+                    <td>{new Date(loan.applicationDate).toLocaleDateString()}</td>
+                    <td>
+                      <Button
+                        size="sm"
+                        variant="info"
+                        onClick={() => handleViewPdf(loan.loanId)}
+                      >
+                        View PDF
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </Card.Body>
