@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Backend.Models;
 using Backend.Models.DTO;
 
-namespace NOVA_API.Controllers
+namespace Backend.Controllers.user
 {
     [Route("api/user/transactions")]
     [ApiController]
@@ -33,6 +33,7 @@ namespace NOVA_API.Controllers
         #endregion
 
         [HttpGet("me")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> GetMyTransactions()
         {
             int userId = GetCurrentUserId();
@@ -61,6 +62,7 @@ namespace NOVA_API.Controllers
         }
 
         [HttpGet("me/{id:int}")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> GetMyTransaction(int id)
         {
             int userId = GetCurrentUserId();
@@ -89,6 +91,7 @@ namespace NOVA_API.Controllers
         }
 
         [HttpGet("me/monthly-expense")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> GetMyMonthlyExpense()
         {
             int userId = GetCurrentUserId();
@@ -110,6 +113,7 @@ namespace NOVA_API.Controllers
         }
 
         [HttpPost("transfer")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> Transfer([FromBody] TransferRequest req)
         {
             if (req.Amount <= 0)

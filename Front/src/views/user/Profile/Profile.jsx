@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
+import api from '../../../server/instance';  // Importon axios instance-në
 
-const API_PROFILE = "http://localhost:5231/api/users/profile";
+const API_PROFILE = '/users/profile'; // pa bazën sepse api ka baseURL
 
 export const getProfile = async () => {
-  const res = await fetch(API_PROFILE, { credentials: "include" });
-  if (!res.ok) throw new Error("Failed to fetch profile");
-  return res.json();
+  const res = await api.get(API_PROFILE);
+  return res.data;
 };
 
 export const updateProfile = async (data) => {
@@ -17,14 +17,8 @@ export const updateProfile = async (data) => {
     }
   }
 
-  const res = await fetch(API_PROFILE, {
-    method: 'PUT',
-    body: formData,
-    credentials: "include"
-  });
-
-  if (!res.ok) throw new Error("Failed to update profile");
-  return res.json();
+  const res = await api.put(API_PROFILE, formData);
+  return res.data;
 };
 
 const Profile = () => {
@@ -38,19 +32,21 @@ const Profile = () => {
         const data = await getProfile();
         setProfile(data);
         setEditMode(
-          Object.fromEntries(Object.keys(data).map((key) => [key, false]))
+          Object.fromEntries(Object.keys(data).map(key => [key, false]))
         );
-        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch profile:", error);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchProfile();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfile((prev) => ({ ...prev, [name]: value }));
+    setProfile(prev => ({ ...prev, [name]: value }));
   };
 
   const toggleEdit = async (field) => {
@@ -62,7 +58,7 @@ const Profile = () => {
         console.error('Update failed:', err);
       }
     }
-    setEditMode((prev) => ({ ...prev, [field]: !prev[field] }));
+    setEditMode(prev => ({ ...prev, [field]: !prev[field] }));
   };
 
   if (loading || !profile) return <p>Loading profile...</p>;

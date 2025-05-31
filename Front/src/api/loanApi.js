@@ -1,23 +1,26 @@
-const API_BASE = "http://localhost:5231/api/manager/loans";
+// src/api/loanApi.js
+import api from "../server/instance";
+
+const API_BASE = "/manager/loans";
 
 export const getPendingLoans = async () => {
-  const res = await fetch(`${API_BASE}/pending`);
-  if (!res.ok) throw new Error("Failed to fetch loans");
-  return res.json();
+  console.log("📡 GET /api/manager/loans/pending");
+  const res = await api.get(`${API_BASE}/pending`);
+  return res.data;
 };
 
 export const approveLoan = async (id) => {
-  const res = await fetch(`${API_BASE}/${id}/approve`, { method: "PUT" });
-  if (!res.ok) throw new Error("Failed to approve loan");
+  console.log(`📡 PUT /api/manager/loans/${id}/approve`);
+  await api.put(`${API_BASE}/${id}/approve`);
 };
 
 export const getApprovedLoans = async () => {
-  const res = await fetch(`${API_BASE}/approved`);
-  if (!res.ok) throw new Error("Failed to fetch approved loans");
-  return res.json();
+  console.log("📡 GET /api/manager/loans/approved");
+  const res = await api.get(`${API_BASE}/approved`);
+  return res.data;
 };
 
 export const rejectLoan = async (id) => {
-  const res = await fetch(`${API_BASE}/${id}/reject`, { method: "PUT" });
-  if (!res.ok) throw new Error("Failed to reject loan");
+  console.log(`📡 PUT /api/manager/loans/${id}/reject`);
+  await api.put(`${API_BASE}/${id}/reject`);
 };

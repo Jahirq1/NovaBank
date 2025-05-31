@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
 using Backend.Models.DTO;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers.Officer
 {
     [Route("api/officer/transactions")]
     [ApiController]
+    [Authorize] // Shtojmë authorize për të gjitha endpoint-et
     public class TransactionsController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
@@ -23,26 +22,26 @@ namespace Backend.Controllers.Officer
         }
 
         [HttpPost("pay")]
+        [Authorize(Roles = "officer")]
         public async Task<ActionResult<Transaction>> PostTransaction(Transactiontabel dto)
         {
-            // Gjej Sender-in me id
-            var sender = await _context.Users.FindAsync(dto.SenderId);
+            var senderIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (senderIdClaim == null || !int.TryParse(senderIdClaim.Value, out int senderIdFromToken))
+                return Unauthorized(new { message = "Invalid user token" });
 
-            // Gjej Receiver-in përmes PersonalID
-            var receiver = await _context.Users
-                .FirstOrDefaultAsync(u => u.PersonalID == dto.ReceiverPersonalID);
+            // Heqim këtë kontroll sepse nuk e presim senderId nga klienti:
+            // if (senderIdFromToken != dto.SenderId)
+            //     return Unauthorized(new { message = "You can only send transactions from your own account" });
+
+            var sender = await _context.Users.FindAsync(senderIdFromToken);
+            var receiver = await _context.Users.FirstOrDefaultAsync(u => u.PersonalID == dto.ReceiverPersonalID);
 
             if (sender == null || receiver == null)
-            {
                 return BadRequest("Sender or Receiver not found.");
-            }
 
             if (sender.id == receiver.id)
-            {
                 return BadRequest("Nuk mund t’i dërgoni transaksion vetes.");
-            }
 
-            // Krijo transaksionin
             var transaction = new Transaction
             {
                 TransactionType = dto.TransactionType,
@@ -52,10 +51,8 @@ namespace Backend.Controllers.Officer
                 ReceiverId = receiver.id
             };
 
-            // Shto shumën tek balanca e pranuesit
             receiver.Balance += dto.Amount;
 
-            // Ruaj transaksionin dhe përditësimin e pranuesit
             _context.Transactions.Add(transaction);
             _context.Users.Update(receiver);
             await _context.SaveChangesAsync();
@@ -64,9 +61,8 @@ namespace Backend.Controllers.Officer
         }
 
 
-
-        // Optional: GET për të marrë një transaksion të veçantë
         [HttpGet("{id}")]
+        [Authorize(Roles = "officer")]
         public async Task<ActionResult<Transaction>> GetTransaction(int id)
         {
             var transaction = await _context.Transactions
@@ -75,25 +71,26 @@ namespace Backend.Controllers.Officer
                 .FirstOrDefaultAsync(t => t.TransactionId == id);
 
             if (transaction == null)
-            {
                 return NotFound();
-            }
+
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                return Unauthorized();
+
+            // Kontrollo nëse useri ka të drejtë të shohë transaksionin (ose sender ose receiver)
+            if (transaction.SenderId != userId && transaction.ReceiverId != userId)
+                return Forbid();
 
             return transaction;
         }
 
-
         [HttpGet("my-transactions")]
-        [Authorize]
+        [Authorize(Roles = "officer")]
         public IActionResult GetMyTransactions()
         {
-            // Lexo userId nga claims i tokenit
             var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
-            if (userIdClaim == null)
-                return Unauthorized(new { message = "User ID not found in token" });
-
-            if (!int.TryParse(userIdClaim.Value, out int userId))
-                return Unauthorized(new { message = "Invalid User ID in token" });
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                return Unauthorized(new { message = "User ID not found or invalid in token" });
 
             var exists = _context.Users.Any(u => u.id == userId);
             if (!exists)
@@ -116,10 +113,14 @@ namespace Backend.Controllers.Officer
             return Ok(transactions);
         }
 
-
         [HttpGet("total-sent-amount")]
-        public IActionResult GetTotalSentAmount([FromQuery] int userId)
+        [Authorize(Roles = "officer")]
+        public IActionResult GetTotalSentAmount()
         {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                return Unauthorized();
+
             var exists = _context.Users.Any(u => u.id == userId);
             if (!exists)
                 return NotFound(new { message = "User not found" });
@@ -133,12 +134,14 @@ namespace Backend.Controllers.Officer
             return Ok(new { userId, totalAmount });
         }
 
-
-
-
         [HttpGet("transaction-count")]
-        public IActionResult GetTransactionCount([FromQuery] int userId)
+        [Authorize(Roles = "officer")]
+        public IActionResult GetTransactionCount()
         {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+                return Unauthorized();
+
             var exists = _context.Users.Any(u => u.id == userId);
             if (!exists)
                 return NotFound(new { message = "User not found" });
@@ -147,10 +150,6 @@ namespace Backend.Controllers.Officer
 
             return Ok(new { userId, totalSentTransactions = count });
         }
-
-
-
-
 
         private bool TransactionExists(int id)
         {

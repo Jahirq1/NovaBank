@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
-import { getProfile, updateProfile } from "../../../api/profileApi";
-import { getUserId } from '../../../session/session';
+import { getProfile, updateProfile } from '../../../api/profileApi';
 
 const Profile = () => {
-  const userId = parseInt(getUserId());
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState({});
   const [loading, setLoading] = useState(true);
@@ -12,20 +10,21 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await getProfile(userId);
+        const data = await getProfile();
         setProfile(data);
         setEditMode(
           Object.fromEntries(
             Object.keys(data).map((key) => [key, false])
           )
         );
-        setLoading(false);
       } catch (error) {
-        console.error("Failed to fetch profile:", error);
+        console.error('Failed to fetch profile:', error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchProfile();
-  }, [userId]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,26 +34,21 @@ const Profile = () => {
   const toggleEdit = async (field) => {
     if (editMode[field]) {
       try {
-        // Shto këto nëse mungojnë
         const profileToUpdate = {
           ...profile,
           sentTransactions: profile.sentTransactions || [],
           receivedTransactions: profile.receivedTransactions || [],
-          klientLoans: profile.klientLoans || [],
+          klientLoans: profile.klientLoans || []
         };
-        await updateProfile(userId, profileToUpdate);
+        await updateProfile(profileToUpdate);
         console.log('Profile updated');
-        setProfile(profileToUpdate); // Update local state in case new fields added
+        setProfile(profileToUpdate);
       } catch (err) {
         console.error('Update failed:', err);
       }
     }
-    setEditMode((prev) => ({
-      ...prev,
-      [field]: !prev[field],
-    }));
+    setEditMode((prev) => ({ ...prev, [field]: !prev[field] }));
   };
-  
 
   if (loading || !profile) return <p>Loading profile...</p>;
 
@@ -65,7 +59,6 @@ const Profile = () => {
     'address',
     'city',
     'dateOfBirth'
-    
   ];
 
   return (

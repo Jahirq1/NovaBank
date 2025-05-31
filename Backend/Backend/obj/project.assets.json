@@ -8292,23 +8292,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lendr\\.nuget\\packages\\": {},
+    "C:\\Users\\Jahir\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Backend.csproj",
+      "projectUniqueName": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Backend.csproj",
       "projectName": "Backend",
-      "projectPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Backend.csproj",
-      "packagesPath": "C:\\Users\\lendr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\obj\\",
+      "projectPath": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\Backend.csproj",
+      "packagesPath": "C:\\Users\\Jahir\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jahir\\OneDrive\\Desktop\\NovaBank\\Backend\\Backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\lendr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Jahir\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

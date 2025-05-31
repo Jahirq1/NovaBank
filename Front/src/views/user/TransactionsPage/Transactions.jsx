@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Card, Table, Button, Form, Modal, Row, Col, InputGroup, Alert } from 'react-bootstrap';
 import { FiDollarSign, FiDownload, FiSend } from 'react-icons/fi';
 import * as XLSX from 'xlsx';
-import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import axios from 'axios';
 import '../../../assets/scss/dashboard.scss';
-
+import api from '../../../server/instance'
 function TransactionsPage() {
   const [transactions, setTransactions] = useState([]);
   const [backendTransactions, setBackendTransactions] = useState([]);
@@ -20,7 +19,7 @@ function TransactionsPage() {
   const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-
+ 
   const exchangeRates = {
     EUR: 0.010, USD: 0.011, GBP: 0.0085, CHF: 0.0095, CAD: 0.014,
     AUD: 0.016, JPY: 1.50, SEK: 0.11, NOK: 0.11, DKK: 0.072,
@@ -28,10 +27,7 @@ function TransactionsPage() {
     ZAR: 0.18, MXN: 0.20, SGD: 0.015, HKD: 0.082, NZD: 0.017
   };
 
-  const api = axios.create({
-    baseURL: 'http://localhost:5231/api',
-    withCredentials: true
-  });
+
 
   const handleLekChange = (e) => {
     const value = parseFloat(e.target.value) || 0;
@@ -73,7 +69,7 @@ function TransactionsPage() {
 
       const tx = await api.get('/user/transactions/me');
       const data = tx.data;
-
+      
       const formatted = data.map(t => ({
         id: t.id,
         date: t.date,
@@ -82,7 +78,7 @@ function TransactionsPage() {
             ? "Transfer"
             : t.senderPersonalId === res.data.personalId
               ? `Transfer te ${t.ReceiverName}`
-              : `Transfer nga ${t.SenderName}`
+              : `Transfer nga ${t.senderName}`
         ),
         amount: t.amount,
         account: t.senderPersonalId === res.data.personalId ? t.receiverPersonalId : t.senderPersonalId
@@ -114,12 +110,11 @@ function TransactionsPage() {
     setIsSubmitting(true);
     try {
       const dataToSend = {
-        SenderId: currentUser.userId,
+        SenderId: currentUser.id,
         RecipientPersonalID: transferData.recipientId,
         Amount: parseFloat(transferData.amount),
         Note: transferData.note
       };
-
       await api.post('/user/transactions/transfer', dataToSend);
       setSuccess('Transferimi u krye me sukses!');
       setTransferData({ recipientId: '', amount: '', note: '' });
@@ -262,3 +257,4 @@ function TransactionsPage() {
 }
 
 export default TransactionsPage;
+

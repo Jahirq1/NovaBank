@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
-namespace Backend.Controllers
+namespace Backend.Controllers.manager
 {
     [Route("api/manager")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
@@ -17,28 +19,28 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "manager")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers(
-        [FromQuery] string? role,
-        [FromQuery] string? name)
+            [FromQuery] string? role,
+            [FromQuery] string? name)
         {
-            var q = _context.Users.AsQueryable();
+            var query = _context.Users.AsQueryable();
 
             if (!string.IsNullOrEmpty(role))
-                q = q.Where(u => u.role == role);          // role==="officer"
-
+                query = query.Where(u => u.role == role);
             if (!string.IsNullOrEmpty(name))
-                q = q.Where(u => EF.Functions.Like(u.name, $"%{name}%"));
+                query = query.Where(u => EF.Functions.Like(u.name, $"%{name}%"));
 
-            return await q.ToListAsync();
+            return await query.ToListAsync();
         }
 
         [HttpPost]
+        [Authorize(Roles = "manager")]
         public async Task<ActionResult<User>> RegisterUser(User user)
         {
             user.createdDate = DateTime.UtcNow;
-
-            var passwordHasher = new PasswordHasher<User>();
-            user.password = passwordHasher.HashPassword(user, user.password);
+            var hasher = new PasswordHasher<User>();
+            user.password = hasher.HashPassword(user, user.password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -47,28 +49,30 @@ namespace Backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
+        [Authorize(Roles = "manager")]
+        public async Task<IActionResult> UpdateUser(int id, User updatedUser)
         {
             if (id != updatedUser.id)
                 return BadRequest("ID mismatch.");
 
-            var existingUser = await _context.Users.FindAsync(id);
-            if (existingUser == null)
+            var existing = await _context.Users.FindAsync(id);
+            if (existing == null)
                 return NotFound();
 
-            existingUser.name = updatedUser.name;
-            existingUser.email = updatedUser.email;
-            existingUser.phone = updatedUser.phone;
-            existingUser.address = updatedUser.address;
-            existingUser.city = updatedUser.city;
-            existingUser.dateOfBirth = updatedUser.dateOfBirth;
-            existingUser.password = updatedUser.password;
+            existing.name = updatedUser.name;
+            existing.email = updatedUser.email;
+            existing.phone = updatedUser.phone;
+            existing.address = updatedUser.address;
+            existing.city = updatedUser.city;
+            existing.dateOfBirth = updatedUser.dateOfBirth;
+            existing.password = updatedUser.password;
 
             await _context.SaveChangesAsync();
-            return Ok(existingUser);
+            return Ok(existing);
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _context.Users
@@ -80,47 +84,54 @@ namespace Backend.Controllers
             if (user == null)
                 return NotFound();
 
-            // Fshi manualisht të dhënat e lidhura
             _context.Transactions.RemoveRange(user.SentTransactions);
             _context.Transactions.RemoveRange(user.ReceivedTransactions);
             _context.KlientLoans.RemoveRange(user.KlientLoans);
-
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return NoContent();
         }
 
-
-        [HttpGet("profile/{id}")]
-        public async Task<ActionResult<User>> GetUserProfile(int id)
+        // New: get profile of current user from JWT claim
+        [HttpGet("profile")]
+        [Authorize(Roles = "manager")]
+        public async Task<ActionResult<User>> GetCurrentProfile()
         {
+            var claim = User.FindFirst("UserID")?.Value;
+            if (claim == null || !int.TryParse(claim, out var id))
+                return Unauthorized();
+
             var user = await _context.Users.FindAsync(id);
             if (user == null)
-            {
                 return NotFound();
-            }
+
             return Ok(user);
         }
 
-        [HttpPut("profile/{id}")]
-        public async Task<IActionResult> UpdateUserProfile(int id, [FromBody] User updatedUser)
+        // New: update profile of current user
+        [HttpPut("profile")]
+        [Authorize(Roles = "manager")]
+        public async Task<IActionResult> UpdateCurrentProfile([FromBody] User updatedUser)
         {
-            if (id != updatedUser.id)
-                return BadRequest("ID mismatch.");
+            var claim = User.FindFirst("UserID")?.Value;
+            if (claim == null || !int.TryParse(claim, out var id))
+                return Unauthorized();
+            if (updatedUser.id != id)
+                return BadRequest("Cannot update another user's profile.");
 
-            var existingUser = await _context.Users.FindAsync(id);
-            if (existingUser == null)
+            var existing = await _context.Users.FindAsync(id);
+            if (existing == null)
                 return NotFound();
 
-            existingUser.name = updatedUser.name;
-            existingUser.email = updatedUser.email;
-            existingUser.phone = updatedUser.phone;
-            existingUser.address = updatedUser.address;
-            existingUser.city = updatedUser.city;
-            existingUser.dateOfBirth = updatedUser.dateOfBirth;
+            existing.name = updatedUser.name;
+            existing.email = updatedUser.email;
+            existing.phone = updatedUser.phone;
+            existing.address = updatedUser.address;
+            existing.city = updatedUser.city;
+            existing.dateOfBirth = updatedUser.dateOfBirth;
 
             await _context.SaveChangesAsync();
-            return Ok(existingUser);
+            return Ok(existing);
         }
     }
 }

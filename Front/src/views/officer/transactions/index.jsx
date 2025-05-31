@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { Col, Card, Row, Form, Button } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../../../server/instance';
 
 const DashDefault = () => {
   const [formData, setFormData] = useState({
@@ -11,35 +11,32 @@ const DashDefault = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData(prev => ({
+      ...prev,
       [e.target.name]: e.target.value
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const senderId = localStorage.getItem('userId'); // ose auth.user.id
-      if (!senderId) {
-        alert("Nuk je i kyçur.");
-        return;
-      }
-
       const payload = {
-        senderId: parseInt(senderId),
-        receiverPersonalID: parseInt(formData.receiverPersonalID),
+        receiverPersonalID: parseInt(formData.receiverPersonalID, 10),
         amount: parseFloat(formData.amount),
         transactionType: formData.transactionType,
-        transactionDate: new Date().toISOString() 
+        transactionDate: new Date().toISOString()
       };
 
-      await axios.post('http://localhost:5231/api/officer/transactions/pay', payload);
+      // Nëse api nuk ka withCredentials default, e shtojmë këtu:
+      await api.post('/officer/transactions/pay', payload, {
+        withCredentials: true
+      });
+
       alert('Transaksioni u dërgua me sukses!');
     } catch (error) {
       console.error(error);
-      alert('Ndodhi një gabim gjatë dërgimit të transaksionit.');
+      alert('Ndodhi një gabim gjatë dërgimit të transaksionit: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -114,4 +111,3 @@ const DashDefault = () => {
 };
 
 export default DashDefault;
-

@@ -1,15 +1,22 @@
-// src/components/loans/LoanApprovalTables.jsx
 import React, { useState, useEffect } from 'react';
-import { Card, Col, Table, Form, Row, Button, InputGroup } from 'react-bootstrap';
+import {
+  Card,
+  Col,
+  Table,
+  Form,
+  Row,
+  Button,
+  InputGroup
+} from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
-import axios from 'axios';
-import avatar1 from '../../../assets/images/user/avatar-1.jpg';
+import api from '../../../server/instance';
 import {
   getPendingLoans,
   getApprovedLoans,
   approveLoan,
-  rejectLoan,
+  rejectLoan
 } from '../../../api/loanApi';
+import avatar1 from '../../../assets/images/user/avatar-1.jpg';
 
 const LoanApprovalTables = () => {
   const [sortKey, setSortKey] = useState('name');
@@ -26,7 +33,7 @@ const LoanApprovalTables = () => {
     try {
       const [pending, approved] = await Promise.all([
         getPendingLoans(),
-        getApprovedLoans(),
+        getApprovedLoans()
       ]);
       setLoanApplications(pending);
       setApprovedLoans(approved);
@@ -43,10 +50,7 @@ const LoanApprovalTables = () => {
       } else {
         await rejectLoan(loan.loanId);
       }
-      // remove from pending and refresh approved if needed
-      setLoanApplications((apps) =>
-        apps.filter((_, i) => i !== idx)
-      );
+      setLoanApplications((apps) => apps.filter((_, i) => i !== idx));
       if (decision === 'Approved') {
         setApprovedLoans(await getApprovedLoans());
       }
@@ -57,8 +61,8 @@ const LoanApprovalTables = () => {
 
   const handleViewPdf = async (loanId) => {
     try {
-      const res = await axios.get(
-       `http://localhost:5231/api/manager/loans/pdf/${loanId}`,
+      const res = await api.get(
+        `/manager/loans/pdf/${loanId}`,
         { responseType: 'blob' }
       );
       const url = URL.createObjectURL(
@@ -71,22 +75,30 @@ const LoanApprovalTables = () => {
     }
   };
 
-  // Sort approved loans
-  const sortedApproved = [...approvedLoans].sort((a, b) => {
-    let va = a[sortKey];
-    let vb = b[sortKey];
-    if (sortKey === 'applicationDate') {
-      va = new Date(va);
-      vb = new Date(vb);
-    }
-    if (typeof va === 'string') {
-      va = va.toLowerCase();
-      vb = vb.toLowerCase();
-    }
-    if (va < vb) return sortOrder === 'asc' ? -1 : 1;
-    if (va > vb) return sortOrder === 'asc' ? 1 : -1;
-    return 0;
-  });
+  // client-side sorting & filtering
+  const sortedApproved = [...approvedLoans]
+    .filter((l) => l.name.toLowerCase().includes(search))
+    .sort((a, b) => {
+      let va = a[sortKey],
+        vb = b[sortKey];
+      if (sortKey === 'applicationDate') {
+        va = new Date(va);
+        vb = new Date(vb);
+      }
+      if (typeof va === 'string') {
+        va = va.toLowerCase();
+        vb = vb.toLowerCase();
+      }
+      return va < vb
+        ? sortOrder === 'asc'
+          ? -1
+          : 1
+        : va > vb
+        ? sortOrder === 'asc'
+          ? 1
+          : -1
+        : 0;
+    });
 
   return (
     <Col md={12} xl={12}>
@@ -124,7 +136,9 @@ const LoanApprovalTables = () => {
                   <td>{app.reason}</td>
                   <td>${app.loanAmount.toLocaleString()}</td>
                   <td>{app.durationMonths} months</td>
-                  <td><span className="badge badge-warning">Pending</span></td>
+                  <td>
+                    <span className="badge badge-warning">Pending</span>
+                  </td>
                   <td>{new Date(app.applicationDate).toLocaleDateString()}</td>
                   <td>
                     <Button
@@ -163,87 +177,52 @@ const LoanApprovalTables = () => {
         <Card.Header>
           <Card.Title>Approved Loans</Card.Title>
           <Row className="mt-3">
-            <Col md={6}>
-              <Form.Group controlId="sortKey">
-                <Form.Label>Sort By</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={sortKey}
-                  onChange={(e) => {
-                    setSortKey(e.target.value);
-                    setSortOrder('asc');
-                  }}
-                >
-                  <option value="name">Applicant Name</option>
-                  <option value="loanAmount">Amount</option>
-                  <option value="applicationDate">Approved Date</option>
-                </Form.Control>
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group controlId="sortOrder">
-                <Form.Label>Order</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={sortOrder}
-                  onChange={(e) => setSortOrder(e.target.value)}
-                >
-                  <option value="asc">Ascending</option>
-                  <option value="desc">Descending</option>
-                </Form.Control>
-              </Form.Group>
-            </Col>
+            <InputGroup className="mb-0">
+              <Form.Control
+                placeholder="Filter by name…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value.toLowerCase())}
+              />
+            </InputGroup>
           </Row>
         </Card.Header>
         <Card.Body className="px-0 py-2">
-          <InputGroup className="mb-3">
-            <Form.Control
-              placeholder="Filter by name…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value.toLowerCase())}
-            />
-          </InputGroup>
           <Table responsive hover>
             <thead>
               <tr>
                 <th onClick={() => setSortKey('name')}>Name</th>
-                <th>Type</th>
                 <th onClick={() => setSortKey('loanAmount')}>Amount</th>
-                <th>Term</th>
+                <th onClick={() => setSortKey('durationMonths')}>Term</th>
+                <th onClick={() => setSortKey('applicationDate')}>Date</th>
                 <th>Status</th>
-                <th onClick={() => setSortKey('applicationDate')}>Approved Date</th>
                 <th>PDF</th>
               </tr>
             </thead>
             <tbody>
-              {sortedApproved
-                .filter((l) =>
-                  (l.name ?? '')
-                    .toLowerCase()
-                    .includes(search)
-                )
-                .map((loan) => (
-                  <tr key={loan.loanId}>
-                    <td>{loan.name}</td>
-                    <td>{loan.reason}</td>
-                    <td>${loan.loanAmount.toLocaleString()}</td>
-                    <td>{loan.durationMonths} months</td>
-                    <td>
-                      <FaCheckCircle className="text-success" />{' '}
-                      <span className="text-success">Approved</span>
-                    </td>
-                    <td>{new Date(loan.applicationDate).toLocaleDateString()}</td>
-                    <td>
-                      <Button
-                        size="sm"
-                        variant="info"
-                        onClick={() => handleViewPdf(loan.loanId)}
-                      >
-                        View PDF
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+              {sortedApproved.map((app) => (
+                <tr key={app.loanId}>
+                  <td>{app.name}</td>
+                  <td>${app.loanAmount.toLocaleString()}</td>
+                  <td>{app.durationMonths} months</td>
+                  <td>
+                    {new Date(app.applicationDate).toLocaleDateString()}
+                  </td>
+                  <td>
+                    <span className="badge badge-success">
+                      Approved
+                    </span>
+                  </td>
+                  <td>
+                    <Button
+                      size="sm"
+                      variant="info"
+                      onClick={() => handleViewPdf(app.loanId)}
+                    >
+                      View PDF
+                    </Button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </Table>
         </Card.Body>

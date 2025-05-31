@@ -1,19 +1,22 @@
-const API_BASE = "http://localhost:5231/api/manager/dashboard";
+// src/api/dashboardApi.js
+import api from "../server/instance";
+
+const API_BASE = "/manager/dashboard";
 
 export const getDashboardSummary = async () => {
-  const res = await fetch(`${API_BASE}/summary`);
-  if (!res.ok) throw new Error("Failed to fetch summary");
-  return res.json();
+  console.log("📡 GET /api/manager/dashboard/summary");
+  const res = await api.get(`${API_BASE}/summary`);
+  return res.data;
 };
 
 export const getDailyTransactions = async () => {
-  const res = await fetch(`${API_BASE}/transactions`);
-  if (!res.ok) throw new Error("Failed to fetch transactions");
-  return res.json();
+  console.log("📡 GET /api/manager/dashboard/transactions");
+  const res = await api.get(`${API_BASE}/transactions`);
+  return res.data;
 };
 
 export const getLoanData = async () => {
-  const res = await fetch(`${API_BASE}/loans`);
-  if (!res.ok) throw new Error("Failed to fetch loan data");
-  return res.json();
+  console.log("📡 GET /api/manager/dashboard/loans");
+  const res = await api.get(`${API_BASE}/loans`);
+  return res.data;
 };

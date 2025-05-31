@@ -1,40 +1,37 @@
-import React, { useState } from 'react';
-import { Card, ListGroup, Dropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-
-import avatar1 from '../../../../assets/images/user/avatar-1.jpg';
-import avatar2 from '../../../../assets/images/user/avatar-2.jpg';
-import avatar3 from '../../../../assets/images/user/avatar-3.jpg';
-import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
+import React from 'react';
+import { ListGroup, Dropdown } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const NavRight = () => {
+  const navigate = useNavigate();
 
-  const notiData = [
-    {
-      name: 'Joseph William',
-      image: avatar2,
-      details: 'Purchase New Theme and make payment',
-      activity: '30 min'
-    },
-    {
-      name: 'Sara Soudein',
-      image: avatar3,
-      details: 'currently login',
-      activity: '30 min'
-    },
-    {
-      name: 'Suzen',
-      image: avatar4,
-      details: 'Purchase New Theme and make payment',
-      activity: 'yesterday'
+  // Konfiguro axios për me përfshi cookies
+  const api = axios.create({
+    baseURL: 'http://localhost:5231/api',
+    withCredentials: true
+  });
+
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      // Nëse përdor refreshToken, mundesh me e dërgu këtu
+      await api.post('/auth/logout', {}); // ose { refreshToken: '...' }
+
+      // Opsional: pastro userin nga context apo localStorage nqs përdor
+      // localStorage.removeItem('user');
+
+      // Redirect në login
+      navigate('/login/signin');
+    } catch (err) {
+      console.error('Gabim gjatë logout:', err);
+      alert('Ndodhi një gabim gjatë logout.');
     }
-  ];
+  };
 
   return (
     <React.Fragment>
       <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
-  
         <ListGroup.Item as="li" bsPrefix=" ">
           <Dropdown align={'end'} className="drp-user">
             <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
@@ -42,19 +39,18 @@ const NavRight = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu align="end" className="profile-notification">
               <div className="pro-head">
-                <span>Officer's name</span>
+                <span>Profili</span>
               </div>
               <ListGroup as="ul" bsPrefix=" " variant="flush" className="pro-body">
-
                 <ListGroup.Item as="li" bsPrefix=" ">
                   <Link to="/officer/app/profile/default" className="dropdown-item">
-                    <i className="feather icon-user" /> Profile
+                    <i className="feather icon-user" /> Profili
                   </Link>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="#" className="dropdown-item">
-                    <i className="feather icon-log-out" /> Log-Out
-                  </Link>
+                  <span onClick={handleLogout} className="dropdown-item" style={{ cursor: 'pointer' }}>
+                    <i className="feather icon-log-out" /> Log out
+                  </span>
                 </ListGroup.Item>
               </ListGroup>
             </Dropdown.Menu>

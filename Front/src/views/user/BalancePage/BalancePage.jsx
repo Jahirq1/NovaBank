@@ -8,12 +8,9 @@ import {
 import "react-circular-progressbar/dist/styles.css";
 import axios from "axios";
 import "../../../assets/scss/dashboard.scss";
-
+import api from '../../../server/instance';
 /* axios instance që dërgon cookie accessToken */
-const api = axios.create({
-  baseURL: "http://localhost:5231/api",
-  withCredentials: true,
-});
+
 
 export default function BalancePage() {
   const [totalBalance, setTotalBalance] = useState(0);

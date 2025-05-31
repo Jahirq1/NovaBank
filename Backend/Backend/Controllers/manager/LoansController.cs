@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
 using Backend.Pdf;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Backend.Controllers
+namespace Backend.Controllers.manager
 {
     // DTO to project only the fields your UI needs
     public class LoanDto
@@ -21,6 +22,7 @@ namespace Backend.Controllers
 
     [Route("api/manager/loans")]
     [ApiController]
+    [Authorize]
     public class LoansController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
@@ -34,6 +36,7 @@ namespace Backend.Controllers
 
         // GET: api/manager/loans/pending
         [HttpGet("pending")]
+        [Authorize(Roles = "manager")]
         public async Task<ActionResult<IEnumerable<LoanDto>>> GetPendingLoans()
         {
             return await _context.Loans
@@ -58,6 +61,7 @@ namespace Backend.Controllers
 
         // GET: api/manager/loans/approved
         [HttpGet("approved")]
+        [Authorize(Roles = "manager")]
         public async Task<ActionResult<IEnumerable<LoanDto>>> GetApprovedLoans()
         {
             return await _context.Loans
@@ -82,6 +86,7 @@ namespace Backend.Controllers
 
         // PUT: api/manager/loans/{id}/approve
         [HttpPut("{id}/approve")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> ApproveLoan(int id)
         {
             var loan = await _context.Loans.FindAsync(id);
@@ -93,6 +98,7 @@ namespace Backend.Controllers
 
         // PUT: api/manager/loans/{id}/reject
         [HttpPut("{id}/reject")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> RejectLoan(int id)
         {
             var loan = await _context.Loans.FindAsync(id);
@@ -104,6 +110,7 @@ namespace Backend.Controllers
 
         // GET: api/manager/loans/pdf/{loanId}
         [HttpGet("pdf/{loanId}")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> GetLoanPdf(int loanId)
         {
             var loan = await _context.Loans

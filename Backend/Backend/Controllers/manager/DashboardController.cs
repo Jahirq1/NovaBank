@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Controllers
+namespace Backend.Controllers.manager
 {
     [ApiController]
     [Route("api/manager/dashboard")]
+    [Authorize]
     public class DashboardController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
@@ -16,6 +18,7 @@ namespace Backend.Controllers
 
         // GET: api/dashboard/summary
         [HttpGet("summary")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> GetSummary()
         {
             var totalBalance = await _context.Users.SumAsync(u => u.Balance);
@@ -31,6 +34,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("user-registrations/monthly")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> GetMonthlyUserRegistrations()
         {
             var registrations = await _context.Users

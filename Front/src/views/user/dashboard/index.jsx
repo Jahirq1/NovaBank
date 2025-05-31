@@ -3,12 +3,9 @@ import { Card, Table, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { FiArrowUpRight, FiArrowDownLeft } from 'react-icons/fi';
 import '../../../assets/scss/dashboard.scss';
-
+import api from '../../../server/instance'
 /* ------------ axios instance që dërgon cookie-n JWT ------------ */
-const api = axios.create({
-  baseURL: 'http://localhost:5231/api',
-  withCredentials: true,       // ⇠ dërgon accessToken (HttpOnly cookie)
-});
+
 
 
 const VolixBankDashboard = () => {

@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;  // Importo për autorizim
+using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Backend.Controllers.Officer
 {
+    [Authorize] // Shtojmë autorizimin në nivel controlleri
     [ApiController]
     [Route("api/officer/search")]
     public class SearchController : ControllerBase
@@ -15,17 +18,22 @@ namespace Backend.Controllers.Officer
         public SearchController(NovaBankDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
-
             _passwordHasher = passwordHasher;
         }
 
-        // GET: /api/search/look?searchTerm=xxx
+        // GET: /api/officer/search/look?searchTerm=xxx
         [HttpGet("look")]
+        [Authorize(Roles = "officer")]
         public async Task<IActionResult> SearchUsers([FromQuery] string searchTerm)
         {
+            // Opsionale: Merr userId nga tokeni nese do ta përdorësh për logikë shtesë
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized("User ID nuk u gjet në token.");
+
             var users = await _context.Users
                 .Where(u => (u.name.Contains(searchTerm) || u.email.Contains(searchTerm) || u.PersonalID.ToString().Contains(searchTerm))
-                            && u.role == "user")  // filtro vetëm me role "user"
+                            && u.role == "user")
                 .ToListAsync();
 
             if (!users.Any())
@@ -34,9 +42,9 @@ namespace Backend.Controllers.Officer
             return Ok(users);
         }
 
-
-        // DELETE: /api/search/delete/5
+        // DELETE: /api/officer/search/{id}
         [HttpDelete("{id}")]
+        [Authorize(Roles = "officer")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await _context.Users
@@ -48,18 +56,18 @@ namespace Backend.Controllers.Officer
             if (user == null)
                 return NotFound();
 
-            // Fshi manualisht të dhënat e lidhura
             _context.Transactions.RemoveRange(user.SentTransactions);
             _context.Transactions.RemoveRange(user.ReceivedTransactions);
             _context.KlientLoans.RemoveRange(user.KlientLoans);
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            return Ok("perdoruesi u shly me sukses");
+            return Ok("Përdoruesi u fshi me sukses.");
         }
 
-        // PUT: /api/search/update/5
+        // PUT: /api/officer/search/update/{id}
         [HttpPut("update/{id}")]
+        [Authorize(Roles = "officer")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
         {
             if (updatedUser == null)
@@ -68,15 +76,14 @@ namespace Backend.Controllers.Officer
             if (id != updatedUser.id)
                 return BadRequest($"ID-ja e përdoruesit nuk përputhet. URL ID: {id}, Body ID: {updatedUser.id}");
 
-
             var user = await _context.Users.FindAsync(id);
             if (user == null)
                 return NotFound("Përdoruesi nuk u gjet.");
+
             if (!string.IsNullOrEmpty(updatedUser.password))
             {
                 user.password = _passwordHasher.HashPassword(user, updatedUser.password);
             }
-
 
             user.name = updatedUser.name;
             user.email = updatedUser.email;
@@ -89,6 +96,14 @@ namespace Backend.Controllers.Officer
             await _context.SaveChangesAsync();
 
             return Ok("Përdoruesi u përditësua me sukses.");
+        }
+
+        private int? GetUserIdFromToken()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+                return userId;
+            return null;
         }
     }
 }

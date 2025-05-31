@@ -1,119 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Table, Modal } from 'react-bootstrap';
-import axios from 'axios';
+import Cookies from 'js-cookie';
+import api from '../../../server/instance'; // importoj api nga axiosInstance.js
 
 const RegisterForm = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
+
   const [editingUser, setEditingUser] = useState(null);
   const [editFormData, setEditFormData] = useState({
     id: '',
-    PersonalID: '',
+    personalID: '',
     name: '',
     email: '',
     phone: '',
     address: '',
     city: '',
     dateOfBirth: '',
-    role: '',  
+    role: '',
     password: '',
     confirmPassword: '',
   });
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      if (!searchTerm.trim()) {
-        setUsers([]);
-        return;
-      }
-      try {
-        const response = await fetch(`http://localhost:5231/api/officer/search/look?searchTerm=${searchTerm}`);
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data);
-        } else {
-          setUsers([]);
-        }
-      } catch (error) {
-        console.error('Gabim gjatë kërkimit:', error);
-        setUsers([]);
-      }
-    };
-
-    fetchUsers();
-  }, [searchTerm]);
-
-  const handleDelete = async (id) => {
-    if (window.confirm('A je i sigurt që dëshiron të fshish këtë përdorues?')) {
-      try {
-        const response = await fetch(`http://localhost:5231/api/officer/search/delete/${id}`, {
-          method: 'DELETE',
-        });
-        if (response.ok) {
-          alert('Përdoruesi u fshi me sukses.');
-          setUsers(users.filter(user => user.id !== id));
-        } else {
-          alert('Fshirja dështoi.');
-        }
-      } catch (error) {
-        console.error('Gabim gjatë fshirjes:', error);
-      }
-    }
-  };
-
-  const handleEdit = (user) => {
-    setEditingUser(user);
-    setEditFormData({
-      id: user.id,
-      PersonalID: user.personalID,
-      name: user.name || '',
-      email: user.email || '',
-      phone: user.phone || '',
-      address: user.address || '',
-      city: user.city || '',
-      dateOfBirth: user.dateOfBirth ? user.dateOfBirth.split('T')[0] : '',
-      role: user.role || '',
-    });
-  };
-  
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  
-  const handleEditSubmit = async (e) => {
-    e.preventDefault();
-    if (editFormData.password !== editFormData.confirmPassword) {
-      alert('Fjalëkalimet nuk përputhen!');
-      return;
-    }  
-    try {
-      console.log('Data to update:', editFormData);
-  
-      const response = await axios.put(`http://localhost:5231/api/officer/search/update/${editFormData.id}`, editFormData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (response.status === 200) {
-        alert('Përdoruesi u përditësua me sukses.');
-        setUsers(users.map(u => (u.id === editFormData.id ? { ...u, ...editFormData } : u)));
-        setEditingUser(null);
-      } else {
-        alert('Gabim gjatë përditësimit të përdoruesit.');
-      }
-    } catch (error) {
-      console.error('Gabim gjatë përditësimit:', error.response ? error.response.data : error.message);
-    }
-  };
-
-  const handleCloseEdit = () => setEditingUser(null);
-
-  // -- Ky është formData i modifikuar --
   const [formData, setFormData] = useState({
-    PersonalID: '',
+    personalID: '',
     name: '',
     email: '',
     password: '',
@@ -125,21 +35,121 @@ const RegisterForm = () => {
     city: '',
   });
 
+  // Merr përdoruesit sipas kërkimit
+  useEffect(() => {
+    const fetchUsers = async () => {
+      if (!searchTerm.trim()) {
+        setUsers([]);
+        return;
+      }
+
+      try {
+        const response = await api.get('/officer/search/look', {
+          params: { searchTerm }
+        });
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Gabim gjatë kërkimit:', error.response?.data || error.message);
+        setUsers([]);
+      }
+    };
+
+    fetchUsers();
+  }, [searchTerm]);
+
+  // Fshij përdoruesin
+  const handleDelete = async (id) => {
+    if (window.confirm('A je i sigurt që dëshiron të fshish këtë përdorues?')) {
+      try {
+        await api.delete(`/officer/search/${id}`);
+        alert('Përdoruesi u fshi me sukses.');
+        setUsers(users.filter(user => user.id !== id));
+      } catch (error) {
+        console.error('Gabim gjatë fshirjes:', error.response?.data || error.message);
+        alert('Fshirja dështoi.');
+      }
+    }
+  };
+
+  // Hap modalin e editimit me të dhënat e përdoruesit
+  const handleEdit = (user) => {
+    setEditingUser(user);
+    setEditFormData({
+      id: user.id,
+      personalID: user.personalID,
+      name: user.name || '',
+      email: user.email || '',
+      phone: user.phone || '',
+      address: user.address || '',
+      city: user.city || '',
+      dateOfBirth: user.dateOfBirth ? user.dateOfBirth.split('T')[0] : '',
+      role: user.role || '',
+      password: '',
+      confirmPassword: '',
+    });
+  };
+
+  // Ndryshimi i të dhënave në modalin e editimit
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  // Submit përditësimi i përdoruesit
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+
+    if (editFormData.password !== editFormData.confirmPassword) {
+      alert('Fjalëkalimet nuk përputhen!');
+      return;
+    }
+
+    const updatePayload = {
+      id: editFormData.id,
+      personalID: editFormData.personalID,
+      name: editFormData.name,
+      email: editFormData.email,
+      phone: editFormData.phone,
+      address: editFormData.address,
+      city: editFormData.city,
+      dateOfBirth: editFormData.dateOfBirth,
+      role: editFormData.role,
+      password: editFormData.password || undefined,
+    };
+
+    // Nëse fjalëkalimi është bosh, heqim fushën nga payload
+    if (!updatePayload.password) delete updatePayload.password;
+
+    try {
+      await api.put(`/officer/search/update/${editFormData.id}`, updatePayload);
+      alert('Përdoruesi u përditësua me sukses.');
+      setUsers(users.map(u => (u.id === editFormData.id ? { ...u, ...updatePayload } : u)));
+      setEditingUser(null);
+    } catch (error) {
+      console.error('Gabim gjatë përditësimit:', error.response?.data || error.message);
+      alert('Gabim gjatë përditësimit të përdoruesit.');
+    }
+  };
+
+  const handleCloseEdit = () => setEditingUser(null);
+
+  // Ndryshimi i të dhënave në formën e regjistrimit
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Submit krijimi i përdoruesit të ri
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (formData.password !== formData.confirmPassword) {
       alert('Fjalëkalimet nuk përputhen!');
       return;
     }
-  
+
     const userToSend = {
-      PersonalID: parseInt(formData.personalID),
+      PersonalID: parseInt(formData.personalID, 10),
       name: formData.name,
       email: formData.email,
       password: formData.password,
@@ -153,18 +163,31 @@ const RegisterForm = () => {
       ReceivedTransactions: [],
       KlientLoans: []
     };
-  
+
     try {
-      console.log(userToSend);
-      await axios.post('http://localhost:5231/api/officer/user/create', userToSend);
-      alert('u kriju me sukses useri');
+      await api.post('/officer/user/create', userToSend, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      alert('U krijua me sukses përdoruesi');
+      setFormData({
+        personalID: '',
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        dateOfBirth: '',
+        role: 'user',
+        phone: '',
+        address: '',
+        city: '',
+      });
     } catch (error) {
-      console.error(error.response.data);
-      alert('ka ndodh nje gabim');
+      console.error(error.response?.data || error.message);
+      alert('Ka ndodhur një gabim gjatë krijimit.');
     }
   };
-  
-  
 
   return (
     <>
@@ -206,7 +229,7 @@ const RegisterForm = () => {
                 <td>{user.personalID}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
-                <td>{user.dateOfBirth}</td>
+                <td>{user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : '—'}</td>
                 <td>{user.phone}</td>
                 <td>{user.address}</td>
                 <td>{user.city}</td>
@@ -304,38 +327,41 @@ const RegisterForm = () => {
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="editPassword">
-                 <Form.Label>Fjalëkalimi i Ri (nëse do me e ndërru)</Form.Label>
-               <Form.Control
-                     type="password"
-                      name="password"
-                     value={editFormData.password}
-                     onChange={handleEditChange}
-                  />
-                    </Form.Group>
 
-             <Form.Group className="mb-3" controlId="editConfirmPassword">
-                       <Form.Label>Konfirmo Fjalëkalimin</Form.Label>
-                              <Form.Control
-                                    type="password"
-                        name="confirmPassword"
-                       value={editFormData.confirmPassword}
-                              onChange={handleEditChange}
-                  />
-                                  </Form.Group>
+            <Form.Group className="mb-3" controlId="editPassword">
+              <Form.Label>Fjalëkalimi i Ri (nëse do me e ndërru)</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={editFormData.password}
+                onChange={handleEditChange}
+                placeholder="Lëre bosh nëse nuk do e ndryshosh"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="editConfirmPassword">
+              <Form.Label>Konfirmo Fjalëkalimin</Form.Label>
+              <Form.Control
+                type="password"
+                name="confirmPassword"
+                value={editFormData.confirmPassword}
+                onChange={handleEditChange}
+                placeholder="Lëre bosh nëse nuk do e ndryshosh"
+              />
+            </Form.Group>
 
             <Button variant="primary" type="submit">Ruaj Ndryshimet</Button>
           </Form>
         </Modal.Body>
       </Modal>
 
-      {/* Forma e regjistrimit */}
-      <Card className="mb-3">
+      {/* Form për regjistrim */}
+      <Card className="mt-4">
         <Card.Body>
-          <Card.Title>Regjistro Përdorues</Card.Title>
+          <Card.Title>Krijo Përdorues të Ri</Card.Title>
           <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="personalID">
-              <Form.Label>Personal ID</Form.Label>
+            <Form.Group className="mb-3" controlId="formPersonalID">
+              <Form.Label>PersonalID</Form.Label>
               <Form.Control
                 type="number"
                 name="personalID"
@@ -345,7 +371,7 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="name">
+            <Form.Group className="mb-3" controlId="formName">
               <Form.Label>Emri</Form.Label>
               <Form.Control
                 type="text"
@@ -356,7 +382,7 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="email">
+            <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
@@ -367,7 +393,7 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="password">
+            <Form.Group className="mb-3" controlId="formPassword">
               <Form.Label>Fjalëkalimi</Form.Label>
               <Form.Control
                 type="password"
@@ -378,7 +404,7 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="confirmPassword">
+            <Form.Group className="mb-3" controlId="formConfirmPassword">
               <Form.Label>Konfirmo Fjalëkalimin</Form.Label>
               <Form.Control
                 type="password"
@@ -389,7 +415,7 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="dateOfBirth">
+            <Form.Group className="mb-3" controlId="formDateOfBirth">
               <Form.Label>Data e Lindjes</Form.Label>
               <Form.Control
                 type="date"
@@ -400,20 +426,18 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="role">
+            <Form.Group className="mb-3" controlId="formRole">
               <Form.Label>Roli</Form.Label>
               <Form.Control
-                as="select"
+                type="text"
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
                 required
-              >
-                <option value="user">User</option>
-              </Form.Control>
+              />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="phone">
+            <Form.Group className="mb-3" controlId="formPhone">
               <Form.Label>Telefon</Form.Label>
               <Form.Control
                 type="text"
@@ -424,7 +448,7 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="address">
+            <Form.Group className="mb-3" controlId="formAddress">
               <Form.Label>Adresa</Form.Label>
               <Form.Control
                 type="text"
@@ -435,7 +459,7 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="city">
+            <Form.Group className="mb-3" controlId="formCity">
               <Form.Label>Qyteti</Form.Label>
               <Form.Control
                 type="text"
@@ -446,12 +470,12 @@ const RegisterForm = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">Regjistro</Button>
+            <Button variant="primary" type="submit">Krijo Përdorues</Button>
           </Form>
         </Card.Body>
       </Card>
     </>
   );
-
 };
+
 export default RegisterForm;

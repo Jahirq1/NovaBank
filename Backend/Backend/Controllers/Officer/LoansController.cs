@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
@@ -10,36 +9,64 @@ using Backend.Models.DTO;
 
 namespace Backend.Controllers.Officer
 {
+    [Authorize]
     [Route("api/officer/loans")]
     [ApiController]
     public class LoansController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
         private readonly Pdf.PdfGenerator _pdfGenerator;
-        public LoansController(NovaBankDbContext context,  Pdf.PdfGenerator pdfGenerator)
+
+        public LoansController(NovaBankDbContext context, Pdf.PdfGenerator pdfGenerator)
         {
-          
-            _pdfGenerator = pdfGenerator;
             _context = context;
+            _pdfGenerator = pdfGenerator;
         }
 
         [HttpGet("my-loans-count")]
-        public IActionResult GetMyLoansCount([FromQuery] int userId)
+        [Authorize(Roles = "officer")]
+        public IActionResult GetMyLoansCount()
         {
-            // Verifikim bazik nëse ekziston user-i
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized(new { message = "User ID not found or invalid in token" });
+
             var exists = _context.Users.Any(u => u.id == userId);
             if (!exists)
                 return Unauthorized(new { message = "User not found" });
 
             var loansCount = _context.KlientLoans
-            .Where(kl => kl.KlientId == userId)
-            .Count();
+                .Count(kl => kl.KlientId == userId);
 
             return Ok(new { totalLoans = loansCount });
         }
 
+        [HttpGet("my-loans")]
+        [Authorize(Roles = "officer")]
+        public async Task<IActionResult> GetMyLoans()
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized(new { message = "User ID not found or invalid in token" });
+
+            var loans = await _context.KlientLoans
+                .Where(kl => kl.KlientId == userId)
+                .Include(kl => kl.Loan)
+                .Select(kl => new
+                {
+                    kl.Loan.LoanId,
+                    kl.Loan.LoanAmount,
+                    kl.Loan.ApplicationDate,
+                    kl.Loan.ApproveStatus,
+                    kl.Loan.DurationMonths
+                })
+                .ToListAsync();
+
+            return Ok(loans);
+        }
 
         [HttpPost("create")]
+        [Authorize(Roles = "officer")]
         public async Task<IActionResult> CreateLoan([FromBody] TabelaLoans loanDto)
         {
             var klient = await _context.Users.FirstOrDefaultAsync(u => u.PersonalID == loanDto.PersonalID);
@@ -47,7 +74,7 @@ namespace Backend.Controllers.Officer
             {
                 return BadRequest("Klienti nuk ekziston në sistem. Ju lutem krijoni account para se të aplikoni për kredi.");
             }
-            // Kontrollo nëse ekziston menaxheri
+
             var manager = await _context.Users.FindAsync(loanDto.ManagerId);
             if (manager == null)
             {
@@ -65,7 +92,7 @@ namespace Backend.Controllers.Officer
                 DurationMonths = loanDto.DurationMonths,
                 Collateral = loanDto.Collateral,
                 ManagerId = loanDto.ManagerId,
-                ApproveStatus = false,  // default
+                ApproveStatus = false,
                 viewStatus = false
             };
 
@@ -75,8 +102,8 @@ namespace Backend.Controllers.Officer
             return CreatedAtAction(nameof(GetLoanById), new { id = loan.LoanId }, loan);
         }
 
-        // GET: api/loans/{id}
         [HttpGet("find/{id}")]
+        [Authorize(Roles = "officer")]
         public async Task<IActionResult> GetLoanById(int id)
         {
             var loan = await _context.Loans
@@ -86,9 +113,7 @@ namespace Backend.Controllers.Officer
                 .FirstOrDefaultAsync(l => l.LoanId == id);
 
             if (loan == null)
-            {
                 return NotFound();
-            }
 
             return Ok(new
             {
@@ -117,8 +142,8 @@ namespace Backend.Controllers.Officer
             });
         }
 
-
         [HttpGet("status")]
+        [Authorize(Roles = "officer")]
         public async Task<IActionResult> GetLoansStatus()
         {
             var loans = await _context.Loans
@@ -134,24 +159,33 @@ namespace Backend.Controllers.Officer
             return Ok(loans);
         }
 
-[HttpGet("pdf/{loanId}")]
-public async Task<IActionResult> GetLoanPdf(int loanId)
-{
-    var loan = await _context.Loans.Include(l => l.Manager)
-                                   .FirstOrDefaultAsync(l => l.LoanId == loanId);
-    if (loan == null) return NotFound("Kredi nuk u gjet.");
+        [HttpGet("pdf/{loanId}")]
+        [Authorize(Roles = "officer")]
+        public async Task<IActionResult> GetLoanPdf(int loanId)
+        {
+            var loan = await _context.Loans.Include(l => l.Manager)
+                                           .FirstOrDefaultAsync(l => l.LoanId == loanId);
+            if (loan == null)
+                return NotFound("Kredi nuk u gjet.");
 
-    // Merr userin nga personalId ose userId i kredisë
-    var user = await _context.Users.FirstOrDefaultAsync(u => u.PersonalID == loan.PersonalID);
-    if (user == null) return NotFound("User nuk u gjet.");
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PersonalID == loan.PersonalID);
+            if (user == null)
+                return NotFound("User nuk u gjet.");
 
-    var pdfBytes = _pdfGenerator.GenerateLoanPdf(loan, user);
+            var pdfBytes = _pdfGenerator.GenerateLoanPdf(loan, user);
+            if (pdfBytes == null)
+                return NotFound("PDF nuk u krijua.");
 
-    if (pdfBytes == null)
-        return NotFound("PDF nuk u krijua.");
+            return File(pdfBytes, "application/pdf", $"Loan_{loanId}.pdf");
+        }
 
-    return File(pdfBytes, "application/pdf", $"Loan_{loanId}.pdf");
-}
+        private int? GetUserIdFromToken()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+                return userId;
+            return null;
+        }
 
         private bool LoansExists(int id)
         {

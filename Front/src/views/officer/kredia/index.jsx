@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Table } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../../../server/instance';
 
 const CreditApplicationForm = () => {
   const [formData, setFormData] = useState({
@@ -17,40 +17,44 @@ const CreditApplicationForm = () => {
     creditTerm: '',
     collateral: '',
     previousLoans: '',
-    managerId: 0, // Vlera do vendoset nga localStorage
+    managerId: 0, // vendoset nga backend
   });
 
-  
   const [loans, setLoans] = useState([]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  // Merr managerId nga localStorage në ngarkim të komponentit
+  // Merr managerId nga backend në ngarkim të komponentit
   useEffect(() => {
-    const storedManagerId = localStorage.getItem('userId');
-    if (storedManagerId) {
-      setFormData(prev => ({
-        ...prev,
-        managerId: parseInt(storedManagerId, 10),
-      }));
-    }
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await api.get('/auth/me');
+        setFormData(prev => ({
+          ...prev,
+          managerId: response.data.id,
+        }));
+      } catch (err) {
+        console.error('Gabim gjatë marrjes së përdoruesit:', err);
+      }
+    };
+
+    fetchCurrentUser();
   }, []);
 
-  // Merr listën e kredive
+  // Merr listën e kredive në ngarkim dhe pas aplikimit
   useEffect(() => {
     fetchLoans();
   }, []);
 
   const fetchLoans = async () => {
     try {
-      const response = await axios.get('http://localhost:5231/api/officer/loans/status');
-      console.log('Loans nga API:', response.data);  // Debug: shiko të dhënat që vijnë
+      const response = await api.get('/officer/loans/status');
       setLoans(response.data);
     } catch (err) {
       console.error('Gabim në marrjen e kredive:', err);
+      setError('Gabim në marrjen e kredive.');
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,13 +62,12 @@ const CreditApplicationForm = () => {
   };
 
   const handleViewLoanPdf = async (loanId) => {
-    console.log('LoanId që po përdoret për PDF:', loanId);
     if (!loanId) {
       alert('LoanId është i pa definuar!');
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:5231/api/officer/loans/pdf/${loanId}`, {
+      const response = await api.get(`/officer/loans/pdf/${loanId}`, {
         responseType: 'blob',
       });
       const file = new Blob([response.data], { type: 'application/pdf' });
@@ -90,11 +93,11 @@ const CreditApplicationForm = () => {
       Reason: formData.creditPurpose,
       DurationMonths: parseInt(formData.creditTerm, 10),
       Collateral: formData.collateral,
-      ManagerId: formData.managerId, // e dërgon nga localStorage
+      ManagerId: formData.managerId,
     };
 
     try {
-      await axios.post('http://localhost:5231/api/officer/loans/create', loanDto);
+      await api.post('/officer/loans/create', loanDto);
       setSuccessMessage('Aplikimi u krye me sukses!');
       fetchLoans();
       setFormData(prev => ({
@@ -108,8 +111,11 @@ const CreditApplicationForm = () => {
         collateral: '',
       }));
     } catch (err) {
-      if (err.response && err.response.data) {
-        setError(typeof err.response.data === 'string' ? err.response.data : err.response.data.message || 'Gabim në aplikim');
+      if (err.response?.data) {
+        const message = typeof err.response.data === 'string'
+          ? err.response.data
+          : err.response.data.message || 'Gabim në aplikim';
+        setError(message);
       } else {
         setError('Gabim në aplikim');
       }
@@ -121,47 +127,45 @@ const CreditApplicationForm = () => {
       <Col md={12}>
         <Card className="mb-4">
           <Card.Header>
-            <Card.Title>Kredia të Leshuara (Statusi)</Card.Title>
+            <Card.Title>Kredia të Lëshuara (Statusi)</Card.Title>
           </Card.Header>
           <Card.Body>
             <Table responsive hover>
-  <thead>
-    <tr>
-      <th>ID e kredis</th>
-      <th>Personal ID</th>
-      <th>shiko</th>
-      <th>Statusi</th>
-    </tr>
-  </thead>
-  <tbody>
-    {loans.length === 0 ? (
-      <tr>
-        <td colSpan="5" className="text-center">Nuk ka kredi</td>
-      </tr>
-    ) : (
-      loans.map((loan, index) => (
-<tr key={loan.loanId}>
-  <td>{loan.loanId}</td>
-  <td>{loan.personalID}</td>
-  <td>
-    <Button
-      variant="info"
-      size="sm"
-      onClick={() => handleViewLoanPdf(loan.loanId)}
-    >
-      Shiko Kredinë
-    </Button>
-  </td>
-  <td style={{ color: loan.approveStatus ? 'green' : 'orange' }}>
-    {loan.approveStatus ? 'Pranuar' : 'Në pritje'}
-  </td>
-</tr>
-
-      ))
-    )}
-  </tbody>
-</Table>
-
+              <thead>
+                <tr>
+                  <th>ID e kredisë</th>
+                  <th>Personal ID</th>
+                  <th>Shiko</th>
+                  <th>Statusi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loans.length === 0 ? (
+                  <tr>
+                    <td colSpan="4" className="text-center">Nuk ka kredi</td>
+                  </tr>
+                ) : (
+                  loans.map(loan => (
+                    <tr key={loan.loanId}>
+                      <td>{loan.loanId}</td>
+                      <td>{loan.personalID}</td>
+                      <td>
+                        <Button
+                          variant="info"
+                          size="sm"
+                          onClick={() => handleViewLoanPdf(loan.loanId)}
+                        >
+                          Shiko Kredinë
+                        </Button>
+                      </td>
+                      <td style={{ color: loan.approveStatus ? 'green' : 'orange' }}>
+                        {loan.approveStatus ? 'Pranuar' : 'Në pritje'}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </Table>
           </Card.Body>
         </Card>
       </Col>
@@ -175,6 +179,7 @@ const CreditApplicationForm = () => {
             {error && <div style={{ color: 'red', marginBottom: 10 }}>{error}</div>}
             {successMessage && <div style={{ color: 'green', marginBottom: 10 }}>{successMessage}</div>}
             <Form onSubmit={handleSubmit}>
+
               <Form.Group className="mb-3" controlId="formIdCardNumber">
                 <Form.Label>Numri i ID Kartelës (PersonalID)</Form.Label>
                 <Form.Control

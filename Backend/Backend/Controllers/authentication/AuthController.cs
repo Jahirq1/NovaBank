@@ -5,7 +5,6 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace Backend.Controllers.authentication
@@ -16,33 +15,21 @@ namespace Backend.Controllers.authentication
     {
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly TokenService _tokenService;
-        private readonly NovaBankDbContext _context;
+      private readonly NovaBankDbContext _context;
 
+        private int? GetUserIdFromToken()
+        {
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "UserID");
+            if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+                return userId;
+            return null;
+        }
 
         public AuthController(TokenService tokenService, IPasswordHasher<User> passwordHasher, NovaBankDbContext context)
         {
             _tokenService = tokenService;
             _passwordHasher = passwordHasher;
             _context = context;
-        }
-
-        [HttpGet("me")]
-        [Authorize]
-        public IActionResult Me()
-        {
-            var userId = User.FindFirst("UserID")?.Value;
-            var personalId = User.FindFirst("PersonalID")?.Value;
-            var role = User.FindFirst(ClaimTypes.Role)?.Value ?? "user";
-
-            if (string.IsNullOrEmpty(userId))
-                return Unauthorized();
-
-            return Ok(new
-            {
-                userId = int.Parse(userId),
-                personalId,
-                role
-            });
         }
 
         [HttpPost("login")]
@@ -63,14 +50,12 @@ namespace Backend.Controllers.authentication
             var tokens = _tokenService.GenerateTokens(user);
 
             // Vendos token-in në cookie HttpOnly (shembull me AccessToken)
-
-
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
                 Secure = false, // Në development vendos false, në prod vendos true
                 SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes(60)
+                Expires = DateTime.UtcNow.AddDays(1)
             };
 
             Response.Cookies.Append("accessToken", tokens.AccessToken, cookieOptions);
@@ -81,7 +66,29 @@ namespace Backend.Controllers.authentication
             // Kthe vetëm info që dëshiron në frontend (pa token)
             return Ok(new { role = user.role });
         }
+        [HttpGet("me")]
+        public IActionResult GetCurrentUser()
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized();
 
+            var user = _context.Users.FirstOrDefault(u => u.id == userId);
+            if (user == null)
+                return NotFound();
+
+            return Ok(new
+            {
+                user.id,
+                user.name,
+                user.email,
+                user.address,
+                user.dateOfBirth,
+                user.PersonalID,
+                user.phone
+                // ose çdo info që duhet për managerId
+            });
+        }
 
 
         [HttpPost("refresh")]
@@ -99,10 +106,21 @@ namespace Backend.Controllers.authentication
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout([FromBody] TokenRequest request)
+        public IActionResult Logout()
         {
-            _tokenService.RevokeRefreshToken(request.RefreshToken);
+            // Merr refreshToken nga cookie
+            if (Request.Cookies.TryGetValue("refreshToken", out var refreshToken))
+            {
+                _tokenService.RevokeRefreshToken(refreshToken);
+            }
+
+            // Fshi cookie nga klienti nëse dëshiron
+            Response.Cookies.Delete("refreshToken");
+            Response.Cookies.Delete("accessToken");
+
             return NoContent();
         }
+
     }
 }
+

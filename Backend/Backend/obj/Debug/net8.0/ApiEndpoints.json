@@ -22,18 +22,12 @@
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "Backend.Models.DTO.TokenRequest",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
     "ContainingType": "Backend.Controllers.authentication.AuthController",
-    "Method": "Me",
+    "Method": "GetCurrentUser",
     "RelativePath": "api/auth/me",
     "HttpMethod": "GET",
     "IsController": true,
@@ -58,7 +52,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.manager.UsersController",
     "Method": "GetUsers",
     "RelativePath": "api/manager",
     "HttpMethod": "GET",
@@ -89,7 +83,7 @@
     ]
   },
   {
-    "ContainingType": "Backend.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.manager.UsersController",
     "Method": "RegisterUser",
     "RelativePath": "api/manager",
     "HttpMethod": "POST",
@@ -115,7 +109,7 @@
     ]
   },
   {
-    "ContainingType": "Backend.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.manager.UsersController",
     "Method": "UpdateUser",
     "RelativePath": "api/manager/{id}",
     "HttpMethod": "PUT",
@@ -136,7 +130,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.manager.UsersController",
     "Method": "DeleteUser",
     "RelativePath": "api/manager/{id}",
     "HttpMethod": "DELETE",
@@ -152,7 +146,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.DashboardController",
+    "ContainingType": "Backend.Controllers.manager.DashboardController",
     "Method": "GetSummary",
     "RelativePath": "api/manager/dashboard/summary",
     "HttpMethod": "GET",
@@ -162,7 +156,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.DashboardController",
+    "ContainingType": "Backend.Controllers.manager.DashboardController",
     "Method": "GetMonthlyUserRegistrations",
     "RelativePath": "api/manager/dashboard/user-registrations/monthly",
     "HttpMethod": "GET",
@@ -172,7 +166,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.LoansController",
+    "ContainingType": "Backend.Controllers.manager.LoansController",
     "Method": "ApproveLoan",
     "RelativePath": "api/manager/loans/{id}/approve",
     "HttpMethod": "PUT",
@@ -188,7 +182,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.LoansController",
+    "ContainingType": "Backend.Controllers.manager.LoansController",
     "Method": "RejectLoan",
     "RelativePath": "api/manager/loans/{id}/reject",
     "HttpMethod": "PUT",
@@ -204,7 +198,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.LoansController",
+    "ContainingType": "Backend.Controllers.manager.LoansController",
     "Method": "GetApprovedLoans",
     "RelativePath": "api/manager/loans/approved",
     "HttpMethod": "GET",
@@ -213,7 +207,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Backend.Controllers.LoanDto, Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Backend.Controllers.manager.LoanDto, Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -224,7 +218,7 @@
     ]
   },
   {
-    "ContainingType": "Backend.Controllers.LoansController",
+    "ContainingType": "Backend.Controllers.manager.LoansController",
     "Method": "GetLoanPdf",
     "RelativePath": "api/manager/loans/pdf/{loanId}",
     "HttpMethod": "GET",
@@ -240,7 +234,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "Backend.Controllers.LoansController",
+    "ContainingType": "Backend.Controllers.manager.LoansController",
     "Method": "GetPendingLoans",
     "RelativePath": "api/manager/loans/pending",
     "HttpMethod": "GET",
@@ -249,7 +243,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[Backend.Controllers.LoanDto, Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Backend.Controllers.manager.LoanDto, Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -260,19 +254,13 @@
     ]
   },
   {
-    "ContainingType": "Backend.Controllers.UsersController",
-    "Method": "GetUserProfile",
-    "RelativePath": "api/manager/profile/{id}",
+    "ContainingType": "Backend.Controllers.manager.UsersController",
+    "Method": "GetCurrentProfile",
+    "RelativePath": "api/manager/profile",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": [
       {
         "Type": "Backend.Models.User",
@@ -286,18 +274,13 @@
     ]
   },
   {
-    "ContainingType": "Backend.Controllers.UsersController",
-    "Method": "UpdateUserProfile",
-    "RelativePath": "api/manager/profile/{id}",
+    "ContainingType": "Backend.Controllers.manager.UsersController",
+    "Method": "UpdateCurrentProfile",
+    "RelativePath": "api/manager/profile",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
       {
         "Name": "updatedUser",
         "Type": "Backend.Models.User",
@@ -340,18 +323,22 @@
   },
   {
     "ContainingType": "Backend.Controllers.Officer.LoansController",
+    "Method": "GetMyLoans",
+    "RelativePath": "api/officer/loans/my-loans",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.Officer.LoansController",
     "Method": "GetMyLoansCount",
     "RelativePath": "api/officer/loans/my-loans-count",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -502,13 +489,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -518,13 +499,7 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -591,7 +566,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NOVA_API.Controllers.TransactionsController",
+    "ContainingType": "Backend.Controllers.user.TransactionsController",
     "Method": "GetMyTransactions",
     "RelativePath": "api/user/transactions/me",
     "HttpMethod": "GET",
@@ -601,7 +576,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NOVA_API.Controllers.TransactionsController",
+    "ContainingType": "Backend.Controllers.user.TransactionsController",
     "Method": "GetMyTransaction",
     "RelativePath": "api/user/transactions/me/{id}",
     "HttpMethod": "GET",
@@ -617,7 +592,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NOVA_API.Controllers.TransactionsController",
+    "ContainingType": "Backend.Controllers.user.TransactionsController",
     "Method": "GetMyMonthlyExpense",
     "RelativePath": "api/user/transactions/me/monthly-expense",
     "HttpMethod": "GET",
@@ -627,7 +602,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NOVA_API.Controllers.TransactionsController",
+    "ContainingType": "Backend.Controllers.user.TransactionsController",
     "Method": "Transfer",
     "RelativePath": "api/user/transactions/transfer",
     "HttpMethod": "POST",
@@ -643,7 +618,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NOVA_API.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.user.UsersController",
     "Method": "RegisterUser",
     "RelativePath": "api/users",
     "HttpMethod": "POST",
@@ -669,7 +644,7 @@
     ]
   },
   {
-    "ContainingType": "NOVA_API.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.user.UsersController",
     "Method": "GetMyBalance",
     "RelativePath": "api/users/balance",
     "HttpMethod": "GET",
@@ -679,7 +654,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NOVA_API.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.user.UsersController",
     "Method": "GetMyProfile",
     "RelativePath": "api/users/profile",
     "HttpMethod": "GET",
@@ -699,7 +674,7 @@
     ]
   },
   {
-    "ContainingType": "NOVA_API.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.user.UsersController",
     "Method": "UpdateMyProfile",
     "RelativePath": "api/users/profile",
     "HttpMethod": "PUT",
@@ -745,7 +720,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "NOVA_API.Controllers.UsersController",
+    "ContainingType": "Backend.Controllers.user.UsersController",
     "Method": "GetMySpendingLimit",
     "RelativePath": "api/users/spending-limit",
     "HttpMethod": "GET",

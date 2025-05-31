@@ -117,7 +117,7 @@ const routes = [
   {
     path: '*',
     layout: AuthLayout,
-    element: () => <div>404 - Page Not Found</div>
+    element: lazy(() => import('./views/auth/signin/SignIn1'))
   }
 ];
 
