@@ -4,55 +4,52 @@ import axios from 'axios';
 import { FiArrowUpRight, FiArrowDownLeft } from 'react-icons/fi';
 import '../../../assets/scss/dashboard.scss';
 
-const getUserId = () => localStorage.getItem('userId');
+/* ------------ axios instance që dërgon cookie-n JWT ------------ */
+const api = axios.create({
+  baseURL: 'http://localhost:5231/api',
+  withCredentials: true,       // ⇠ dërgon accessToken (HttpOnly cookie)
+});
+
 
 const VolixBankDashboard = () => {
-  const [balance, setBalance]   = useState(0);
-  const [income, setIncome]     = useState(0);
-  const [expense, setExpense]   = useState(0);
+  const [balance, setBalance]         = useState(0);
+  const [income, setIncome]           = useState(0);
+  const [expense, setExpense]         = useState(0);
   const [transactions, setTransactions] = useState([]);
 
-  useEffect(() => {
-    const userId = getUserId();
-    if (!userId) return;
+  /* -------------------  marrja e të dhënave  -------------------- */
+  const fetchData = async () => {
+    try {
+      /* 1) Transaksionet e mia (backend e di ID-n) */
+      const resTx = await api.get('/user/transactions/me');
+      const tx = resTx.data.map((t) => ({
+        id:   t.id,
+        date: t.date,
+        description: t.note
+          ?? (t.amount < 0 ? `Transfer te ${t.receiverName}` : `Transfer nga ${t.senderName}`),
+        amount: t.amount,
+      }));
 
-    /* ──────────────── 1. TRANSAKSIONET ──────────────── */
-    axios
-      .get(`http://localhost:5231/api/user/transactions/user/${userId}`)
-      .then((res) => {
-        // normalizo fusha që mund të vijnë me shkronjë të madhe
-        const tx = res.data.map((t) => ({
-          id:         t.id        ?? t.Id,
-          date:       t.date      ?? t.Date,
-          description:t.description ?? t.Note ?? 'Transfer',
-          amount:     t.amount    ?? t.Amount
-        }));
+      const totInc = tx.filter((t) => t.amount > 0)
+                       .reduce((s, t) => s + t.amount, 0);
+      const totExp = tx.filter((t) => t.amount < 0)
+                       .reduce((s, t) => s + Math.abs(t.amount), 0);
 
-        /* Llogarit totalet */
-        const totalIncome  = tx.filter((t) => t.amount > 0)
-                               .reduce((s, t) => s + t.amount, 0);
+      setIncome(totInc);
+      setExpense(totExp);
+      setTransactions(tx.slice(0, 5));  // 5 të fundit
 
-        const totalExpense = tx.filter((t) => t.amount < 0)
-                               .reduce((s, t) => s + Math.abs(t.amount), 0);
+      /* 2) Balanca ime */
+      const resBal =  await api.get('/users/balance');
+      setBalance(resBal.data);
+    } catch (err) {
+      console.error('Gabim gjatë marrjes së të dhënave:', err);
+    }
+  };
 
-        setIncome(totalIncome);
-        setExpense(totalExpense);
-        setTransactions(tx.slice(0, 5)); // 5 të fundit
-      })
-      .catch((err) =>
-        console.error('Gabim gjatë marrjes së transaksioneve:', err)
-      );
+  useEffect(() => { fetchData(); }, []);
 
-    /* ──────────────── 2. BALANCA ──────────────── */
-    axios
-      .get(`http://localhost:5231/api/Users/balance/${userId}`)
-      .then((res) => setBalance(res.data))
-      .catch((err) =>
-        console.error('Gabim gjatë marrjes së balancës:', err)
-      );
-  }, []);
-
-  /* ──────────────── UI ──────────────── */
+  /* -------------------------  UI  ------------------------------- */
   return (
     <div className="volix-dashboard">
       <header className="dashboard-header">
@@ -65,7 +62,7 @@ const VolixBankDashboard = () => {
       </header>
 
       <main className="dashboard-content">
-        {/* Kartelat për totalet */}
+        {/* Kartelat e totalit */}
         <Row>
           <Col md={4}>
             <Card className="summary-card balance">
@@ -95,7 +92,7 @@ const VolixBankDashboard = () => {
           </Col>
         </Row>
 
-        {/* Pesë transaksionet më të fundit */}
+        {/* Transaksionet e fundit */}
         <Row className="mt-4">
           <Col>
             <Card className="transactions">
@@ -104,40 +101,24 @@ const VolixBankDashboard = () => {
               </Card.Header>
               <Card.Body>
                 {transactions.length === 0 ? (
-                  <p className="text-center">
-                    Nuk ka transaksione.
-                  </p>
+                  <p className="text-center">Nuk ka transaksione.</p>
                 ) : (
                   <Table hover responsive>
                     <tbody>
                       {transactions.map((tx) => (
                         <tr key={tx.id}>
                           <td className="transaction-icon">
-                            <span
-                              className={`icon ${
-                                tx.amount > 0 ? 'income' : 'expense'
-                              }`}
-                            >
-                              {tx.amount > 0 ? (
-                                <FiArrowDownLeft />
-                              ) : (
-                                <FiArrowUpRight />
-                              )}
+                            <span className={`icon ${tx.amount > 0 ? 'income' : 'expense'}`}>
+                              {tx.amount > 0 ? <FiArrowDownLeft /> : <FiArrowUpRight />}
                             </span>
                           </td>
                           <td>
                             <div className="transaction-info">
                               <strong>{tx.description}</strong>
-                              <small>
-                                {new Date(tx.date).toLocaleString()}
-                              </small>
+                              <small>{new Date(tx.date).toLocaleString()}</small>
                             </div>
                           </td>
-                          <td
-                            className={`amount ${
-                              tx.amount > 0 ? 'text-success' : 'text-danger'
-                            }`}
-                          >
+                          <td className={`amount ${tx.amount > 0 ? 'text-success' : 'text-danger'}`}>
                             {tx.amount > 0 ? '+' : '-'}
                             {Math.abs(tx.amount).toFixed(2)} €
                           </td>

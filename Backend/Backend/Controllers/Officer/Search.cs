@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
-using Backend.Services;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,12 +11,11 @@ namespace Backend.Controllers.Officer
     public class SearchController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
-        private readonly SessionService _sessionService;
         private readonly IPasswordHasher<User> _passwordHasher;
-        public SearchController(NovaBankDbContext context, IPasswordHasher<User> passwordHasher, SessionService sessionService)
+        public SearchController(NovaBankDbContext context, IPasswordHasher<User> passwordHasher)
         {
             _context = context;
-            _sessionService = sessionService;
+
             _passwordHasher = passwordHasher;
         }
 

@@ -19,6 +19,7 @@ function TransactionsPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const exchangeRates = {
     EUR: 0.010, USD: 0.011, GBP: 0.0085, CHF: 0.0095, CAD: 0.014,
@@ -26,6 +27,11 @@ function TransactionsPage() {
     RUB: 0.85, TRY: 0.15, CNY: 0.075, INR: 0.85, BRL: 0.055,
     ZAR: 0.18, MXN: 0.20, SGD: 0.015, HKD: 0.082, NZD: 0.017
   };
+
+  const api = axios.create({
+    baseURL: 'http://localhost:5231/api',
+    withCredentials: true
+  });
 
   const handleLekChange = (e) => {
     const value = parseFloat(e.target.value) || 0;
@@ -60,39 +66,36 @@ function TransactionsPage() {
     XLSX.writeFile(wb, 'transaksionet.xlsx');
   };
 
-
   const fetchTransactions = async () => {
-  try {
-    const userId = parseInt(localStorage.getItem("userId"));
-    if (!userId) throw new Error("Nuk u gjet ID e përdoruesit.");
-    
-    const response = await axios.get(`http://localhost:5231/api/user/transactions/user/${userId}`);
-    const data = response.data;
+    try {
+      const res = await api.get('/auth/me');
+      setCurrentUser(res.data);
 
-     
-    const userPersonalId = localStorage.getItem("PersonalId");
+      const tx = await api.get('/user/transactions/me');
+      const data = tx.data;
 
-    const formatted = data.map(t => ({
-      id: t.id,
-      date: t.date,
-      description: t.note || (
-        t.senderPersonalId === t.receiverPersonalId
-          ? "Transfer"
-          : t.senderPersonalId === userPersonalId
-            ? `Transfer te ${t.ReceiverName}`
-            : `Transfer nga ${t.SenderName}`
-      ),
-      amount: t.amount,
-      account: t.senderPersonalId === userPersonalId ? t.receiverPersonalId : t.senderPersonalId
-    }));
+      const formatted = data.map(t => ({
+        id: t.id,
+        date: t.date,
+        description: t.note || (
+          t.senderPersonalId === t.receiverPersonalId
+            ? "Transfer"
+            : t.senderPersonalId === res.data.personalId
+              ? `Transfer te ${t.ReceiverName}`
+              : `Transfer nga ${t.SenderName}`
+        ),
+        amount: t.amount,
+        account: t.senderPersonalId === res.data.personalId ? t.receiverPersonalId : t.senderPersonalId
+      }));
 
-    setBackendTransactions(data);
-    setTransactions(formatted);
-  } catch (error) {
-    console.error("Gabim gjatë marrjes së transaksioneve:", error);
-    setError("Ndodhi një gabim gjatë marrjes së transaksioneve.");
-  }
-};
+      setBackendTransactions(data);
+      setTransactions(formatted);
+    } catch (err) {
+      console.error('Gabim gjatë marrjes së transaksioneve:', err);
+      setError("Ndodhi një gabim gjatë marrjes së transaksioneve.");
+    }
+  };
+
   useEffect(() => {
     fetchTransactions();
   }, []);
@@ -101,23 +104,23 @@ function TransactionsPage() {
     setError('');
     setSuccess('');
 
-    if (!transferData.recipientId) return setError('Ju lutem vendosni Recipient ID.');
+    if (!transferData.recipientId)
+      return setError('Ju lutem vendosni Recipient ID.');
     if (!transferData.amount || isNaN(parseFloat(transferData.amount)) || parseFloat(transferData.amount) <= 0)
       return setError('Shuma duhet të jetë një numër pozitiv.');
-
-    const senderId = localStorage.getItem('userId');
-    if (!senderId) return setError("Nuk u gjet ID e përdoruesit. Ju lutem ri-hyni.");
+    if (!currentUser)
+      return setError('Përdoruesi nuk është autentikuar.');
 
     setIsSubmitting(true);
     try {
       const dataToSend = {
-        SenderId: parseInt(senderId),
+        SenderId: currentUser.userId,
         RecipientPersonalID: transferData.recipientId,
         Amount: parseFloat(transferData.amount),
         Note: transferData.note
       };
-      
-      await axios.post('http://localhost:5231/api/user/transactions/transfer', dataToSend);
+
+      await api.post('/user/transactions/transfer', dataToSend);
       setSuccess('Transferimi u krye me sukses!');
       setTransferData({ recipientId: '', amount: '', note: '' });
       setShowSendModal(false);
@@ -221,28 +224,28 @@ function TransactionsPage() {
           <Form>
             <Form.Group className="mb-3">
               <Form.Label>Recipient ID</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={transferData.recipientId} 
-                onChange={(e) => setTransferData({ ...transferData, recipientId: e.target.value })} 
+              <Form.Control
+                type="text"
+                value={transferData.recipientId}
+                onChange={(e) => setTransferData({ ...transferData, recipientId: e.target.value })}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Shuma</Form.Label>
-              <Form.Control 
-                type="number" 
-                value={transferData.amount} 
-                onChange={(e) => setTransferData({ ...transferData, amount: e.target.value })} 
+              <Form.Control
+                type="number"
+                value={transferData.amount}
+                onChange={(e) => setTransferData({ ...transferData, amount: e.target.value })}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Shënim</Form.Label>
-              <Form.Control 
-                as="textarea" 
-                rows={3} 
-                value={transferData.note} 
-                onChange={(e) => setTransferData({ ...transferData, note: e.target.value })} 
-                placeholder="Shkruani një shënim opsional (do të shfaqet si përshkrim)" 
+              <Form.Control
+                as="textarea"
+                rows={3}
+                value={transferData.note}
+                onChange={(e) => setTransferData({ ...transferData, note: e.target.value })}
+                placeholder="Shkruani një shënim opsional"
               />
             </Form.Group>
           </Form>

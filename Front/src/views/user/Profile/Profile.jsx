@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
 
-const API_PROFILE = "http://localhost:5231/api/Users/profile";
+const API_PROFILE = "http://localhost:5231/api/users/profile";
 
-export const getUserId = () => localStorage.getItem("userId");
-
-export const getProfile = async (id) => {
-  const res = await fetch(`${API_PROFILE}/${id}`);
+export const getProfile = async () => {
+  const res = await fetch(API_PROFILE, { credentials: "include" });
   if (!res.ok) throw new Error("Failed to fetch profile");
   return res.json();
 };
 
-export const updateProfile = async (id, data) => {
+export const updateProfile = async (data) => {
   const formData = new FormData();
   for (const key in data) {
     if (data[key] !== undefined && data[key] !== null) {
@@ -19,17 +17,17 @@ export const updateProfile = async (id, data) => {
     }
   }
 
-  const res = await fetch(`${API_PROFILE}/${id}`, {
-  method: 'PUT',
-  body: formData           // ⇠ multipart/form-data
-});
+  const res = await fetch(API_PROFILE, {
+    method: 'PUT',
+    body: formData,
+    credentials: "include"
+  });
 
   if (!res.ok) throw new Error("Failed to update profile");
   return res.json();
 };
 
 const Profile = () => {
-  const userId = parseInt(getUserId());
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState({});
   const [loading, setLoading] = useState(true);
@@ -37,8 +35,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const data = await getProfile(userId);
-        if (!data.id) data.id = userId;
+        const data = await getProfile();
         setProfile(data);
         setEditMode(
           Object.fromEntries(Object.keys(data).map((key) => [key, false]))
@@ -49,7 +46,7 @@ const Profile = () => {
       }
     };
     fetchProfile();
-  }, [userId]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,7 +56,7 @@ const Profile = () => {
   const toggleEdit = async (field) => {
     if (editMode[field]) {
       try {
-        await updateProfile(userId, { ...profile, id: userId });
+        await updateProfile(profile);
         console.log('Profile updated');
       } catch (err) {
         console.error('Update failed:', err);
@@ -112,4 +109,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

@@ -12,50 +12,44 @@ const DashDefault = () => {
     totalLoans: 0,
   });
 
-  const navigate = useNavigate();
   const userId = getUserId();
 
   // Verifikimi i sesionit
-  useEffect(() => {
-    const role = getUserRole();
-    if (!userId || !role) {
-      navigate('/login/signin');
-    }
-  }, [navigate, userId]);
+ 
 
   // Merr të dhënat për dashboard
   useEffect(() => {
     const fetchAllData = async () => {
-      if (!userId || isNaN(parseInt(userId))) {
-        console.error("UserId mungon ose është i pavlefshëm.");
-        return;
-      }
-
       try {
-        // Merr transaksionet
-        const transactionsRes = await axios.get(`http://localhost:5231/api/officer/transactions/my-transactions?userId=${userId}`);
-        const transactions = transactionsRes.data;
-
-        setTransactions(transactions);
-
-        // Merr total amount të dërguar brenda vitit
-        const totalSentRes = await axios.get(`http://localhost:5231/api/officer/transactions/total-sent-amount?userId=${userId}`);
+        const config = {
+          withCredentials: true
+        };
+    
+        const transactionsRes = await axios.get('http://localhost:5231/api/officer/transactions/my-transactions', config);
+        setTransactions(transactionsRes.data);
+    
+        const totalSentRes = await axios.get('http://localhost:5231/api/officer/transactions/total-sent-amount', config);
         const totalSentAmount = totalSentRes.data.totalAmount;
-
-        // Merr numrin e transaksioneve të dërguara
-        const countRes = await axios.get(`http://localhost:5231/api/officer/transactions/transaction-count?userId=${userId}`);
+    
+        const countRes = await axios.get('http://localhost:5231/api/officer/transactions/transaction-count', config);
         const totalSentTransactions = countRes.data.totalSentTransactions;
-
-        // Përditëso të dhënat
+    
         setSummaryData(prev => ({
           ...prev,
           totalAmount: totalSentAmount.toFixed(2),
-          completedTransactions: totalSentTransactions
+          completedTransactions: totalSentTransactions,
+        }));
+    
+        const loansRes = await axios.get('http://localhost:5231/api/officer/loans/my-loans-count', config);
+        setSummaryData(prev => ({
+          ...prev,
+          totalLoans: loansRes.data.totalLoans
         }));
       } catch (error) {
         console.error("Gabim gjatë marrjes së të dhënave:", error);
       }
     };
+    
 
     fetchAllData();
   }, [userId]);

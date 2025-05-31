@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Backend.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
@@ -14,42 +13,31 @@ namespace NOVA_API.Controllers
 {
     [Route("api/user/transactions")]
     [ApiController]
+    [Authorize]
     public class TransactionsController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
-        private readonly SessionService _sessionService;
 
-        public TransactionsController(NovaBankDbContext context, SessionService sessionService)
+        public TransactionsController(NovaBankDbContext context)
         {
             _context = context;
-            _sessionService = sessionService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions()
+        #region Helpers
+        private int GetCurrentUserId()
         {
-            return await _context.Transactions.ToListAsync();
+            var idStr = User.FindFirst("UserID")?.Value ??
+                        User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return int.TryParse(idStr, out var id) ? id : 0;
         }
+        #endregion
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Transaction>> GetTransaction(int id)
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMyTransactions()
         {
-            var transaction = await _context.Transactions.FindAsync(id);
-            if (transaction == null)
-                return NotFound();
+            int userId = GetCurrentUserId();
+            if (userId == 0) return Unauthorized();
 
-            return transaction;
-        }
-
-   
-
-
-
-
-
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetUserTransactions(int userId)
-        {
             var transactions = await _context.Transactions
                 .Where(t => t.SenderId == userId || t.ReceiverId == userId)
                 .Include(t => t.Sender)
@@ -63,12 +51,62 @@ namespace NOVA_API.Controllers
                 Date = t.TransactionDate,
                 Amount = t.SenderId == userId ? -t.Amount : t.Amount,
                 Note = t.Note,
-                SenderName = t.Sender.name + " " + t.Sender.name,
-                ReceiverName = t.Receiver.name + " " + t.Receiver.name,
+                SenderName = t.Sender.name,
+                ReceiverName = t.Receiver.name,
                 SenderPersonalId = t.Sender.PersonalID,
                 ReceiverPersonalId = t.Receiver.PersonalID
             });
+
             return Ok(result);
+        }
+
+        [HttpGet("me/{id:int}")]
+        public async Task<IActionResult> GetMyTransaction(int id)
+        {
+            int userId = GetCurrentUserId();
+            if (userId == 0) return Unauthorized();
+
+            var tx = await _context.Transactions
+                .Include(t => t.Sender)
+                .Include(t => t.Receiver)
+                .FirstOrDefaultAsync(t => t.TransactionId == id &&
+                                           (t.SenderId == userId || t.ReceiverId == userId));
+            if (tx is null) return NotFound();
+
+            var dto = new TransactionDto
+            {
+                Id = tx.TransactionId,
+                Date = tx.TransactionDate,
+                Amount = tx.SenderId == userId ? -tx.Amount : tx.Amount,
+                Note = tx.Note,
+                SenderName = tx.Sender.name,
+                ReceiverName = tx.Receiver.name,
+                SenderPersonalId = tx.Sender.PersonalID,
+                ReceiverPersonalId = tx.Receiver.PersonalID
+            };
+
+            return Ok(dto);
+        }
+
+        [HttpGet("me/monthly-expense")]
+        public async Task<IActionResult> GetMyMonthlyExpense()
+        {
+            int userId = GetCurrentUserId();
+            if (userId == 0) return Unauthorized();
+
+            var now = DateTime.UtcNow;
+            var user = await _context.Users.FindAsync(userId);
+            if (user is null) return NotFound();
+
+            DateTime fromDate = user.TransferBlockedUntil ?? new DateTime(now.Year, now.Month, 1);
+
+            var totalExpense = await _context.Transactions
+                .Where(t => t.SenderId == userId &&
+                            t.TransactionType == "Transfer" &&
+                            t.TransactionDate >= fromDate)
+                .SumAsync(t => t.Amount);
+
+            return Ok(totalExpense);
         }
 
         [HttpPost("transfer")]
@@ -79,6 +117,10 @@ namespace NOVA_API.Controllers
 
             if (req.Amount > 5000)
                 return BadRequest("Shuma nuk mund të jetë më e madhe se 5000 €.");
+
+            int currentUserId = GetCurrentUserId();
+            if (currentUserId == 0 || currentUserId != req.SenderId)
+                return Unauthorized();
 
             var sender = await _context.Users.FindAsync(req.SenderId);
             if (sender is null)
@@ -93,7 +135,6 @@ namespace NOVA_API.Controllers
             {
                 var now = DateTime.UtcNow;
 
-                // Bllokimi në fuqi?
                 if (sender.TransferBlockedUntil is not null && sender.TransferBlockedUntil > now)
                 {
                     return BadRequest(new
@@ -102,12 +143,10 @@ namespace NOVA_API.Controllers
                     });
                 }
 
-                // Nëse bllokimi ka përfunduar => reset shpenzimet
                 DateTime limitStart = sender.TransferBlockedUntil is not null && sender.TransferBlockedUntil <= now
                     ? now
                     : new DateTime(now.Year, now.Month, 1);
 
-                // Shuma e shpenzuar prej reset-it
                 var spent = await _context.Transactions
                     .Where(t => t.SenderId == sender.id &&
                                 t.TransactionType == "Transfer" &&
@@ -116,7 +155,7 @@ namespace NOVA_API.Controllers
 
                 if (sender.SpendingLimit is not null && spent + req.Amount > sender.SpendingLimit)
                 {
-                    sender.TransferBlockedUntil = now.AddHours(24); // ose .AddHours(24)
+                    sender.TransferBlockedUntil = now.AddHours(24);
                     await _context.SaveChangesAsync();
 
                     return BadRequest(new
@@ -151,38 +190,6 @@ namespace NOVA_API.Controllers
                 newBalance = sender.Balance,
                 transactionId = tx.TransactionId
             });
-        }
-
-
-        [HttpGet("monthly-expense/{userId}")]
-        public async Task<ActionResult<decimal>> GetMonthlyExpense(int userId)
-        {
-            var now = DateTime.UtcNow;
-
-            // Gjej përdoruesin
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
-                return NotFound("Përdoruesi nuk u gjet.");
-
-            // Përcakto datën e fillimit të llogaritjes
-            DateTime fromDate = user.TransferBlockedUntil ?? new DateTime(now.Year, now.Month, 1);
-
-            // Llogarit shpenzimet nga fromDate
-            var totalExpense = await _context.Transactions
-                .Where(t => t.SenderId == userId &&
-                            t.TransactionType == "Transfer" &&
-                            t.TransactionDate >= fromDate)
-                .SumAsync(t => t.Amount);
-
-            return Ok(totalExpense);
-        }
-
-
-
-
-        private bool TransactionExists(int id)
-        {
-            return _context.Transactions.Any(e => e.TransactionId == id);
         }
     }
 }

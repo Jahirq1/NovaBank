@@ -1,30 +1,46 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\",
+  "WorkspaceRootPath": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\controllers\\authentication\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\authentication\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\controllers\\user\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\user\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\controllers\\user\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\user\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\controllers\\authentication\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\authentication\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\controllers\\manager\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\manager\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\models\\dto\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\models\\dto\\authresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\controllers\\officer\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\officer\\loanscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\pdf\\pdfgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\pdf\\pdfgenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\nova5\\nova5\\backend\\backend\\controllers\\manager\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\manager\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|c:\\users\\lendr\\onedrive\\desktop\\feedbackbank\\feedback\\backend\\backend\\controllers\\officer\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7DFC0D42-3306-4814-A43E-B6652E7C4F58}|Backend\\Backend.csproj|solutionrelative:backend\\controllers\\officer\\transactionscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,75 +59,123 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\appsettings.json",
-              "RelativeDocumentMoniker": "Backend\\appsettings.json",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\appsettings.json",
-              "RelativeToolTip": "Backend\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-05-29T17:39:15.474Z",
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\authentication\\AuthController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\authentication\\AuthController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\authentication\\AuthController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\authentication\\AuthController.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAuwB0AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T18:24:06.262Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Backend.csproj",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Backend.csproj",
-              "RelativeDocumentMoniker": "Backend\\Backend.csproj",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Backend.csproj",
-              "RelativeToolTip": "Backend\\Backend.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-05-29T17:37:04.943Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoansController.cs",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\LoansController.cs",
-              "RelativeDocumentMoniker": "Backend\\Controllers\\manager\\LoansController.cs",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\LoansController.cs",
-              "RelativeToolTip": "Backend\\Controllers\\manager\\LoansController.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAADwv1UAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T16:04:57.338Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LoansController.cs",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\Officer\\LoansController.cs",
-              "RelativeDocumentMoniker": "Backend\\Controllers\\Officer\\LoansController.cs",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\Officer\\LoansController.cs",
-              "RelativeToolTip": "Backend\\Controllers\\Officer\\LoansController.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAgwJsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T15:38:26.315Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PdfGenerator.cs",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Pdf\\PdfGenerator.cs",
-              "RelativeDocumentMoniker": "Backend\\Pdf\\PdfGenerator.cs",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Pdf\\PdfGenerator.cs",
-              "RelativeToolTip": "Backend\\Pdf\\PdfGenerator.cs",
+              "DocumentIndex": 7,
+              "Title": "RefreshToken.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Models\\RefreshToken.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\RefreshToken.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Models\\RefreshToken.cs",
+              "RelativeToolTip": "Backend\\Models\\RefreshToken.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T15:38:21.449Z"
+              "WhenOpened": "2025-05-30T13:28:34.355Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\UsersController.cs",
-              "RelativeDocumentMoniker": "Backend\\Controllers\\manager\\UsersController.cs",
-              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\nova5\\nova5\\Backend\\Backend\\Controllers\\manager\\UsersController.cs",
-              "RelativeToolTip": "Backend\\Controllers\\manager\\UsersController.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAYwCwAAAAAAAAAAAAAAA==",
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Models\\User.cs",
+              "RelativeToolTip": "Backend\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-29T15:16:58.431Z"
+              "WhenOpened": "2025-05-30T13:28:49.745Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\authentication\\TokenService.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\authentication\\TokenService.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\authentication\\TokenService.cs",
+              "RelativeToolTip": "Backend\\Controllers\\authentication\\TokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T18:07:49.327Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TransactionsController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\user\\TransactionsController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\user\\TransactionsController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\user\\TransactionsController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\user\\TransactionsController.cs",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAswJkAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T13:08:21.323Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Backend\\Program.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Program.cs",
+              "RelativeToolTip": "Backend\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-29T18:50:29.672Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\user\\UsersController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\user\\UsersController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\user\\UsersController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\user\\UsersController.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEIAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T15:20:43.29Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\appsettings.json",
+              "RelativeDocumentMoniker": "Backend\\appsettings.json",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\appsettings.json",
+              "RelativeToolTip": "Backend\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-29T18:48:00.018Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AuthResponse.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Models\\DTO\\AuthResponse.cs",
+              "RelativeDocumentMoniker": "Backend\\Models\\DTO\\AuthResponse.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Models\\DTO\\AuthResponse.cs",
+              "RelativeToolTip": "Backend\\Models\\DTO\\AuthResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T09:45:06.75Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TransactionsController.cs",
+              "DocumentMoniker": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\Officer\\TransactionsController.cs",
+              "RelativeDocumentMoniker": "Backend\\Controllers\\Officer\\TransactionsController.cs",
+              "ToolTip": "C:\\Users\\lendr\\OneDrive\\Desktop\\FeedBackBank\\Feedback\\Backend\\Backend\\Controllers\\Officer\\TransactionsController.cs",
+              "RelativeToolTip": "Backend\\Controllers\\Officer\\TransactionsController.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAYwHUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T12:27:03.926Z"
             }
           ]
         }

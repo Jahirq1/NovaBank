@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
-using Backend.Services;
 using Backend.Models.DTO;
 
 namespace Backend.Controllers.Officer
@@ -16,11 +15,10 @@ namespace Backend.Controllers.Officer
     public class LoansController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
-        private readonly SessionService _sessionService;
         private readonly Pdf.PdfGenerator _pdfGenerator;
-        public LoansController(NovaBankDbContext context, SessionService sessionService, Pdf.PdfGenerator pdfGenerator)
+        public LoansController(NovaBankDbContext context,  Pdf.PdfGenerator pdfGenerator)
         {
-            _sessionService = sessionService;
+          
             _pdfGenerator = pdfGenerator;
             _context = context;
         }

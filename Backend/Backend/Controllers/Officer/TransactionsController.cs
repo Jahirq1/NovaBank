@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Backend.Models;
-using Backend.Services;
 using Backend.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers.Officer
 {
@@ -16,12 +16,10 @@ namespace Backend.Controllers.Officer
     public class TransactionsController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
-        private readonly SessionService _sessionService;
 
-        public TransactionsController(NovaBankDbContext context, SessionService sessionService)
+        public TransactionsController(NovaBankDbContext context)
         {
             _context = context;
-            _sessionService = sessionService;
         }
 
         [HttpPost("pay")]
@@ -86,8 +84,17 @@ namespace Backend.Controllers.Officer
 
 
         [HttpGet("my-transactions")]
-        public IActionResult GetMyTransactions([FromQuery] int userId)
+        [Authorize]
+        public IActionResult GetMyTransactions()
         {
+            // Lexo userId nga claims i tokenit
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserID");
+            if (userIdClaim == null)
+                return Unauthorized(new { message = "User ID not found in token" });
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+                return Unauthorized(new { message = "Invalid User ID in token" });
+
             var exists = _context.Users.Any(u => u.id == userId);
             if (!exists)
                 return Unauthorized(new { message = "User not found" });
@@ -108,6 +115,7 @@ namespace Backend.Controllers.Officer
 
             return Ok(transactions);
         }
+
 
         [HttpGet("total-sent-amount")]
         public IActionResult GetTotalSentAmount([FromQuery] int userId)

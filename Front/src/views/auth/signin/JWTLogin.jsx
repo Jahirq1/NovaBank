@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
 import '../../../assets/scss/formstyle.css';
-import { setUserSession } from '../../../session/session';
 
 const JWTLogin = () => {
   const [serverMessage, setServerMessage] = useState('');
@@ -19,72 +18,71 @@ const JWTLogin = () => {
         setSubmitting(false);
         return;
       }
-  
+
       const requestData = {
-        personalId : parseInt(values.personalnumber),
+        personalId,
         password: values.password,
       };
-  
-      console.log(requestData);
-  
-      const response = await axios.post('http://localhost:5231/api/auth/login', requestData,{ withCredentials: true });
-  
-      if (response.data.message === "Login successful") {
-        const userRole = response.data.role;
-        const userId = response.data.userId;
-  
-        // Ruaj userId dhe role në localStorage me funksionin session.js
-        setUserSession(userId, userRole);
-  
-        // Redirect në dashboard bazuar në role
-        if (userRole === 'user') {
-          navigate("/user/app/dashboard");
-        } else if (userRole === 'officer') {
-          navigate("/officer/app/dashboard/default");
-        } else if (userRole === 'manager') {
-          navigate("/manager/app/dashboard");
-        } else {
-          setServerMessage('Rol i panjohur');
-        }
-  
-        setServerMessage('Login i suksesshëm!');
-      } else {
-        setServerMessage('Login ka dështuar!');
+
+      const response = await axios.post('http://localhost:5231/api/auth/login', requestData, {
+        withCredentials: true, // që të lejojë cookie-n të ruhet nga backend-i
+      });
+
+      const { role } = response.data;
+
+      setServerMessage('Login i suksesshëm!');
+
+      // Redirect bazuar në rol
+  switch (role) {
+        case 'user':
+          navigate('/user/app/dashboard');
+          break;
+        case 'officer':
+          navigate('/officer/app/dashboard/default');
+          break;
+        case 'manager':
+          navigate('/manager/app/dashboard');
+          break;
+        default:
+          setServerMessage('Rol i panjohur!');
+          break;
       }
     } catch (error) {
-      console.error('Error: ', error);
+      console.error('Gabim gjatë login-it: ', error.response ? error.response.data : error.message);
       setServerMessage('Login ka dështuar: Gabim i serverit');
+    
     } finally {
       setSubmitting(false);
     }
   };
-  
-  
 
   return (
     <Formik
-      initialValues={{
-        personalnumber: '',
-        password: '',
-        submit: null
-      }}
+      initialValues={{ personalnumber: '', password: '', submit: null }}
       validationSchema={Yup.object().shape({
         personalnumber: Yup.number()
           .typeError('Personal number duhet të jetë një numër')
-          .min(0, "Personal number nuk mund të jetë negativ")
+          .min(0, 'Personal number nuk mund të jetë negativ')
           .required('Personal Number është i detyrueshëm'),
         password: Yup.string()
           .max(255)
-          .required('Fjalëkalimi është i detyrueshëm')
+          .required('Fjalëkalimi është i detyrueshëm'),
       })}
       onSubmit={handleLogin}
     >
-      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+      {({
+        errors,
+        handleBlur,
+        handleChange,
+        handleSubmit,
+        isSubmitting,
+        touched,
+        values,
+      }) => (
         <form noValidate onSubmit={handleSubmit}>
           <div className="form-group mb-3">
             <input
               className="form-control"
-              label="Personal Number"
               placeholder="Personal Number"
               name="personalnumber"
               onBlur={handleBlur}
@@ -100,7 +98,6 @@ const JWTLogin = () => {
           <div className="form-group mb-4">
             <input
               className="form-control"
-              label="Password"
               placeholder="Password"
               name="password"
               onBlur={handleBlur}
@@ -115,7 +112,9 @@ const JWTLogin = () => {
 
           {serverMessage && (
             <Col sm={12}>
-              <Alert variant={serverMessage.toLowerCase().includes('suksesshëm') ? 'success' : 'danger'}>
+              <Alert
+                variant={serverMessage.toLowerCase().includes('suksesshëm') ? 'success' : 'danger'}
+              >
                 {serverMessage}
               </Alert>
             </Col>

@@ -90,6 +90,31 @@ namespace Backend.Migrations
                     b.ToTable("Loans");
                 });
 
+            modelBuilder.Entity("Backend.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Expiration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Backend.Models.Transaction", b =>
                 {
                     b.Property<int>("TransactionId")
@@ -218,6 +243,17 @@ namespace Backend.Migrations
                         .IsRequired();
 
                     b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("Backend.Models.RefreshToken", b =>
+                {
+                    b.HasOne("Backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Backend.Models.Transaction", b =>

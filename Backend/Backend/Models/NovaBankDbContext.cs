@@ -9,6 +9,7 @@ public class NovaBankDbContext : DbContext
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Loans> Loans { get; set; }
     public DbSet<KlientLoan> KlientLoans { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
