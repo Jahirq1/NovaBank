@@ -10,7 +10,7 @@ using System;
 
 namespace Backend.Controllers.Officer
 {
-    [Authorize]  // Shtojmë autorizimin
+    [Authorize] 
     [Route("api/officer/user")]
     [ApiController]
     public class UserController : ControllerBase
@@ -24,7 +24,7 @@ namespace Backend.Controllers.Officer
             _passwordHasher = passwordHasher;
         }
 
-        [AllowAnonymous]  // Lejojmë që krijimi i përdoruesit të jetë pa token (opsionale)
+        [AllowAnonymous]  
         [HttpPost("create")]
         [Authorize(Roles = "officer")]
         public async Task<IActionResult> CreateUser(User user)
@@ -72,7 +72,7 @@ namespace Backend.Controllers.Officer
             if (user == null)
                 return NotFound();
 
-            user.password = null; // Mos kthe fjalëkalimin
+            user.password = null; 
 
             return user;
         }
@@ -89,7 +89,6 @@ namespace Backend.Controllers.Officer
             if (user == null)
                 return NotFound();
 
-            // Nëse password ndryshohet (jo null ose bosh), hash-oje
             if (!string.IsNullOrEmpty(updatedUser.password) && updatedUser.password != user.password)
             {
                 user.password = _passwordHasher.HashPassword(user, updatedUser.password);

@@ -65,7 +65,7 @@ const Profile = () => {
     <Row className="justify-content-center mt-4">
       <Col md={8}>
         <Card className="shadow p-4 rounded-4">
-          <Card.Title className="mb-4 text-center fs-3">Manager Profile</Card.Title>
+          <Card.Title className="mb-4 text-center fs-3">Profili Menagjerit</Card.Title>
           <Form>
             {fieldsToShow.map((field) => (
               <Form.Group as={Row} className="mb-3" key={field}>

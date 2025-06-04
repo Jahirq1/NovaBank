@@ -6,21 +6,21 @@ const userMenu = {
         children: [
           {
             id: 'dashboard',
-            title: 'Dashboard',
+            title: 'Paneli Kontrollit',
             type: 'item',
             icon: 'feather icon-home',
             url: '/user/app/dashboard'
           },
                   {
             id: 'balance',
-            title: 'Balance',
+            title: 'Paneli i Balancit',
             type: 'item',
             icon: 'feather icon-credit-card',
             url: '/user/app/balance'
           },
           {
             id: 'Transaksionet',
-            title: 'Transaksionet',
+            title: 'Paneli Transaksioneve',
             type: 'item',
             icon: 'feather icon-file-plus',
             url: '/user/app/transaction'

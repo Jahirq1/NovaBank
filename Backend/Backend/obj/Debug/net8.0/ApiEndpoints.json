@@ -193,6 +193,11 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "rejectDto",
+        "Type": "Backend.Models.DTO.RejectLoanDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -254,6 +259,26 @@
     ]
   },
   {
+    "ContainingType": "Backend.Controllers.manager.LoansController",
+    "Method": "GetRejectedLoans",
+    "RelativePath": "api/manager/loans/rejected",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[Backend.Controllers.manager.LoanDto, Backend, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "Backend.Controllers.manager.UsersController",
     "Method": "GetCurrentProfile",
     "RelativePath": "api/manager/profile",
@@ -287,6 +312,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.Officer.LoansController",
+    "Method": "GetApprovedLoans",
+    "RelativePath": "api/officer/loans/approved",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -359,8 +394,18 @@
   },
   {
     "ContainingType": "Backend.Controllers.Officer.LoansController",
-    "Method": "GetLoansStatus",
-    "RelativePath": "api/officer/loans/status",
+    "Method": "GetPendingLoans",
+    "RelativePath": "api/officer/loans/pending",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Backend.Controllers.Officer.LoansController",
+    "Method": "GetRejectedLoans",
+    "RelativePath": "api/officer/loans/rejected",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

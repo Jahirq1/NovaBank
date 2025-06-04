@@ -92,7 +92,6 @@ namespace Backend.Controllers.manager
             return NoContent();
         }
 
-        // New: get profile of current user from JWT claim
         [HttpGet("profile")]
         [Authorize(Roles = "manager")]
         public async Task<ActionResult<User>> GetCurrentProfile()
@@ -108,7 +107,6 @@ namespace Backend.Controllers.manager
             return Ok(user);
         }
 
-        // New: update profile of current user
         [HttpPut("profile")]
         [Authorize(Roles = "manager")]
         public async Task<IActionResult> UpdateCurrentProfile([FromBody] User updatedUser)

@@ -13,7 +13,6 @@ import { Line } from 'react-chartjs-2';
 import { Row, Col, Card } from 'react-bootstrap';
 import api from '../../../server/instance';
 
-// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -35,7 +34,6 @@ const DashDefault = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // uses apiClient → baseURL + withCredentials
         const summaryRes = await api.get('/manager/dashboard/summary');
         setSummary(summaryRes.data);
 
@@ -52,7 +50,7 @@ const DashDefault = () => {
 
   const dashBankData = [
     {
-      title: 'Bank Balance',
+      title: 'Balanci Bankes',
       amount:
         typeof summary.totalBalance === 'number'
           ? `$${summary.totalBalance.toLocaleString()}`
@@ -62,14 +60,14 @@ const DashDefault = () => {
       class: 'progress-c-theme'
     },
     {
-      title: 'Users Registered',
+      title: 'Perdoruesit e Regjistruar',
       amount: summary.totalUsers?.toString() ?? '0',
       icon: 'icon-users text-c-blue',
       value: summary.totalUsers > 0 ? Math.min(100, summary.totalUsers / 10) : 0,
       class: 'progress-c-theme2'
     },
     {
-      title: 'Officers Registered',
+      title: 'Officerat e Regjistruar',
       amount: summary.totalOfficers?.toString() ?? '0',
       icon: 'icon-shield text-c-orange',
       value:
@@ -82,7 +80,7 @@ const DashDefault = () => {
     labels: monthlyUserData.map((entry) => entry.month),
     datasets: [
       {
-        label: 'Users Registered Per Month',
+        label: 'Perdoruesit e regjistuar ne muaj',
         data: monthlyUserData.map((entry) => entry.count),
         fill: false,
         tension: 0.2
@@ -127,7 +125,7 @@ const DashDefault = () => {
         <Col md={12}>
           <Card>
             <Card.Body>
-              <h5 className="mb-4">Monthly User Registrations</h5>
+              <h5 className="mb-4">Perdoruesit e regjistuar ne muaj</h5>
               <Line
                 data={monthlyChartConfig}
                 options={{

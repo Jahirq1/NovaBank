@@ -16,7 +16,6 @@ namespace Backend.Controllers.user
         private readonly NovaBankDbContext _db;
         public UsersController(NovaBankDbContext db) => _db = db;
 
-        // 🔁 helper që përputhet me tokenin tënd ("UserID")
         private int? CurrentUserId =>
             int.TryParse(User.FindFirst("UserID")?.Value, out var id) ? id : null;
 

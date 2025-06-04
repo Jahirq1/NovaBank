@@ -2,7 +2,7 @@
 {
     public class TransferRequest
     {
-        public int SenderId { get; set; } // Kjo vjen prej frontend-it
+        public int SenderId { get; set; } 
 
         public int RecipientPersonalID { get; set; }
         public decimal Amount { get; set; }

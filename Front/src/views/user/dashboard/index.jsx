@@ -4,7 +4,6 @@ import axios from 'axios';
 import { FiArrowUpRight, FiArrowDownLeft } from 'react-icons/fi';
 import '../../../assets/scss/dashboard.scss';
 import api from '../../../server/instance'
-/* ------------ axios instance që dërgon cookie-n JWT ------------ */
 
 
 
@@ -14,10 +13,8 @@ const VolixBankDashboard = () => {
   const [expense, setExpense]         = useState(0);
   const [transactions, setTransactions] = useState([]);
 
-  /* -------------------  marrja e të dhënave  -------------------- */
   const fetchData = async () => {
     try {
-      /* 1) Transaksionet e mia (backend e di ID-n) */
       const resTx = await api.get('/user/transactions/me');
       const tx = resTx.data.map((t) => ({
         id:   t.id,
@@ -34,9 +31,8 @@ const VolixBankDashboard = () => {
 
       setIncome(totInc);
       setExpense(totExp);
-      setTransactions(tx.slice(0, 5));  // 5 të fundit
+      setTransactions(tx.slice(0, 5));  
 
-      /* 2) Balanca ime */
       const resBal =  await api.get('/users/balance');
       setBalance(resBal.data);
     } catch (err) {
@@ -46,25 +42,23 @@ const VolixBankDashboard = () => {
 
   useEffect(() => { fetchData(); }, []);
 
-  /* -------------------------  UI  ------------------------------- */
   return (
     <div className="volix-dashboard">
       <header className="dashboard-header">
         <div className="branding">
           <h1>NOVA Bank</h1>
           <div className="user-greeting">
-            <p>Mirëmëngjes, menaxho financat tuaja</p>
+            <p>Pershendetje, menaxho financat tuaja</p>
           </div>
         </div>
       </header>
 
       <main className="dashboard-content">
-        {/* Kartelat e totalit */}
         <Row>
           <Col md={4}>
             <Card className="summary-card balance">
               <Card.Body>
-                <Card.Title>Total Balance</Card.Title>
+                <Card.Title>Balanci Total</Card.Title>
                 <Card.Text>{balance.toFixed(2)} €</Card.Text>
               </Card.Body>
             </Card>
@@ -73,7 +67,7 @@ const VolixBankDashboard = () => {
           <Col md={4}>
             <Card className="summary-card income">
               <Card.Body>
-                <Card.Title>Total Income</Card.Title>
+                <Card.Title>Te Hyrat Totale</Card.Title>
                 <Card.Text>{income.toFixed(2)} €</Card.Text>
               </Card.Body>
             </Card>
@@ -82,19 +76,18 @@ const VolixBankDashboard = () => {
           <Col md={4}>
             <Card className="summary-card expense">
               <Card.Body>
-                <Card.Title>Total Expense</Card.Title>
+                <Card.Title>Shpenzimet Totale</Card.Title>
                 <Card.Text>{expense.toFixed(2)} €</Card.Text>
               </Card.Body>
             </Card>
           </Col>
         </Row>
 
-        {/* Transaksionet e fundit */}
         <Row className="mt-4">
           <Col>
             <Card className="transactions">
               <Card.Header>
-                <Card.Title>Recent Transactions</Card.Title>
+                <Card.Title>Transaksionet  e fundit</Card.Title>
               </Card.Header>
               <Card.Body>
                 {transactions.length === 0 ? (

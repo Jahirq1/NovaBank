@@ -9,9 +9,7 @@ import {
 import { debounce } from "lodash";
 
 const OfficerRegistrationForm = () => {
-  // -------------------------------------------------
-  // Local state
-  // -------------------------------------------------
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,23 +22,21 @@ const OfficerRegistrationForm = () => {
     klientLoans: [],
   });
 
-  const [officers, setOfficers] = useState([]); // populated only after search
+  const [officers, setOfficers] = useState([]); 
   const [editingOfficer, setEditingOfficer] = useState(null);
-  const [search, setSearch] = useState(""); // current text in input
+  const [search, setSearch] = useState(""); 
   const [sortField, setSortField] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
 
-  // -------------------------------------------------
-  // Debounced backend query
-  // -------------------------------------------------
+
   const loadOfficers = useCallback(
     debounce(async (text) => {
       if (!text) {
-        setOfficers([]); // clear list if search emptied
+        setOfficers([]);
         return;
       }
       try {
-        const data = await getOfficers(text); // GET /api/users?role=officer&name=text
+        const data = await getOfficers(text); 
         setOfficers(data);
       } catch (err) {
         console.error("Failed to load officers:", err);
@@ -92,9 +88,7 @@ const OfficerRegistrationForm = () => {
       address: formData.address,
       city: "Prishtina",
       balance: 0,
-    
-      // add empty arrays as required by the backend
-      sentTransactions: [],
+          sentTransactions: [],
       receivedTransactions: [],
       klientLoans: []
     };
@@ -138,7 +132,7 @@ const OfficerRegistrationForm = () => {
       setEditingOfficer(null);
     } catch (error) {
       console.error("Error:", error);
-      alert("❌ Failed to register or update officer.");
+      alert(" Failed to register or update officer.");
     }
   };
 
@@ -191,7 +185,7 @@ const OfficerRegistrationForm = () => {
           <Card>
             <Card.Header>
               <Card.Title as="h5">
-                {editingOfficer ? "Update Officer" : "Officer Registration"}
+                {editingOfficer ? "Perditso Oficerin" : "Regjistrimi Oficerit"}
               </Card.Title>
             </Card.Header>
             <Card.Body>
@@ -200,10 +194,10 @@ const OfficerRegistrationForm = () => {
                   {/* Left column */}
                   <Col md={6}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Name</Form.Label>
+                      <Form.Label>Emri</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter Officer's Name"
+                        placeholder="Shenoni emrin"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
@@ -215,7 +209,7 @@ const OfficerRegistrationForm = () => {
                       <Form.Label>Email</Form.Label>
                       <Form.Control
                         type="email"
-                        placeholder="Enter Officer's Email"
+                        placeholder="shenoni emailin"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
@@ -224,10 +218,10 @@ const OfficerRegistrationForm = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                      <Form.Label>Phone</Form.Label>
+                      <Form.Label>Numri Telefonit</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter Officer's Phone"
+                        placeholder="Shenoni numrin e telefonit"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
@@ -236,10 +230,10 @@ const OfficerRegistrationForm = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                      <Form.Label>Address</Form.Label>
+                      <Form.Label>Adresa</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter Officer's Address"
+                        placeholder="shenoni adresen"
                         name="address"
                         value={formData.address}
                         onChange={handleChange}
@@ -248,13 +242,12 @@ const OfficerRegistrationForm = () => {
                     </Form.Group>
                   </Col>
 
-                  {/* Right column */}
                   <Col md={6}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Password</Form.Label>
+                      <Form.Label>Fjalkalimi</Form.Label>
                       <Form.Control
                         type="password"
-                        placeholder="Enter Password"
+                        placeholder="Shenoni fjalkalimin"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
@@ -263,7 +256,7 @@ const OfficerRegistrationForm = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3">
-                      <Form.Label>Date of Birth</Form.Label>
+                      <Form.Label>Data e Lindjes</Form.Label>
                       <Form.Control
                         type="date"
                         name="dateOfBirth"
@@ -275,7 +268,7 @@ const OfficerRegistrationForm = () => {
                   </Col>
                 </Row>
                 <Button variant="primary" type="submit">
-                  {editingOfficer ? "Update Officer" : "Register Officer"}
+                  {editingOfficer ? "Perditso Oficerin" : "Regjistro Oficerin"}
                 </Button>
               </Form>
             </Card.Body>
@@ -288,11 +281,11 @@ const OfficerRegistrationForm = () => {
         <Col sm={12}>
           <Card>
             <Card.Header>
-              <Card.Title as="h5">Registered Officers</Card.Title>
+              <Card.Title as="h5">Oficerat e Regjistruar</Card.Title>
               <InputGroup className="mt-2">
                 <Form.Control
                   type="text"
-                  placeholder="Search by name…"
+                  placeholder="kerkoni oficerin…"
                   value={search}
                   onChange={handleFilterChange}
                 />
@@ -300,23 +293,23 @@ const OfficerRegistrationForm = () => {
             </Card.Header>
             <Card.Body>
               {search && sortedOfficers.length === 0 && (
-                <p className="m-0">No officers found.</p>
+                <p className="m-0">Nuk u gjet oficeri.</p>
               )}
               {!search && (
-                <p className="m-0 text-muted">Type in the search box to load officers.</p>
+                <p className="m-0 text-muted">shenoni emrin e oficerit per tu shfaqur oficeri.</p>
               )}
               {sortedOfficers.length > 0 && (
                 <Table striped bordered hover responsive className="mt-2">
                   <thead>
                     <tr>
                       <th onClick={() => handleSort("id")}>ID</th>
-                      <th onClick={() => handleSort("name")}>Name</th>
+                      <th onClick={() => handleSort("name")}>Emri</th>
                       <th>personalID</th>
                       <th>Email</th>
-                      <th>Phone</th>
-                      <th>Address</th>
-                      <th>Date of Birth</th>
-                      <th>Actions</th>
+                      <th>Numri Telefonit</th>
+                      <th>Adresa</th>
+                      <th>Data e Lindjes</th>
+                      <th>Veprime</th>
                     </tr>
                   </thead>
                   <tbody>

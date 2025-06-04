@@ -35,21 +35,19 @@ public class NovaBankDbContext : DbContext
             .Property(t => t.Amount)
             .HasColumnType("decimal(18,2)");
 
-        // 🔁 Lidhja për Sender
+
         modelBuilder.Entity<Transaction>()
             .HasOne(t => t.Sender)
             .WithMany(u => u.SentTransactions)
             .HasForeignKey(t => t.SenderId)
-            .OnDelete(DeleteBehavior.Restrict); // Për të shmangur fshirjen kaskadë
+            .OnDelete(DeleteBehavior.Restrict); 
 
-        // 🔁 Lidhja për Receiver
         modelBuilder.Entity<Transaction>()
             .HasOne(t => t.Receiver)
             .WithMany(u => u.ReceivedTransactions)
             .HasForeignKey(t => t.ReceiverId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // 🔁 Lidhja many-to-many ndërmjet Klient dhe Loan
         modelBuilder.Entity<KlientLoan>()
             .HasKey(kl => new { kl.KlientId, kl.LoanId });
 

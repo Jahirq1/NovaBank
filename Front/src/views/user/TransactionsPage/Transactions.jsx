@@ -3,7 +3,6 @@ import { Card, Table, Button, Form, Modal, Row, Col, InputGroup, Alert } from 'r
 import { FiDollarSign, FiDownload, FiSend } from 'react-icons/fi';
 import * as XLSX from 'xlsx';
 import 'jspdf-autotable';
-import axios from 'axios';
 import '../../../assets/scss/dashboard.scss';
 import api from '../../../server/instance'
 function TransactionsPage() {
@@ -218,7 +217,7 @@ function TransactionsPage() {
           {success && <Alert variant="success">{success}</Alert>}
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Recipient ID</Form.Label>
+              <Form.Label>ID e Pranuesit</Form.Label>
               <Form.Control
                 type="text"
                 value={transferData.recipientId}

@@ -13,13 +13,10 @@ const DashDefault = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        // Merr transaksionet
         const transactionsRes = await api.get('/officer/transactions/my-transactions');
-        // Merr shumën totale të transaksioneve të dërguara
         const totalSentRes = await api.get('/officer/transactions/total-sent-amount');
-        // Merr numrin e transaksioneve të dërguara
         const countRes = await api.get('/officer/transactions/transaction-count');
-        // Merr numrin e kredive të lëshuara
+      
         const loansRes = await api.get('/officer/loans/my-loans-count');
 
         setTransactions(transactionsRes.data);
@@ -40,7 +37,6 @@ const DashDefault = () => {
   return (
     <>
       <Row>
-        {/* Shuma e Transaksioneve të Dërguara */}
         <Col xs={12} md={6} xl={4}>
           <Card>
             <Card.Body>
@@ -55,7 +51,6 @@ const DashDefault = () => {
           </Card>
         </Col>
 
-        {/* Numri i Transaksioneve të Dërguara */}
         <Col xs={12} md={6} xl={4}>
           <Card>
             <Card.Body>
@@ -70,7 +65,6 @@ const DashDefault = () => {
           </Card>
         </Col>
 
-        {/* Numri i Kredive të Lëshuara */}
         <Col xs={12} md={6} xl={4}>
           <Card>
             <Card.Body>
@@ -85,7 +79,6 @@ const DashDefault = () => {
           </Card>
         </Col>
 
-        {/* Tabela e Transaksioneve */}
         <Col xs={12}>
           <Card className="Recent-Users widget-focus-lg">
             <Card.Header>

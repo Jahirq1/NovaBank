@@ -3,22 +3,23 @@ using Microsoft.EntityFrameworkCore;
 using Backend.Models;
 using Backend.Pdf;
 using Microsoft.AspNetCore.Authorization;
+using Backend.Models.DTO;
 
 namespace Backend.Controllers.manager
 {
-    // DTO to project only the fields your UI needs
     public class LoanDto
     {
         public int LoanId { get; set; }
         public int PersonalID { get; set; }
-        public string Name { get; set; } = "";     // client’s name
-        public string? Avatar { get; set; }        // optional user avatar URL
+        public string Name { get; set; } = "";
+        public string? Avatar { get; set; }
         public decimal LoanAmount { get; set; }
         public int DurationMonths { get; set; }
         public DateTime ApplicationDate { get; set; }
         public string Reason { get; set; } = "";
-        public bool ApproveStatus { get; set; }
+        public string Status { get; set; }  
     }
+
 
     [Route("api/manager/loans")]
     [ApiController]
@@ -34,13 +35,12 @@ namespace Backend.Controllers.manager
             _pdfGenerator = pdfGenerator;
         }
 
-        // GET: api/manager/loans/pending
         [HttpGet("pending")]
         [Authorize(Roles = "manager")]
         public async Task<ActionResult<IEnumerable<LoanDto>>> GetPendingLoans()
         {
             return await _context.Loans
-                .Where(l => !l.ApproveStatus)
+                .Where(l => l.Status==LoanStatus.Pending)
                 .Join(_context.Users,
                       loan => loan.PersonalID,
                       user => user.PersonalID,
@@ -49,23 +49,22 @@ namespace Backend.Controllers.manager
                           LoanId = loan.LoanId,
                           PersonalID = loan.PersonalID,
                           Name = user.name,
-                          Avatar = null,             // or user.avatarUrl if you have one
+                          Avatar = null,            
                           LoanAmount = loan.LoanAmount,
                           DurationMonths = loan.DurationMonths,
                           ApplicationDate = loan.ApplicationDate,
                           Reason = loan.Reason,
-                          ApproveStatus = loan.ApproveStatus
+                          Status = loan.Status.ToString()
                       })
                 .ToListAsync();
         }
 
-        // GET: api/manager/loans/approved
         [HttpGet("approved")]
         [Authorize(Roles = "manager")]
         public async Task<ActionResult<IEnumerable<LoanDto>>> GetApprovedLoans()
         {
             return await _context.Loans
-                .Where(l => l.ApproveStatus)
+                .Where(l => l.Status == LoanStatus.Approved)
                 .Join(_context.Users,
                       loan => loan.PersonalID,
                       user => user.PersonalID,
@@ -79,36 +78,80 @@ namespace Backend.Controllers.manager
                           DurationMonths = loan.DurationMonths,
                           ApplicationDate = loan.ApplicationDate,
                           Reason = loan.Reason,
-                          ApproveStatus = loan.ApproveStatus
+                          Status = loan.Status.ToString() 
+                      })
+                .ToListAsync();
+        }
+        [HttpGet("rejected")]
+        [Authorize(Roles = "manager")]
+        public async Task<ActionResult<IEnumerable<LoanDto>>> GetRejectedLoans()
+        {
+            return await _context.Loans
+                .Where(l => l.Status == LoanStatus.Rejected)
+                .Join(_context.Users,
+                      loan => loan.PersonalID,
+                      user => user.PersonalID,
+                      (loan, user) => new LoanDto
+                      {
+                          LoanId = loan.LoanId,
+                          PersonalID = loan.PersonalID,
+                          Name = user.name,
+                          Avatar = null,
+                          LoanAmount = loan.LoanAmount,
+                          DurationMonths = loan.DurationMonths,
+                          ApplicationDate = loan.ApplicationDate,
+                          Reason = loan.Reason,
+                          Status = loan.Status.ToString()
                       })
                 .ToListAsync();
         }
 
-        // PUT: api/manager/loans/{id}/approve
+
+
         [HttpPut("{id}/approve")]
         [Authorize(Roles = "manager")]
         public async Task<IActionResult> ApproveLoan(int id)
         {
             var loan = await _context.Loans.FindAsync(id);
             if (loan == null) return NotFound();
-            loan.ApproveStatus = true;
+
+            if (loan.Status == LoanStatus.Approved)
+                return BadRequest("Kredia është veç e aprovuar.");
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.PersonalID == loan.PersonalID);
+            if (user == null) return NotFound("Përdoruesi nuk u gjet.");
+
+            var account = await _context.Users.FirstOrDefaultAsync(a => a.id == user.id);
+            if (account == null) return NotFound("Llogaria e përdoruesit nuk u gjet.");
+
+            loan.Status = LoanStatus.Approved;
+            account.Balance += loan.LoanAmount;
+
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
-        // PUT: api/manager/loans/{id}/reject
+
         [HttpPut("{id}/reject")]
         [Authorize(Roles = "manager")]
-        public async Task<IActionResult> RejectLoan(int id)
+        public async Task<IActionResult> RejectLoan(int id, [FromBody] RejectLoanDto rejectDto)
         {
             var loan = await _context.Loans.FindAsync(id);
             if (loan == null) return NotFound();
-            _context.Loans.Remove(loan);
+
+            if (loan.Status == LoanStatus.Rejected)
+                return BadRequest("Kredia është veç e refuzuar.");
+
+            loan.Status = LoanStatus.Rejected;
+            loan.RejectionReason = rejectDto.Reason;
+
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
-        // GET: api/manager/loans/pdf/{loanId}
+
         [HttpGet("pdf/{loanId}")]
         [Authorize(Roles = "manager")]
         public async Task<IActionResult> GetLoanPdf(int loanId)

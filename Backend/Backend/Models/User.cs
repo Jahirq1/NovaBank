@@ -18,8 +18,7 @@ namespace Backend.Models
         [Precision(18, 2)]
         public decimal? SpendingLimit { get; set; } = 5000m;
 
-        /* ➜ data-ora kur transferet janë të bllokuara.
-           Nëse është null ose <= UTC now, transferet lejohen. */
+   
         public DateTime? TransferBlockedUntil { get; set; }
 
         [Required] public string? role { get; set; }

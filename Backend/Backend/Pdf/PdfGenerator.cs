@@ -21,13 +21,11 @@ namespace Backend.Pdf
                 var textFont = new XFont("Verdana", 12);
                 int y = 40;
 
-                // Titulli dhe logoja e bankës
                 gfx.DrawString("NOVABANK", titleFont, XBrushes.DarkBlue, new XPoint(40, y));
                 y += 30;
                 gfx.DrawString("Dokument i Aplikimit për Kredi", headerFont, XBrushes.Black, new XPoint(40, y));
                 y += 30;
 
-                // Seksioni: Të dhënat personale
                 gfx.DrawString("Të dhënat e klientit:", headerFont, XBrushes.Black, new XPoint(40, y));
                 y += 25;
                 gfx.DrawString($"Personal ID: {user.PersonalID}", textFont, XBrushes.Black, new XPoint(60, y));
@@ -39,7 +37,7 @@ namespace Backend.Pdf
                 gfx.DrawString($"Nr. Telefoni: {user.phone ?? "N/A"}", textFont, XBrushes.Black, new XPoint(60, y));
                 y += 30;
 
-                // Seksioni: Të dhënat e kredisë
+
                 gfx.DrawString("Detajet e Kredisë:", headerFont, XBrushes.Black, new XPoint(40, y));
                 y += 25;
                 gfx.DrawString($"Kredi ID: {loan.LoanId}", textFont, XBrushes.Black, new XPoint(60, y));
@@ -58,10 +56,33 @@ namespace Backend.Pdf
                 y += 20;
                 gfx.DrawString($"Kolateral: {loan.Collateral}", textFont, XBrushes.Black, new XPoint(60, y));
                 y += 20;
-                gfx.DrawString($"Statusi i aprovimit: {(loan.ApproveStatus ? "Pranuar" : "Në pritje")}", textFont, XBrushes.Black, new XPoint(60, y));
-                y += 30;
+                string approvalStatus;
+                switch (loan.Status)
+                {
+                    case LoanStatus.Approved:
+                        approvalStatus = "Pranuar";
+                        break;
+                    case LoanStatus.Rejected:
+                        approvalStatus = "Refuzuar";
+                        break;
+                    case LoanStatus.Pending:
+                    default:
+                        approvalStatus = "Në pritje";
+                        break;
+                }
+                gfx.DrawString($"Statusi i aprovimit: {approvalStatus}", textFont, XBrushes.Black, new XPoint(60, y));
 
-                // Seksioni: Menaxheri
+                y += 30;
+                if (loan.Status == LoanStatus.Rejected && !string.IsNullOrWhiteSpace(loan.RejectionReason))
+                {
+                    y += 20;
+                    gfx.DrawString("Arsyeja e refuzimit:", headerFont, XBrushes.DarkRed, new XPoint(40, y));
+                    y += 20;
+                    gfx.DrawString(loan.RejectionReason, textFont, XBrushes.Black, new XPoint(60, y));
+                    y += 30;
+                }
+          
+
                 gfx.DrawString("Menaxheri përgjegjës:", headerFont, XBrushes.Black, new XPoint(40, y));
                 y += 25;
                 gfx.DrawString($"Emri: {loan.Manager?.name}", textFont, XBrushes.Black, new XPoint(60, y));
@@ -69,7 +90,7 @@ namespace Backend.Pdf
                 gfx.DrawString($"Data e përgatitjes: {DateTime.Now.ToShortDateString()}", textFont, XBrushes.Black, new XPoint(60, y));
                 y += 40;
 
-                // Vijat e nënshkrimeve
+      
                 int signY = y;
                 gfx.DrawLine(XPens.Black, 60, signY, 200, signY);
                 gfx.DrawString("Nënshkrimi i Aplikuesit", textFont, XBrushes.Black, new XPoint(60, signY + 15));
@@ -77,7 +98,7 @@ namespace Backend.Pdf
                 gfx.DrawLine(XPens.Black, page.Width - 200, signY, page.Width - 60, signY);
                 gfx.DrawString("Nënshkrimi i Përgjegjësit", textFont, XBrushes.Black, new XPoint(page.Width - 200, signY + 15));
 
-                // Footer (opsional)
+            
                 y = signY + 60;
                 gfx.DrawLine(XPens.Black, 40, y, page.Width - 40, y);
                 y += 20;

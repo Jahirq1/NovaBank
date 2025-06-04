@@ -48,19 +48,22 @@ namespace Backend.Controllers.Officer
             var userId = GetUserIdFromToken();
             if (userId == null)
                 return Unauthorized(new { message = "User ID not found or invalid in token" });
-
             var loans = await _context.KlientLoans
-                .Where(kl => kl.KlientId == userId)
+                .Where(kl => kl.KlientId == userId &&
+                             (kl.Loan.Status == LoanStatus.Pending ||
+                              kl.Loan.Status == LoanStatus.Approved ||
+                              kl.Loan.Status == LoanStatus.Rejected))
                 .Include(kl => kl.Loan)
                 .Select(kl => new
                 {
                     kl.Loan.LoanId,
                     kl.Loan.LoanAmount,
                     kl.Loan.ApplicationDate,
-                    kl.Loan.ApproveStatus,
+                    kl.Loan.Status,
                     kl.Loan.DurationMonths
                 })
                 .ToListAsync();
+
 
             return Ok(loans);
         }
@@ -92,7 +95,7 @@ namespace Backend.Controllers.Officer
                 DurationMonths = loanDto.DurationMonths,
                 Collateral = loanDto.Collateral,
                 ManagerId = loanDto.ManagerId,
-                ApproveStatus = false,
+                Status = LoanStatus.Pending,   
                 viewStatus = false
             };
 
@@ -126,7 +129,7 @@ namespace Backend.Controllers.Officer
                 loan.Reason,
                 loan.DurationMonths,
                 loan.Collateral,
-                loan.ApproveStatus,
+                Status = loan.Status.ToString(), 
                 Manager = new
                 {
                     loan.Manager.id,
@@ -142,22 +145,51 @@ namespace Backend.Controllers.Officer
             });
         }
 
-        [HttpGet("status")]
-        [Authorize(Roles = "officer")]
-        public async Task<IActionResult> GetLoansStatus()
-        {
-            var loans = await _context.Loans
-                .Select(l => new
-                {
-                    l.LoanId,
-                    l.PersonalID,
-                    l.LoanAmount,
-                    l.ApproveStatus
-                })
-                .ToListAsync();
 
+        [HttpGet("pending")]
+        [Authorize(Roles = "officer")]
+        public async Task<IActionResult> GetPendingLoans()
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized();
+
+            var loans = await _context.Loans
+                .Where(l => l.ManagerId == userId && l.Status == LoanStatus.Pending)
+                .ToListAsync();
             return Ok(loans);
         }
+
+        [HttpGet("approved")]
+        [Authorize(Roles = "officer")]
+        public async Task<IActionResult> GetApprovedLoans()
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized();
+
+            var loans = await _context.Loans
+                .Where(l => l.ManagerId == userId && l.Status == LoanStatus.Approved)
+                .ToListAsync();
+            return Ok(loans);
+        }
+
+        [HttpGet("rejected")]
+        [Authorize(Roles = "officer")]
+        public async Task<IActionResult> GetRejectedLoans()
+        {
+            var userId = GetUserIdFromToken();
+            if (userId == null)
+                return Unauthorized();
+
+            var loans = await _context.Loans
+                .Where(l => l.ManagerId == userId && l.Status == LoanStatus.Rejected)
+                .ToListAsync();
+            return Ok(loans);
+        }
+
+
+
 
         [HttpGet("pdf/{loanId}")]
         [Authorize(Roles = "officer")]

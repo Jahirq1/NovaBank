@@ -8,7 +8,6 @@
 
         public int SenderId { get; set; }
 
-        // Në vend të ReceiverId, kërkojmë PersonalID
         public int ReceiverPersonalID { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;  // Importo për autorizim
+﻿using Microsoft.AspNetCore.Authorization;  
 using Microsoft.AspNetCore.Mvc;
 using Backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Controllers.Officer
 {
-    [Authorize] // Shtojmë autorizimin në nivel controlleri
+    [Authorize] 
     [ApiController]
     [Route("api/officer/search")]
     public class SearchController : ControllerBase
@@ -21,12 +21,10 @@ namespace Backend.Controllers.Officer
             _passwordHasher = passwordHasher;
         }
 
-        // GET: /api/officer/search/look?searchTerm=xxx
         [HttpGet("look")]
         [Authorize(Roles = "officer")]
         public async Task<IActionResult> SearchUsers([FromQuery] string searchTerm)
         {
-            // Opsionale: Merr userId nga tokeni nese do ta përdorësh për logikë shtesë
             var userId = GetUserIdFromToken();
             if (userId == null)
                 return Unauthorized("User ID nuk u gjet në token.");
@@ -42,7 +40,6 @@ namespace Backend.Controllers.Officer
             return Ok(users);
         }
 
-        // DELETE: /api/officer/search/{id}
         [HttpDelete("{id}")]
         [Authorize(Roles = "officer")]
         public async Task<IActionResult> DeleteUser(int id)
@@ -65,7 +62,6 @@ namespace Backend.Controllers.Officer
             return Ok("Përdoruesi u fshi me sukses.");
         }
 
-        // PUT: /api/officer/search/update/{id}
         [HttpPut("update/{id}")]
         [Authorize(Roles = "officer")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)

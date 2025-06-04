@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Form, Button, Table, Modal } from 'react-bootstrap';
 import Cookies from 'js-cookie';
-import api from '../../../server/instance'; // importoj api nga axiosInstance.js
+import api from '../../../server/instance'; 
 
 const RegisterForm = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,7 +35,6 @@ const RegisterForm = () => {
     city: '',
   });
 
-  // Merr përdoruesit sipas kërkimit
   useEffect(() => {
     const fetchUsers = async () => {
       if (!searchTerm.trim()) {
@@ -57,7 +56,6 @@ const RegisterForm = () => {
     fetchUsers();
   }, [searchTerm]);
 
-  // Fshij përdoruesin
   const handleDelete = async (id) => {
     if (window.confirm('A je i sigurt që dëshiron të fshish këtë përdorues?')) {
       try {
@@ -71,7 +69,6 @@ const RegisterForm = () => {
     }
   };
 
-  // Hap modalin e editimit me të dhënat e përdoruesit
   const handleEdit = (user) => {
     setEditingUser(user);
     setEditFormData({
@@ -117,7 +114,6 @@ const RegisterForm = () => {
       password: editFormData.password || undefined,
     };
 
-    // Nëse fjalëkalimi është bosh, heqim fushën nga payload
     if (!updatePayload.password) delete updatePayload.password;
 
     try {
@@ -133,13 +129,11 @@ const RegisterForm = () => {
 
   const handleCloseEdit = () => setEditingUser(null);
 
-  // Ndryshimi i të dhënave në formën e regjistrimit
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Submit krijimi i përdoruesit të ri
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -191,7 +185,6 @@ const RegisterForm = () => {
 
   return (
     <>
-      {/* Kërkimi */}
       <Row className="mb-3">
         <Col md={6}>
           <Form.Control
@@ -203,7 +196,6 @@ const RegisterForm = () => {
         </Col>
       </Row>
 
-      {/* Tabela me përdoruesit */}
       <Table striped bordered hover responsive>
         <thead>
           <tr>
@@ -244,7 +236,6 @@ const RegisterForm = () => {
         </tbody>
       </Table>
 
-      {/* Modal për editim */}
       <Modal show={editingUser !== null} onHide={handleCloseEdit}>
         <Modal.Header closeButton>
           <Modal.Title>Edito Përdoruesin</Modal.Title>
@@ -355,7 +346,6 @@ const RegisterForm = () => {
         </Modal.Body>
       </Modal>
 
-      {/* Form për regjistrim */}
       <Card className="mt-4">
         <Card.Body>
           <Card.Title>Krijo Përdorues të Ri</Card.Title>

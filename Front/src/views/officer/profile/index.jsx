@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Form, Button } from 'react-bootstrap';
-import api from '../../../server/instance'; // përdor api këtu
+import api from '../../../server/instance'; 
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    api.get('/auth/me', { withCredentials: true })  // përdor api këtu
+    api.get('/auth/me', { withCredentials: true })  
       .then(res => {
         const data = res.data;
         setFormData({
@@ -65,7 +65,7 @@ const Profile = () => {
 
     console.log("Dërgohet ky objekt për update:", updatedUser);
 
-    api.put(`/officer/user/update/${formData.id}`, updatedUser, { withCredentials: true }) // përdor api këtu
+    api.put(`/officer/user/update/${formData.id}`, updatedUser, { withCredentials: true }) 
       .then(() => alert("Profili u përditësua me sukses!"))
       .catch(err => {
         console.error("Gabim gjatë përditësimit:", err);

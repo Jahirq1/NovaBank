@@ -25,14 +25,13 @@ const JWTLogin = () => {
       };
 
       const response = await axios.post('http://localhost:5231/api/auth/login', requestData, {
-        withCredentials: true, // që të lejojë cookie-n të ruhet nga backend-i
+        withCredentials: true, 
       });
 
       const { role } = response.data;
 
       setServerMessage('Login i suksesshëm!');
 
-      // Redirect bazuar në rol
   switch (role) {
         case 'user':
           navigate('/user/app/dashboard');
@@ -61,9 +60,9 @@ const JWTLogin = () => {
       initialValues={{ personalnumber: '', password: '', submit: null }}
       validationSchema={Yup.object().shape({
         personalnumber: Yup.number()
-          .typeError('Personal number duhet të jetë një numër')
-          .min(0, 'Personal number nuk mund të jetë negativ')
-          .required('Personal Number është i detyrueshëm'),
+          .typeError('Numri personal duhet të jetë një numër')
+          .min(0, 'Numri personal nuk mund të jetë negativ')
+          .required('Numri personal është i detyrueshëm'),
         password: Yup.string()
           .max(255)
           .required('Fjalëkalimi është i detyrueshëm'),
@@ -83,7 +82,7 @@ const JWTLogin = () => {
           <div className="form-group mb-3">
             <input
               className="form-control"
-              placeholder="Personal Number"
+              placeholder="Numri Personal"
               name="personalnumber"
               onBlur={handleBlur}
               onChange={handleChange}
@@ -98,7 +97,7 @@ const JWTLogin = () => {
           <div className="form-group mb-4">
             <input
               className="form-control"
-              placeholder="Password"
+              placeholder="Fjalkalimi"
               name="password"
               onBlur={handleBlur}
               onChange={handleChange}
@@ -130,7 +129,7 @@ const JWTLogin = () => {
                 type="submit"
                 variant="primary"
               >
-                Sign In
+                Kyquni
               </Button>
             </Col>
           </Row>

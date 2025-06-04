@@ -17,14 +17,15 @@ const CreditApplicationForm = () => {
     creditTerm: '',
     collateral: '',
     previousLoans: '',
-    managerId: 0, // vendoset nga backend
+    managerId: 0,
   });
 
   const [loans, setLoans] = useState([]);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  
+  const [filterStatus, setFilterStatus] = useState('Pranuar'); 
 
-  // Merr managerId nga backend në ngarkim të komponentit
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
@@ -41,15 +42,23 @@ const CreditApplicationForm = () => {
     fetchCurrentUser();
   }, []);
 
-  // Merr listën e kredive në ngarkim dhe pas aplikimit
   useEffect(() => {
-    fetchLoans();
+    fetchAllLoans();
   }, []);
 
-  const fetchLoans = async () => {
+  const fetchAllLoans = async () => {
     try {
-      const response = await api.get('/officer/loans/status');
-      setLoans(response.data);
+      const [pendingRes, approvedRes, rejectedRes] = await Promise.all([
+        api.get('/officer/loans/pending'),
+        api.get('/officer/loans/approved'),
+        api.get('/officer/loans/rejected'),
+      ]);
+      const combinedLoans = [
+        ...pendingRes.data.map(l => ({ ...l, status: 'Në pritje' })),
+        ...approvedRes.data.map(l => ({ ...l, status: 'Pranuar' })),
+        ...rejectedRes.data.map(l => ({ ...l, status: 'Refuzuar' })),
+      ];
+      setLoans(combinedLoans);
     } catch (err) {
       console.error('Gabim në marrjen e kredive:', err);
       setError('Gabim në marrjen e kredive.');
@@ -62,10 +71,6 @@ const CreditApplicationForm = () => {
   };
 
   const handleViewLoanPdf = async (loanId) => {
-    if (!loanId) {
-      alert('LoanId është i pa definuar!');
-      return;
-    }
     try {
       const response = await api.get(`/officer/loans/pdf/${loanId}`, {
         responseType: 'blob',
@@ -99,7 +104,7 @@ const CreditApplicationForm = () => {
     try {
       await api.post('/officer/loans/create', loanDto);
       setSuccessMessage('Aplikimi u krye me sukses!');
-      fetchLoans();
+      fetchAllLoans();
       setFormData(prev => ({
         ...prev,
         idCardNumber: '',
@@ -122,50 +127,82 @@ const CreditApplicationForm = () => {
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Pranuar':
+        return 'green';
+      case 'Refuzuar':
+        return 'red';
+      case 'Në pritje':
+      default:
+        return 'orange';
+    }
+  };
+
   return (
     <Row>
       <Col md={12}>
         <Card className="mb-4">
           <Card.Header>
-            <Card.Title>Kredia të Lëshuara (Statusi)</Card.Title>
+            <Card.Title>Kreditë e mia</Card.Title>
           </Card.Header>
           <Card.Body>
-            <Table responsive hover>
-              <thead>
-                <tr>
-                  <th>ID e kredisë</th>
-                  <th>Personal ID</th>
-                  <th>Shiko</th>
-                  <th>Statusi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {loans.length === 0 ? (
+            <div className="mb-3 d-flex gap-3">
+              <Button 
+                variant={filterStatus === 'Pranuar' ? 'primary' : 'outline-primary'} 
+                onClick={() => setFilterStatus('Pranuar')}
+              >
+                Kredite të Aprovura
+              </Button>
+              <Button 
+                variant={filterStatus === 'Në pritje' ? 'primary' : 'outline-primary'} 
+                onClick={() => setFilterStatus('Në pritje')}
+              >
+                Kredite në Pritje
+              </Button>
+              <Button 
+                variant={filterStatus === 'Refuzuar' ? 'primary' : 'outline-primary'} 
+                onClick={() => setFilterStatus('Refuzuar')}
+              >
+                Kredite të Refuzuara
+              </Button>
+            </div>
+
+            {loans.filter(loan => loan.status === filterStatus).length === 0 ? (
+              <div className="text-center">Nuk ka kredi me statusin "{filterStatus}".</div>
+            ) : (
+              <Table responsive hover>
+                <thead>
                   <tr>
-                    <td colSpan="4" className="text-center">Nuk ka kredi</td>
+                    <th>ID e Kredisë</th>
+                    <th>Personal ID</th>
+                    <th>Statusi</th>
+                    <th>Shiko</th>
                   </tr>
-                ) : (
-                  loans.map(loan => (
-                    <tr key={loan.loanId}>
-                      <td>{loan.loanId}</td>
-                      <td>{loan.personalID}</td>
-                      <td>
-                        <Button
-                          variant="info"
-                          size="sm"
-                          onClick={() => handleViewLoanPdf(loan.loanId)}
-                        >
-                          Shiko Kredinë
-                        </Button>
-                      </td>
-                      <td style={{ color: loan.approveStatus ? 'green' : 'orange' }}>
-                        {loan.approveStatus ? 'Pranuar' : 'Në pritje'}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {loans
+                    .filter(loan => loan.status === filterStatus)
+                    .map(loan => (
+                      <tr key={loan.loanId}>
+                        <td>{loan.loanId}</td>
+                        <td>{loan.personalID}</td>
+                        <td style={{ color: getStatusColor(loan.status) }}>{loan.status}</td>
+                        <td>
+                          <Button
+                            variant="info"
+                            size="sm"
+                            onClick={() => handleViewLoanPdf(loan.loanId)}
+                          >
+                            Shiko Kredinë
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </Table>
+            )}
           </Card.Body>
         </Card>
       </Col>
@@ -264,12 +301,12 @@ const CreditApplicationForm = () => {
                   name="collateral"
                   value={formData.collateral}
                   onChange={handleChange}
-                  placeholder="Sheno pasuritë që mund të ofroni si garanci"
+                  placeholder="Përshkruani kolateralin"
                 />
               </Form.Group>
 
               <Button type="submit" variant="primary">
-                Dërgo Aplikimin
+                Apliko për kredi
               </Button>
             </Form>
           </Card.Body>

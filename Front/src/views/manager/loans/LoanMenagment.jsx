@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import {
   Card,
   Col,
@@ -6,227 +6,280 @@ import {
   Form,
   Row,
   Button,
-  InputGroup
+  InputGroup,
+  Tabs,
+  Tab,
+  Modal,
 } from 'react-bootstrap';
-import { FaCheckCircle } from 'react-icons/fa';
 import api from '../../../server/instance';
 import {
   getPendingLoans,
   getApprovedLoans,
+  getRejectedLoans,
   approveLoan,
-  rejectLoan
 } from '../../../api/loanApi';
 import avatar1 from '../../../assets/images/user/avatar-1.jpg';
 
 const LoanApprovalTables = () => {
-  const [sortKey, setSortKey] = useState('name');
-  const [sortOrder, setSortOrder] = useState('asc');
   const [loanApplications, setLoanApplications] = useState([]);
   const [approvedLoans, setApprovedLoans] = useState([]);
-  const [search, setSearch] = useState('');
+  const [rejectedLoans, setRejectedLoans] = useState([]);
 
+  const [searchPending, setSearchPending] = useState('');
+  const [searchApproved, setSearchApproved] = useState('');
+  const [searchRejected, setSearchRejected] = useState('');
+
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState('');
+  const [selectedLoanId, setSelectedLoanId] = useState(null);
   useEffect(() => {
     fetchLoans();
   }, []);
 
   const fetchLoans = async () => {
     try {
-      const [pending, approved] = await Promise.all([
+      const [pending, approved, rejected] = await Promise.all([
         getPendingLoans(),
-        getApprovedLoans()
+        getApprovedLoans(),
+        getRejectedLoans(),
       ]);
       setLoanApplications(pending);
       setApprovedLoans(approved);
+      setRejectedLoans(rejected);
     } catch (err) {
       console.error('Failed to load loans:', err);
     }
   };
 
-  const handleDecision = async (idx, decision) => {
-    const loan = loanApplications[idx];
+  const handleApprove = async (loanId) => {
     try {
-      if (decision === 'Approved') {
-        await approveLoan(loan.loanId);
-      } else {
-        await rejectLoan(loan.loanId);
-      }
-      setLoanApplications((apps) => apps.filter((_, i) => i !== idx));
-      if (decision === 'Approved') {
-        setApprovedLoans(await getApprovedLoans());
-      }
+      await approveLoan(loanId);
+      fetchLoans();
     } catch (error) {
-      console.error('Error processing loan:', error);
+      console.error('Error approving loan:', error);
+    }
+  };
+
+  const openRejectModal = (loanId) => {
+    setSelectedLoanId(loanId);
+    setRejectionReason('');
+    setShowRejectModal(true);
+  };
+
+  const submitRejection = async () => {
+    if (!rejectionReason.trim()) {
+      alert('Ju lutem jepni një arsye për refuzimin.');
+      return;
+    }
+
+    try {
+      await api.put(`/manager/loans/${selectedLoanId}/reject`, {
+        reason: rejectionReason,
+      });
+      setShowRejectModal(false);
+      fetchLoans();
+    } catch (err) {
+      console.error('Gabim gjatë refuzimit të kredisë:', err);
+      alert('Refuzimi i kredisë dështoi.');
     }
   };
 
   const handleViewPdf = async (loanId) => {
     try {
-      const res = await api.get(
-        `/manager/loans/pdf/${loanId}`,
-        { responseType: 'blob' }
-      );
-      const url = URL.createObjectURL(
-        new Blob([res.data], { type: 'application/pdf' })
-      );
+      const res = await api.get(`/manager/loans/pdf/${loanId}`, {
+        responseType: 'blob',
+      });
+      const url = URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
       window.open(url, '_blank');
     } catch (err) {
       console.error('Error loading PDF:', err);
-      alert('Could not load loan PDF.');
+      alert('Nuk mund të hapet PDF i kredisë.');
     }
   };
 
-  // client-side sorting & filtering
-  const sortedApproved = [...approvedLoans]
-    .filter((l) => l.name.toLowerCase().includes(search))
-    .sort((a, b) => {
-      let va = a[sortKey],
-        vb = b[sortKey];
-      if (sortKey === 'applicationDate') {
-        va = new Date(va);
-        vb = new Date(vb);
-      }
-      if (typeof va === 'string') {
-        va = va.toLowerCase();
-        vb = vb.toLowerCase();
-      }
-      return va < vb
-        ? sortOrder === 'asc'
-          ? -1
-          : 1
-        : va > vb
-        ? sortOrder === 'asc'
-          ? 1
-          : -1
-        : 0;
-    });
+  const renderLoanTable = (loans, isPending = false) => (
+    <Table responsive hover>
+      <thead>
+        <tr>
+          <th>Emri</th>
+          <th>Arsyeja</th>
+          <th>Shuma</th>
+          <th>Kohëzgjatja</th>
+          <th>Statusi</th>
+          <th>Data</th>
+          {isPending && <th>Vendim</th>}
+          <th>PDF</th>
+        </tr>
+      </thead>
+      <tbody>
+        {loans.map((app) => (
+          <tr key={app.loanId}>
+            <td className="d-flex align-items-center">
+              <img
+                src={app.avatar || avatar1}
+                alt="avatar"
+                className="rounded-circle"
+                style={{ width: '40px', height: '40px', marginRight: '10px', objectFit: 'cover' }}
+              />
+              {app.name}
+            </td>
+            <td>{app.reason}</td>
+            <td>{app.loanAmount.toLocaleString('sq-AL', { style: 'currency', currency: 'EUR' })}</td>
+            <td>{app.durationMonths} muaj</td>
+            <td>
+              <span
+                className={`badge ${
+                  app.status === 'Approved'
+                    ? 'bg-success'
+                    : app.status === 'Rejected'
+                    ? 'bg-danger'
+                    : 'bg-warning text-dark'
+                }`}
+              >
+                {app.status === 'Approved'
+                  ? 'Pranuar'
+                  : app.status === 'Rejected'
+                  ? 'Refuzuar'
+                  : 'Në pritje'}
+              </span>
+            </td>
+            <td>{new Date(app.applicationDate).toLocaleDateString('sq-AL')}</td>
+            {isPending && (
+              <td>
+                <Button
+                  size="sm"
+                  variant="danger"
+                  onClick={() => openRejectModal(app.loanId)}
+                  className="me-2"
+                >
+                  Refuzo
+                </Button>
+                <Button size="sm" variant="success" onClick={() => handleApprove(app.loanId)}>
+                  Prano
+                </Button>
+              </td>
+            )}
+            <td>
+              <Button size="sm" variant="info" onClick={() => handleViewPdf(app.loanId)}>
+                Shiko PDF
+              </Button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
+  );
+
+  const filteredPending = loanApplications.filter((loan) =>
+    loan.name.toLowerCase().includes(searchPending.toLowerCase())
+  );
+  const filteredApproved = approvedLoans.filter((loan) =>
+    loan.name.toLowerCase().includes(searchApproved.toLowerCase())
+  );
+  const filteredRejected = rejectedLoans.filter((loan) =>
+    loan.name.toLowerCase().includes(searchRejected.toLowerCase())
+  );
 
   return (
     <Col md={12} xl={12}>
-      {/* Pending Loans */}
-      <Card className="mb-4">
-        <Card.Header>
-          <Card.Title>Loan Applications</Card.Title>
-        </Card.Header>
-        <Card.Body className="px-0 py-2">
-          <Table responsive hover>
-            <thead>
-              <tr>
-                <th>Applicant Name</th>
-                <th>Loan Type</th>
-                <th>Amount</th>
-                <th>Term</th>
-                <th>Status</th>
-                <th>Requested Date</th>
-                <th>Action</th>
-                <th>PDF</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loanApplications.map((app, idx) => (
-                <tr key={app.loanId}>
-                  <td>
-                    <img
-                      src={app.avatar ?? avatar1}
-                      alt="applicant"
-                      className="rounded-circle"
-                      style={{ width: '40px' }}
-                    />{' '}
-                    {app.name}
-                  </td>
-                  <td>{app.reason}</td>
-                  <td>${app.loanAmount.toLocaleString()}</td>
-                  <td>{app.durationMonths} months</td>
-                  <td>
-                    <span className="badge badge-warning">Pending</span>
-                  </td>
-                  <td>{new Date(app.applicationDate).toLocaleDateString()}</td>
-                  <td>
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      onClick={() => handleDecision(idx, 'Rejected')}
-                    >
-                      Reject
-                    </Button>{' '}
-                    <Button
-                      size="sm"
-                      variant="success"
-                      onClick={() => handleDecision(idx, 'Approved')}
-                    >
-                      Approve
-                    </Button>
-                  </td>
-                  <td>
-                    <Button
-                      size="sm"
-                      variant="info"
-                      onClick={() => handleViewPdf(app.loanId)}
-                    >
-                      View PDF
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Card.Body>
-      </Card>
+      <Tabs defaultActiveKey="pending" id="loan-tabs" className="mb-3" mountOnEnter unmountOnExit>
+        <Tab eventKey="pending" title="Në Pritje">
+          <Card>
+            <Card.Header>
+              <Row className="align-items-center">
+                <Col md={6}>
+                  <Card.Title>Aplikimet e Kredive</Card.Title>
+                </Col>
+                <Col md={6}>
+                  <InputGroup>
+                    <Form.Control
+                      placeholder="Filtro sipas emrit…"
+                      value={searchPending}
+                      onChange={(e) => setSearchPending(e.target.value)}
+                      aria-label="Filter pending loans by name"
+                    />
+                  </InputGroup>
+                </Col>
+              </Row>
+            </Card.Header>
+            <Card.Body>{renderLoanTable(filteredPending, true)}</Card.Body>
+          </Card>
+        </Tab>
+        
 
-      {/* Approved Loans */}
-      <Card className="mt-4">
-        <Card.Header>
-          <Card.Title>Approved Loans</Card.Title>
-          <Row className="mt-3">
-            <InputGroup className="mb-0">
-              <Form.Control
-                placeholder="Filter by name…"
-                value={search}
-                onChange={(e) => setSearch(e.target.value.toLowerCase())}
-              />
-            </InputGroup>
-          </Row>
-        </Card.Header>
-        <Card.Body className="px-0 py-2">
-          <Table responsive hover>
-            <thead>
-              <tr>
-                <th onClick={() => setSortKey('name')}>Name</th>
-                <th onClick={() => setSortKey('loanAmount')}>Amount</th>
-                <th onClick={() => setSortKey('durationMonths')}>Term</th>
-                <th onClick={() => setSortKey('applicationDate')}>Date</th>
-                <th>Status</th>
-                <th>PDF</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedApproved.map((app) => (
-                <tr key={app.loanId}>
-                  <td>{app.name}</td>
-                  <td>${app.loanAmount.toLocaleString()}</td>
-                  <td>{app.durationMonths} months</td>
-                  <td>
-                    {new Date(app.applicationDate).toLocaleDateString()}
-                  </td>
-                  <td>
-                    <span className="badge badge-success">
-                      Approved
-                    </span>
-                  </td>
-                  <td>
-                    <Button
-                      size="sm"
-                      variant="info"
-                      onClick={() => handleViewPdf(app.loanId)}
-                    >
-                      View PDF
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Card.Body>
-      </Card>
+        <Tab eventKey="approved" title="Të Aprovuarat">
+          <Card>
+            <Card.Header>
+              <Row className="align-items-center">
+                <Col md={6}>
+                  <Card.Title>Kreditë e Pranuara</Card.Title>
+                </Col>
+                <Col md={6}>
+                  <InputGroup>
+                    <Form.Control
+                      placeholder="Filtro sipas emrit…"
+                      value={searchApproved}
+                      onChange={(e) => setSearchApproved(e.target.value)}
+                      aria-label="Filter approved loans by name"
+                    />
+                  </InputGroup>
+                </Col>
+              </Row>
+            </Card.Header>
+            <Card.Body>{renderLoanTable(filteredApproved)}</Card.Body>
+          </Card>
+        </Tab>
+
+        <Tab eventKey="rejected" title="Të Refuzuara">
+          <Card>
+            <Card.Header>
+              <Row className="align-items-center">
+                <Col md={6}>
+                  <Card.Title>Kreditë e Refuzuara</Card.Title>
+                </Col>
+                <Col md={6}>
+                  <InputGroup>
+                    <Form.Control
+                      placeholder="Filtro sipas emrit…"
+                      value={searchRejected}
+                      onChange={(e) => setSearchRejected(e.target.value)}
+                      aria-label="Filter rejected loans by name"
+                    />
+                  </InputGroup>
+                </Col>
+              </Row>
+            </Card.Header>
+            <Card.Body>{renderLoanTable(filteredRejected)}</Card.Body>
+          </Card>
+        </Tab>
+      </Tabs>
+
+      <Modal show={showRejectModal} onHide={() => setShowRejectModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Arsyeja e Refuzimit</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group>
+            <Form.Label>Shkruaj arsyen pse po refuzohet kredia:</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={rejectionReason}
+              onChange={(e) => setRejectionReason(e.target.value)}
+              placeholder="P.sh. të ardhura të pamjaftueshme..."
+              autoFocus
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowRejectModal(false)}>
+            Anulo
+          </Button>
+          <Button variant="danger" onClick={submitRejection}>
+            Refuzo Kredinë
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Col>
   );
 };

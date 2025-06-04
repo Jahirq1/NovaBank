@@ -11,7 +11,7 @@ namespace Backend.Controllers.Officer
 {
     [Route("api/officer/transactions")]
     [ApiController]
-    [Authorize] // Shtojmë authorize për të gjitha endpoint-et
+    [Authorize] 
     public class TransactionsController : ControllerBase
     {
         private readonly NovaBankDbContext _context;
@@ -29,9 +29,7 @@ namespace Backend.Controllers.Officer
             if (senderIdClaim == null || !int.TryParse(senderIdClaim.Value, out int senderIdFromToken))
                 return Unauthorized(new { message = "Invalid user token" });
 
-            // Heqim këtë kontroll sepse nuk e presim senderId nga klienti:
-            // if (senderIdFromToken != dto.SenderId)
-            //     return Unauthorized(new { message = "You can only send transactions from your own account" });
+
 
             var sender = await _context.Users.FindAsync(senderIdFromToken);
             var receiver = await _context.Users.FirstOrDefaultAsync(u => u.PersonalID == dto.ReceiverPersonalID);
@@ -77,7 +75,6 @@ namespace Backend.Controllers.Officer
             if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
                 return Unauthorized();
 
-            // Kontrollo nëse useri ka të drejtë të shohë transaksionin (ose sender ose receiver)
             if (transaction.SenderId != userId && transaction.ReceiverId != userId)
                 return Forbid();
 

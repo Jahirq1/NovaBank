@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import routes, { renderRoutes } from './routes';
-import { AuthProvider } from './AuthProvider/AuthContext';  // importon AuthProvider
+import { AuthProvider } from './AuthProvider/AuthContext';  
 
 const App = () => {
   return (

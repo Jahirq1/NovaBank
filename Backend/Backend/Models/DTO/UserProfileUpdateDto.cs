@@ -10,7 +10,7 @@
         public string? address { get; set; }
         public string? city { get; set; }
 
-        // yyyy-MM-dd vjen si string –  binder-i e kthen në DateOnly
+   
         public DateOnly? dateOfBirth { get; set; }
     }
 }

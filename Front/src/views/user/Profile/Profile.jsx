@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Button, Form, Row, Col } from 'react-bootstrap';
-import api from '../../../server/instance';  // Importon axios instance-në
+import api from '../../../server/instance';  
 
-const API_PROFILE = '/users/profile'; // pa bazën sepse api ka baseURL
+const API_PROFILE = '/users/profile'; 
 
 export const getProfile = async () => {
   const res = await api.get(API_PROFILE);

@@ -16,7 +16,6 @@ namespace Backend.Controllers.manager
             _context = context;
         }
 
-        // GET: api/dashboard/summary
         [HttpGet("summary")]
         [Authorize(Roles = "manager")]
         public async Task<IActionResult> GetSummary()
@@ -43,7 +42,7 @@ namespace Backend.Controllers.manager
                 .OrderBy(g => g.Key.Year).ThenBy(g => g.Key.Month)
                 .Select(g => new
                 {
-                    month = $"{g.Key.Year}-{g.Key.Month:D2}", // format: "2025-05"
+                    month = $"{g.Key.Year}-{g.Key.Month:D2}", 
                     count = g.Count()
                 })
                 .ToListAsync();

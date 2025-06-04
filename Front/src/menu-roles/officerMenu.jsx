@@ -6,28 +6,28 @@ const officerMenu = {
         children: [
           {
             id: 'dashboard',
-            title: 'Dashboard',
+            title: 'Paneli Kontrollit',
             type: 'item',
             icon: 'feather icon-home',
             url: '/officer/app/dashboard/default'
           },
                   {
             id: 'transactions',
-            title: 'Transactions',
+            title: 'Paneli Transaksioneve',
             type: 'item',
             icon: 'feather icon-credit-card',
             url: '/officer/app/transactions/default'
           },
           {
             id: 'kredia',
-            title: 'Kredia',
+            title: 'Paneli Kredive',
             type: 'item',
             icon: 'feather icon-file-plus',
             url: '/officer/app/kredia/default'
           },
           {
             id: 'account',
-            title: 'User Accounts',
+            title: 'Paneli Perdoruesve',
             type: 'item',
             icon: 'feather icon-user-plus',
             url: '/officer/app/account/default'

@@ -9,27 +9,22 @@ import "react-circular-progressbar/dist/styles.css";
 import axios from "axios";
 import "../../../assets/scss/dashboard.scss";
 import api from '../../../server/instance';
-/* axios instance që dërgon cookie accessToken */
 
 
 export default function BalancePage() {
   const [totalBalance, setTotalBalance] = useState(0);
   const [spent, setSpent] = useState(0);
-  const [limit, setLimit] = useState(5000); // fallback default
+  const [limit, setLimit] = useState(5000); 
 
-  /* ───────── leximi i të dhënave ───────── */
   useEffect(() => {
-    // 1️⃣ Balanca
     api.get("/users/balance")
        .then(r => setTotalBalance(Number(r.data)))
        .catch(err => console.error("Balanca:", err));
 
-    // 2️⃣ Shpenzimet e muajit
     api.get("/user/transactions/me/monthly-expense")
        .then(r => setSpent(Number(r.data)))
        .catch(err => console.error("Shpenzimet:", err));
 
-    // 3️⃣ Kufiri i shpenzimit
     api.get("/users/spending-limit")
        .then(r => setLimit(Number(r.data)))
        .catch(() => {/* le default */});
@@ -40,31 +35,27 @@ export default function BalancePage() {
   const gaugeColor =
     percent < 50 ? "#1eac52" : percent < 80 ? "#f0b518" : "#dc3545";
 
-  /* ───────── UI ───────── */
   return (
     <div className="balance-page">
       <h2 className="page-title">
-        <FiDollarSign /> Balancë
+        <FiDollarSign /> Balanca
       </h2>
 
-      {/* Balanca Totale */}
       <Card className="summary-card mb-4">
         <Card.Body>
-          <Card.Title>Balancë Totale</Card.Title>
+          <Card.Title>Balanca Totale</Card.Title>
           <Card.Text className="balance-amount">
             {totalBalance.toFixed(2)} €
           </Card.Text>
         </Card.Body>
       </Card>
 
-      {/* Kufiri i Shpenzimeve */}
       <h4 className="section-title">
         <FiPieChart /> Kufiri i Shpenzimeve
       </h4>
       <Card className="mb-4">
         <Card.Body>
           <Row className="align-items-center">
-            {/* Gauge */}
             <Col md={4} className="text-center mb-3 mb-md-0">
               <div style={{ width: 180, margin: "0 auto" }}>
                 <CircularProgressbarWithChildren
@@ -87,7 +78,6 @@ export default function BalancePage() {
               )}
             </Col>
 
-            {/* Detaje */}
             <Col md={8}>
               <p className="mb-1">
                 Shpenzuar këtë muaj:&nbsp;
