@@ -1,40 +1,47 @@
- Sistemi Hibrid Bankar(Nova Bank)
-Ky projekt është një Sistem Hibrid Bankar i zhvilluar si pjesë e lëndës Laboratorike 1 në Universitetin për Biznes dhe Teknologji (UBT). Sistemi ofron funksionalitete për përdoruesit (user), zyrtarët bankar (officer) dhe menaxherin (manager).
+#  Sistemi Hibrid Bankar (Nova Bank)
 
-Autorët
-Jahir Qoqaj
+Ky projekt është një **Sistem Hibrid Bankar** i zhvilluar si pjesë e lëndës **Laboratorike 1** në **Universitetin për Biznes dhe Teknologji (UBT)**.  
+Sistemi ofron funksionalitete për **përdoruesit (user)**, **zyrtarët bankar (officer)** dhe **menaxherin (manager)**.
 
-Klit Bucinca
+---
 
-Lendrit Zogaj
+##  Autorët
 
- Përshkrimi i Projektit
-Sistemi është ndërtuar për të simuluar funksionalitetet bazë të një banke duke përfshirë:
+- **Jahir Qoqaj**
+- **Klit Bucinca**
+- **Lendrit Zogaj**
 
-Regjistrimi dhe kyçja e përdoruesve
+---
 
-Shfaqja e bilancit
+## Përshkrimi i Projektit
 
-Kërkesat për kredi
+Sistemi është ndërtuar për të simuluar funksionalitetet bazë të një banke, duke përfshirë:
 
-Menaxhimi i përdoruesve dhe kërkesave nga zyrtarët
+-  Regjistrimi dhe kyçja e përdoruesve  
+-  Shfaqja e bilancit  
+-  Kërkesat për kredi  
+-  Menaxhimi i përdoruesve dhe kërkesave nga zyrtarët  
+-  Përpunimi i statistikave dhe raportimit nga menaxheri  
 
-Përpunimi i statistikave dhe raportimit nga menaxheri
+Sistemi përfaqëson një qasje **hibride** që kombinon elementë të ndërfaqes grafike dhe bazës së të dhënave, për të mundësuar një përvojë të thjeshtë dhe funksionale për të gjitha palët e përfshira.
 
-Sistemi përfaqëson një qasje hibride që kombinon elementë të ndërfaqes grafike dhe bazës së të dhënave për të mundësuar një përvojë të thjeshtë dhe funksionale.
+---
 
-⚙️ Teknologjitë e përdorura
-.net web core api
-React.js
-MSSQl për ruajtjen e të dhënave
-Bootstrap
-Qëllimi i Projektit
-Ky projekt është zhvilluar për qëllime edukative, me qëllim që të praktikohet:
+##  Teknologjitë e përdorura
 
-Programimi me objekt
+-  **.NET Web Core API**
+-  **React.js**
+-  **MS SQL Server** – për ruajtjen e të dhënave
+-  **Bootstrap** – për stilizimin e ndërfaqes
 
-Menaxhimi i të dhënave
+---
 
-Ndërtimi i sistemeve të thjeshta të menaxhimit
+##  Qëllimi i Projektit
 
-Ndërveprimi me përdorues përmes ndërfaqeve grafike
+Ky projekt është zhvilluar për qëllime edukative, me fokus në praktikimin e:
+
+-  Programimit me objekt  
+-  Menaxhimit të të dhënave  
+-  Ndërtimit të sistemeve të thjeshta të menaxhimit  
+-  Ndërveprimit me përdorues përmes ndërfaqeve grafike  
+
