@@ -1,6 +1,6 @@
 #  Sistemi Hibrid Bankar (Nova Bank)
 
-Ky projekt është një **Sistem Hibrid Bankar** i zhvilluar si pjesë e lëndës **Laboratorike 1** në **Universitetin për Biznes dhe Teknologji (UBT)**.  
+Ky projekt është një **Sistem Hibrid Bankar** .
 Sistemi ofron funksionalitete për **përdoruesit (user)**, **zyrtarët bankar (officer)** dhe **menaxherin (manager)**.
 
 ---
